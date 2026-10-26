@@ -1,0 +1,6 @@
+interface:
+  display_name: "Strike Her Heart 实施支持"
+  short_description: "供独立页面标注agent使用的证据规则、原页气泡运行时与编辑验收方法"
+  default_prompt: "使用 $strike-her-heart 实施支持技能，协助完成页面标注的控件映射、证据整理、原页气泡接入和验收；本技能调用不等于启动独立 agent。"
+policy:
+  allow_implicit_invocation: false

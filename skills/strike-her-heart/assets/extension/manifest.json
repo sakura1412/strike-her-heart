@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Strike Her Heart",
+  "version": "1.0.4",
+  "description": "在当前页面上添加可编辑的编号气泡，并在右侧展开页面与控件说明。",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "action": {
+    "default_title": "显示 / 隐藏 Strike Her Heart 标注"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
+  }
+}

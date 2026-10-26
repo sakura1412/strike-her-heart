@@ -1,0 +1,15 @@
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+build/
+dist/
+output/
+test-results/
+playwright-report/
+.env
+.env.*
+*.local
+*.log
+backups/
+.codex/
