@@ -106,6 +106,12 @@
   const pageCache = new Map();
   const uiCache = new Map();
   const watchedRoots = new WeakSet();
+  const identitySession = Date.now().toString(36) + Math.random().toString(36).slice(2);
+  const nodeIdentities = new WeakMap();
+  const modalLifetimes = new WeakMap();
+  let identitySequence = 0;
+  let currentStateId = '';
+  const ENTITY_ATTRIBUTES = ['data-record-id', 'data-entity-id', 'data-row-key', 'data-key', 'data-id', 'data-customer-key', 'data-shh-state-key'];
   const copy = value => JSON.parse(JSON.stringify(value));
   const text = (value, max = 1200) => String(value == null ? '' : value).replace(/\s+/g, ' ').trim().slice(0, max);
   const hash = value => {
@@ -114,6 +120,26 @@
     for (let i = 0; i < value.length; i++) { a = Math.imul(a ^ value.charCodeAt(i), 16777619); b = Math.imul(b, 33) ^ value.charCodeAt(i); }
     return (a >>> 0).toString(36) + (b >>> 0).toString(36);
   };
+  // SHA-256 over safe DOM descriptors, never input values. Synchronous so scan and
+  // queue snapshots share the same observation without an asynchronous race.
+  function digest(value) {
+    const bytes = new TextEncoder().encode(String(value));
+    const size = Math.ceil((bytes.length + 9) / 64) * 64;
+    const padded = new Uint8Array(size); padded.set(bytes); padded[bytes.length] = 128;
+    const view = new DataView(padded.buffer); view.setUint32(size - 4, bytes.length * 8 >>> 0); view.setUint32(size - 8, Math.floor(bytes.length / 0x20000000));
+    const initial = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+    const constants = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+    const rotate = (x,n) => (x >>> n) | (x << (32-n));
+    for (let offset=0; offset<size; offset+=64) {
+      const words = new Uint32Array(64);
+      for(let i=0;i<16;i++) words[i]=view.getUint32(offset+i*4);
+      for(let i=16;i<64;i++){const x=words[i-15],y=words[i-2];words[i]=(words[i-16]+(rotate(x,7)^rotate(x,18)^(x>>>3))+words[i-7]+(rotate(y,17)^rotate(y,19)^(y>>>10)))>>>0;}
+      let [a,b,c,d,e,f,g,h]=initial;
+      for(let i=0;i<64;i++){const first=(h+(rotate(e,6)^rotate(e,11)^rotate(e,25))+((e&f)^(~e&g))+constants[i]+words[i])>>>0;const second=((rotate(a,2)^rotate(a,13)^rotate(a,22))+((a&b)^(a&c)^(b&c)))>>>0;h=g;g=f;f=e;e=(d+first)>>>0;d=c;c=b;b=a;a=(first+second)>>>0;}
+      [a,b,c,d,e,f,g,h].forEach((word,i)=>{initial[i]=(initial[i]+word)>>>0;});
+    }
+    return initial.map(word=>word.toString(16).padStart(8,'0')).join('');
+  }
   const el = (tag, className, content) => {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -286,8 +312,10 @@
       const list = node.closest('[role="tablist"]');
       return [list ? list.id || pathFor(list) : '', node.id || node.getAttribute('aria-controls') || pathFor(node)].join(':');
     }).sort();
-    const modalKey = activeModal ? activeModal.id || pathFor(activeModal) : '';
-    const key = currentScopeKey + '|ui:' + hash(JSON.stringify([selected, modalKey]));
+    const entities = activeModal ? entityContext(activeModal) : [];
+    const modalKey = activeModal ? entities.length ? ['entity', entities.map(item=>item.key)] : ['lifetime', identitySession, modalLifetime(activeModal), labelOf(activeModal.querySelector('h1,h2,[role="heading"]') || activeModal)] : '';
+    currentStateId = digest(JSON.stringify([selected, modalKey]));
+    const key = currentScopeKey + '|ui:' + currentStateId;
     if (key === currentUIKey) return false;
     cacheUIState();
     currentUIKey = key;
@@ -332,7 +360,7 @@
   function observeTree(tree) {
     if (!mutationObserver || watchedRoots.has(tree)) return;
     watchedRoots.add(tree);
-    mutationObserver.observe(tree, { childList: true, subtree: true, attributes: true, attributeFilter: ['id','class','style','hidden','open','data-state','aria-hidden','aria-label','aria-labelledby','aria-expanded','aria-selected','aria-disabled','disabled','required','readonly','min','max','maxlength','minlength','pattern','type','role','href','data-testid','data-test','data-qa'] });
+    mutationObserver.observe(tree, { childList: true, subtree: true, attributes: true, attributeOldValue: true, attributeFilter: ['id','class','style','hidden','open','data-state','aria-hidden','aria-label','aria-labelledby','aria-expanded','aria-selected','aria-disabled','disabled','required','readonly','min','max','maxlength','minlength','pattern','type','role','href','data-testid','data-test','data-qa',...ENTITY_ATTRIBUTES] });
   }
 
   function collectControls(tree, controls, coverage) {
@@ -414,20 +442,12 @@
     if (kind === 'path') {
       let row = composedParent(node);
       while (row && row !== document.documentElement) {
-        const rowAttr = ['data-row-key', 'data-key', 'data-id'].find(attribute => row.hasAttribute(attribute));
+        const rowAttr = ENTITY_ATTRIBUTES.find(attribute => row.hasAttribute(attribute));
         if (rowAttr) {
           const rowValue = row.getAttribute(rowAttr);
-          const relative = [];
-          let child = node;
-          while (child && child !== row) {
-            const parent = composedParent(child);
-            if (!parent) break;
-            const peers = Array.from(parent.children || []).filter(item => item.tagName === child.tagName);
-            relative.unshift(child.tagName.toLowerCase() + ':nth-of-type(' + (peers.indexOf(child) + 1) + ')');
-            child = parent;
-          }
-          kind = 'row';
-          key = rowAttr + ':' + rowValue + '>' + relative.join('>');
+          const semantic = semanticFor(node, label);
+          const peers = Array.from(row.querySelectorAll(SELECTOR)).filter(other=>semanticFor(other,labelOf(other))===semantic);
+          if(entityContext(node).some(item=>item.node===row) && peers.length===1){kind = 'row';key = rowAttr + ':' + rowValue + '>semantic:' + hash(semantic);}
           break;
         }
         row = composedParent(row);
@@ -439,6 +459,49 @@
     indexByKey.set(baseKey, count + 1);
     if (count) { kind = 'path'; key = pathFor(node); }
     return { kind, key, tag, type, positional: kind === 'path', fingerprint: hash([tag, type, label, safeDestination(node)].join('|')) };
+  }
+
+  function modalLifetime(node) {
+    if(!modalLifetimes.has(node))modalLifetimes.set(node,++identitySequence);
+    return modalLifetimes.get(node);
+  }
+  function identityMutations(records) {
+    for(const record of records)if(record.type==='attributes'&&['open','hidden','aria-hidden'].includes(record.attributeName)&&record.target.matches?.('dialog,[role="dialog"]'))modalLifetimes.set(record.target,++identitySequence);
+  }
+  function entityContext(node) {
+    const result=[];
+    for(let current=node;current&&current!==document.documentElement;current=composedParent(current)){
+      for(const attribute of ENTITY_ATTRIBUTES){
+        const value=current.getAttribute(attribute);
+        if(!value||!/^[A-Za-z0-9_.:/-]{1,160}$/.test(value))continue;
+        const matches=Array.from(current.getRootNode().querySelectorAll('['+attribute+']')).filter(other=>other.getAttribute(attribute)===value);
+        if(matches.length===1)result.unshift({node:current,key:attribute+':'+value});
+        break;
+      }
+    }return result;
+  }
+  function semanticFor(node,label) { return JSON.stringify([node.tagName,node.getAttribute('type')||node.getAttribute('role')||'',node.getAttribute('name')||'',label,safeDestination(node)]); }
+  function identityFor(node,anchor,label,duplicateKey=false) {
+    const entities=entityContext(node).map(item=>item.key);
+    const stable=['id','data-testid','data-test','data-qa','row','adapter','page'].includes(anchor.kind)&&!duplicateKey;
+    const reusable=stable&&(!activeModal||entityContext(activeModal).length>0);
+    let key=JSON.stringify([anchor.kind,anchor.key,entities]),confidence=reusable?1:0.25;
+    if(!stable){
+      const container=node.closest('tr,[role="row"],li,section,article')||composedParent(node)||node;
+      const context=container.cloneNode(true);context.querySelectorAll('input,textarea,select,[contenteditable],script,style,#'+ROOT_ID).forEach(child=>child.remove());
+      const location=pathFor(node)+'|'+text(context.textContent,500);
+      let record=nodeIdentities.get(node);
+      if(!record||record.location!==location){record={location,key:identitySession+':'+(++identitySequence)};nodeIdentities.set(node,record);}
+      key='session:'+record.key;
+    }
+    const descriptor={tag:anchor.tag,type:anchor.type,label,destination:safeDestination(node),attributes:Object.fromEntries(['required','disabled','readonly','min','max','minlength','maxlength','pattern','multiple','aria-disabled'].map(name=>[name,node.getAttribute(name)]))};
+    return {page_id:digest(currentScopeKey),state_id:currentStateId,element_id:digest(key),selector_fingerprint:digest(JSON.stringify(anchor.type==='page'?[key,'page']:[key,anchor.tag,anchor.type])),content_hash:digest(JSON.stringify(descriptor)),mapping_confidence:confidence,match_status:reusable?'matched':'session-only',reason:reusable?'页面、状态、实体上下文与控件语义唯一匹配。':'缺少可靠的稳定实体或控件键；仅绑定本次DOM实例，重排、刷新或弹窗新生命周期后不继承旧内容。'};
+  }
+  function validIdentity(identity) {return !!identity&&typeof identity==='object'&&['page_id','state_id','element_id','selector_fingerprint','content_hash'].every(key=>typeof identity[key]==='string'&&/^[a-f0-9]{64}$/.test(identity[key]))&&typeof identity.mapping_confidence==='number'&&identity.mapping_confidence>=0&&identity.mapping_confidence<=1;}
+  function identityMatches(left,right,includeContent=false) {return validIdentity(left)&&validIdentity(right)&&['page_id','state_id','element_id','selector_fingerprint',...(includeContent?['content_hash']:[])].every(key=>left[key]===right[key]);}
+  function unresolvedRecord(annotation) {return annotation.identity?.match_status==='unresolved';}
+  function legacyCompatible(annotation,anchor,identity,node) {
+    return !annotation.identity&&['id','data-testid','data-test','data-qa'].includes(anchor.kind)&&!activeModal&&!entityContext(node).length&&annotation.anchor?.kind===anchor.kind&&annotation.anchor?.key===anchor.key&&identity.mapping_confidence===1;
   }
 
   function safeDestination(node) {
@@ -492,6 +555,7 @@
 
   function scan() {
     if (destroyed) return null;
+    identityMutations(mutationObserver?.takeRecords() || []);
     adapterIssues = [];
     try { activeModal = Array.from(document.querySelectorAll('dialog:modal')).pop() || null; }
     catch (_) { activeModal = null; }
@@ -536,8 +600,16 @@
       if (typeof specific?.label === 'string' && specific.label.trim()) label = text(specific.label, 180);
       const pageKey = currentScopeKey + (activeModal ? '|modal:' + (activeModal.id || pathFor(activeModal)) : '');
       const anchor = descriptor ? { kind: 'adapter', key: adapter.id + ':' + descriptor.key, tag: node.tagName.toLowerCase(), type: isPage ? 'page' : descriptor.kind === 'control' ? 'control' : 'content', fingerprint: hash([node.tagName, descriptor.key, label, safeDestination(node)].join('|')) } : isPage ? { kind: 'page', key: pageKey, tag: node.tagName.toLowerCase(), type: 'page', fingerprint: hash(label) } : anchorFor(node, label, indexByKey);
-      const id = 'shh-' + hash(anchor.kind + ':' + anchor.key);
-      let annotation = currentPage.annotations.find(item => item.id === id);
+      const duplicateKey=!!descriptor&&entries.filter(item=>item.descriptor?.key===descriptor.key).length>1;
+      const identity=identityFor(node,anchor,label,duplicateKey);
+      const matches=currentPage.annotations.filter(item=>!unresolvedRecord(item)&&identityMatches(item.identity,identity));
+      if(matches.length>1)for(const item of matches){item.identity.match_status='unresolved';item.identity.reason='存在多个相同身份记录，无法唯一匹配；已保留但不绑定。';item.status='needs-review';item.reviewReason=item.identity.reason;}
+      let annotation=matches.length===1?matches[0]:null;
+      if(!annotation){const legacy=currentPage.annotations.filter(item=>legacyCompatible(item,anchor,identity,node));if(legacy.length===1)annotation=legacy[0];}
+      const priorIdentity=annotation?.identity;
+      const legacyId='shh-'+hash(anchor.kind+':'+anchor.key);
+      let id=annotation?.id || (!currentPage.annotations.some(item=>item.id===legacyId)?legacyId:'shh-'+hash(JSON.stringify([identity.page_id,identity.state_id,identity.element_id])));
+      if(!annotation&&currentPage.annotations.some(item=>item.id===id))id='shh-'+hash(id+':'+identitySession+':'+(++identitySequence));
       const observed = observedFor(node, label);
       if (isPage) {
         observed.fields.content = `当前页面 / 弹窗标题：${label}。页面整体业务含义需结合 PRD 或原型说明。`;
@@ -551,12 +623,15 @@
       const signatures = Object.fromEntries(Object.keys(FIELD_NAMES).map(name => [name, hash(observed.fields[name] + '|' + observed.evidence[name] + '|' + JSON.stringify(observed.evidenceMeta[name]))]));
       if (!annotation) {
         const number = nextNumber++;
-        annotation = { id, number, displayId: 'A-' + String(number).padStart(3, '0'), anchor, label, controlType: anchor.type, ...observed, observedSignatures: signatures, manualFields: [], status: anchor.positional ? 'needs-review' : 'observed', revisions: [], createdAt: new Date().toISOString() };
-        if (anchor.positional) annotation.reviewReason = '此控件没有可用的稳定 ID 或行键，暂用 DOM 位置定位。列表重排或页面结构变化后必须复核对应关系。';
+        annotation = { id, number, displayId: 'A-' + String(number).padStart(3, '0'), anchor, identity, label, controlType: anchor.type, ...observed, observedSignatures: signatures, manualFields: [], status: identity.mapping_confidence<1 ? 'needs-review' : 'observed', revisions: [], createdAt: new Date().toISOString() };
+        if (identity.mapping_confidence<1) annotation.reviewReason = identity.reason;
         if (Object.values(annotation.fieldStates).some(state => ['review', 'conflict'].includes(state))) annotation.status = 'needs-review';
         currentPage.annotations.push(annotation);
         changed = true;
       } else {
+        if(!priorIdentity){identity.match_status='legacy-migrated';identity.reason='旧记录仅以当前唯一、无实体上下文的稳定ID迁移。';changed=true;}
+        if(priorIdentity&&priorIdentity.content_hash!==identity.content_hash){identity.match_status='content-changed';identity.reason='控件身份仍匹配，但页面内容或约束已变化；保留原说明，需复核。';annotation.status='needs-review';annotation.reviewReason=identity.reason;changed=true;}
+        annotation.identity=identity;
         annotation.displayId = annotation.displayId || 'A-' + String(annotation.number).padStart(3, '0');
         annotation.fieldStates = annotation.fieldStates || observed.fieldStates;
         annotation.evidence = annotation.evidence || observed.evidence;
@@ -622,6 +697,13 @@
       badge.setAttribute('aria-label', `${annotation.number}，${label}，打开标注详情`);
       badge.setAttribute('aria-expanded', String(cardIsShown(annotation)));
       badge.classList.toggle('review', annotation.status === 'needs-review');
+    }
+    for(const annotation of currentPage.annotations)if(!seenIds.has(annotation.id)){
+      const uncertain=!validIdentity(annotation.identity)||annotation.identity.mapping_confidence<1;
+      if(uncertain&&!unresolvedRecord(annotation)){
+        annotation.identity={...(annotation.identity||{}),match_status:'unresolved',reason:'旧记录无法唯一匹配当前控件，已隔离保留；未把人工说明或草稿迁移到新对象。'};
+        annotation.status='needs-review';annotation.reviewReason=annotation.identity.reason;changed=true;
+      }else if(!unresolvedRecord(annotation)&&annotation.identity.match_status!=='detached'){annotation.identity.match_status='detached';annotation.identity.reason='控件不在当前可见状态，记录保留但未绑定到任何新对象。';changed=true;}
     }
     for (const [id, badge] of bubbles) if (!seenIds.has(id)) { badge.remove(); bubbles.delete(id); badgePlacements.delete(id); }
     const coverage = [
@@ -878,7 +960,8 @@
 
   function openCard(id) {
     const annotation = currentPage.annotations.find(item => item.id === id);
-    if (!annotation || !targets.has(id)) return;
+    if (!annotation || !targets.has(id)&&!unresolvedRecord(annotation)) return;
+    if(unresolvedRecord(annotation))reviewOnly=true;
     if (reviewOnly && !reviewDetails(annotation).pending) {
       reviewOnly = false;
       reviewCursor = '';
@@ -1049,7 +1132,7 @@
       const incomplete = evidenceRecord(meta).issues;
       badge.textContent = evidenceLabelFor(meta) + (incomplete.length ? ' · 草稿待补全' : '');
       badge.setAttribute('data-level', meta.level);
-      currentState.textContent = '状态：' + STATE_NAMES[draft.fieldStates[name]];
+      currentState.textContent = '状态：' + STATE_NAMES[draft.fieldStates[name]] + (['supported','observed'].includes(draft.fieldStates[name]) && claimIssues(annotation,name).length ? ' · 结论待复核' : '');
       state.value = draft.fieldStates[name];
       testedInputs.forEach(wrapper => { wrapper.hidden = meta.level !== 'tested'; });
       derivationLabel.hidden = meta.level !== 'prd';
@@ -1058,17 +1141,36 @@
       hint.hidden = !hint.textContent;
     }
     refreshEvidenceUI();
+    const claimNote=el('p','level-hint',claimIssues(annotation,name).length?'结论关联待复核：'+claimIssues(annotation,name).join('；')+'。':'结论已关联来源记录；文件与实际事实仍须独立核验。');
+    claimNote.setAttribute('data-shh-claim-status',name);evidenceDetails.append(claimNote);
     return field;
   }
 
   function revisionOf(annotation, action) {
-    return { at: new Date().toISOString(), action, fields: copy(annotation.fields), evidence: copy(annotation.evidence || {}), evidenceMeta: copy(annotation.evidenceMeta || {}), fieldStates: copy(annotation.fieldStates || {}), status: annotation.status, anchor: copy(annotation.anchor) };
+    return { at: new Date().toISOString(), action, fields: copy(annotation.fields), evidence: copy(annotation.evidence || {}), evidenceMeta: copy(annotation.evidenceMeta || {}), claimRecords: copy(annotation.claimRecords || {}), claimSources: copy(annotation.claimSources || {}), fieldStates: copy(annotation.fieldStates || {}), status: annotation.status, anchor: copy(annotation.anchor), identity: copy(annotation.identity || null) };
+  }
+
+  const CLAIM_KINDS = {DOM_OBSERVED:['visible_content','dom_constraint','declared_destination'],INTERACTION_VERIFIED:['observed_behavior','permission_outcome','observed_effect'],DOCUMENT_SUPPORTED:['specification'],INFERRED:[],UNKNOWN:[]};
+  function claimIssues(annotation, name) {
+    const claims=annotation.claimRecords?.[name], sources=annotation.claimSources||{}, value=annotation.fields?.[name]||'';
+    if(!Array.isArray(claims)||!claims.length)return ['尚未建立逐条结论与来源的关联'];
+    const problems=[];
+    if(claims.map(c=>c?.text||'').join('')!==value)problems.push('结论未完整覆盖当前文字');
+    for(const claim of claims){
+      if(!claim||typeof claim.text!=='string'||claim.textSha256!==digest(claim.text))problems.push('结论文字已变化');
+      if(!CLAIM_KINDS[claim?.type]?.includes(claim?.kind))problems.push('证据类型不能支持此结论');
+      if(claim?.controlFingerprint!==annotation.identity?.selector_fingerprint)problems.push('结论与控件身份不一致');
+      if(claim?.type==='DOCUMENT_SUPPORTED'&&(claim.scope!=='specification'||claim.derivation!=='explicit')||claim?.type==='INTERACTION_VERIFIED'&&claim.scope!=='observed_session')problems.push('结论超出证据作用范围或并非文档直接定义');
+      if(!Array.isArray(claim?.sourceRefs)||!claim.sourceRefs.length||claim.sourceRefs.some(ref=>!sources[ref]||sources[ref].type!==claim.type||!sources[ref].locator||!sources[ref].path||!/^[a-f0-9]{64}$/.test(sources[ref].sha256||'')))problems.push('来源记录不完整');
+    }
+    return [...new Set(problems)];
   }
 
   function saveAnnotation(id, confirmTarget = false) {
     const annotation = currentPage.annotations.find(a => a.id === id);
     const draft = drafts.get(id);
     if (!annotation || !draft) return;
+    if(confirmTarget&&(!targets.has(id)||unresolvedRecord(annotation))){setNotice('此历史记录尚未唯一绑定当前控件，不能通过确认按钮建立对应关系。');return;}
     if (draft.dirty || confirmTarget) {
       const normalizedMeta = {};
       const issues = [];
@@ -1096,17 +1198,19 @@
       annotation.evidenceMeta = copy(normalizedMeta);
       draft.evidenceMeta = copy(normalizedMeta);
       annotation.fieldStates = copy(draft.fieldStates);
+      for(const name of Object.keys(FIELD_NAMES)) if(previous.fields[name]!==annotation.fields[name]&&annotation.claimRecords?.[name]?.length&&claimIssues(annotation,name).length&&annotation.fieldStates[name]!=='conflict') annotation.fieldStates[name]='review';
+      for(const name of Object.keys(FIELD_NAMES)) if(['supported','observed'].includes(annotation.fieldStates[name])&&((draft.touched||[]).includes(name)||(draft.stateTouched||[]).includes(name))&&claimIssues(annotation,name).length) annotation.fieldStates[name]='review';
       annotation.manualFields = [...new Set([...(annotation.manualFields || []), ...(draft.touched || [])])];
       for (const name of draft.acceptedSuggestions || []) if (annotation.suggestions) delete annotation.suggestions[name];
       for (const name of draft.stateTouched || []) {
-        if (!['conflict', 'review'].includes(draft.fieldStates[name]) && annotation.fieldReviews) delete annotation.fieldReviews[name];
+        if (!['conflict', 'review'].includes(annotation.fieldStates[name]) && annotation.fieldReviews) delete annotation.fieldReviews[name];
       }
       if (confirmTarget) {
         annotation.anchor.fingerprint = annotation.currentFingerprint || annotation.anchor.fingerprint;
         annotation.label = annotation.currentLabel || annotation.label;
         delete annotation.reviewReason;
       }
-      const unresolved = Object.values(annotation.fieldStates).some(value => ['conflict', 'review'].includes(value)) || Object.keys(annotation.suggestions || {}).length > 0;
+      const unresolved = unresolvedRecord(annotation) || Object.values(annotation.fieldStates).some(value => ['conflict', 'review'].includes(value)) || Object.keys(annotation.suggestions || {}).length > 0;
       const changedTarget = annotation.currentFingerprint && annotation.anchor.fingerprint !== annotation.currentFingerprint;
       const observedReviews = Object.keys(annotation.fieldReviews || {}).length > 0;
       if (unresolved) {
@@ -1119,6 +1223,7 @@
       annotation.updatedAt = new Date().toISOString();
       currentPage.updatedAt = annotation.updatedAt;
       if (savePage()) {
+        draft.fieldStates = copy(annotation.fieldStates);
         draft.dirty = false;
         draft.saveError = '';
         draft.stateTouched = [];
@@ -1149,6 +1254,11 @@
     identifier.style.minWidth = '45px';
     head.append(identifier, title, close);
     card.append(head);
+    const identityNote=el('p','review-note',unresolvedRecord(annotation)?'未绑定历史记录：保留原说明与修订，不会显示在任何新控件上。':`身份匹配：${annotation.identity?.match_status||'未登记'} · 匹配置信度 ${Math.round((annotation.identity?.mapping_confidence||0)*100)}%（不表示说明正确率）`);
+    identityNote.setAttribute('data-shh-identity',annotation.id);if(unresolvedRecord(annotation))card.append(identityNote);
+    const identityDetails=el('details','history');identityDetails.setAttribute('data-shh-identity-details',annotation.id);identityDetails.append(el('summary','','查看控件身份与匹配依据'));
+    if(!unresolvedRecord(annotation))identityDetails.append(identityNote);
+    for(const key of ['page_id','state_id','element_id','selector_fingerprint','content_hash','mapping_confidence','match_status','reason']){const line=el('p','',key+'：'+(annotation.identity?.[key]??'未登记'));line.style.overflowWrap='anywhere';identityDetails.append(line);}card.append(identityDetails);
     if (reviewOnly && draft.dirty && !reviewDetails(annotation).pending) {
       const retained = el('p', 'review-note', '未保存草稿暂留。保存或撤销后，将按筛选条件收起此详情。');
       retained.setAttribute('data-shh-retained-draft', annotation.id);
@@ -1164,7 +1274,7 @@
     const save = button(draft.saveError ? '重试保存' : '保存修改', () => saveAnnotation(annotation.id), 'btn primary');
     save.setAttribute('data-shh-save', annotation.id);
     foot.append(save);
-    if (annotation.status === 'needs-review') foot.append(button('确认当前控件', () => saveAnnotation(annotation.id, true)));
+    if (annotation.status === 'needs-review'&&targets.has(annotation.id)&&!unresolvedRecord(annotation)) foot.append(button('确认当前控件', () => saveAnnotation(annotation.id, true)));
     if (draft.dirty) foot.append(button('撤销未保存修改', () => { drafts.delete(annotation.id); renderPanel(); }));
     card.append(foot);
     if (annotation.revisions.length) {
@@ -1241,12 +1351,12 @@
   }
 
   function pendingAnnotations() {
-    return (currentPage?.annotations || []).filter(annotation => targets.has(annotation.id) && reviewDetails(annotation).pending)
+    return (currentPage?.annotations || []).filter(annotation => (targets.has(annotation.id)||unresolvedRecord(annotation)) && reviewDetails(annotation).pending)
       .sort((a, b) => reviewDetails(a).priority - reviewDetails(b).priority || a.number - b.number);
   }
 
   function cardIsShown(annotation) {
-    return !!annotation && targets.has(annotation.id) && opened.has(annotation.id) && (!reviewOnly || reviewDetails(annotation).pending || !!drafts.get(annotation.id)?.dirty);
+    return !!annotation && (targets.has(annotation.id)||reviewOnly&&unresolvedRecord(annotation)) && opened.has(annotation.id) && (!reviewOnly || reviewDetails(annotation).pending || !!drafts.get(annotation.id)?.dirty);
   }
 
   function shownAnnotations() {
@@ -1518,6 +1628,17 @@
     return copy({ schemaVersion: VERSION, agent: 'Strike Her Heart', exportedAt: new Date().toISOString(), pages: [...pageCache.values()] });
   }
 
+  function retainUnmatched(incoming,reason) {
+    if(!incoming.fields||typeof incoming.fields!=='object')return false;
+    const key=hash(JSON.stringify([incoming.id,incoming.identity,incoming.anchor,incoming.fields]));
+    if(currentPage.annotations.some(item=>item.importKey===key))return false;
+    const number=nextNumber++,anchor={kind:text(incoming.anchor?.kind||'unresolved',40),key:text(incoming.anchor?.key||'unresolved',2000),tag:text(incoming.anchor?.tag||'',30),type:text(incoming.anchor?.type||'',30),fingerprint:text(incoming.anchor?.fingerprint||'',100)};
+    const annotation={id:'shh-'+hash('unresolved:'+key),number,displayId:'A-'+String(number).padStart(3,'0'),anchor,identity:{...(validIdentity(incoming.identity)?copy(incoming.identity):{}),match_status:'unresolved',reason},label:text(incoming.label||'未匹配的导入记录',180),controlType:text(incoming.controlType||anchor.type||'历史记录',40),fields:{},evidence:{},fieldStates:{},evidenceMeta:{},manualFields:listManual(incoming.manualFields),status:'needs-review',reviewReason:reason,revisions:[],importKey:key,createdAt:new Date().toISOString()};
+    for(const name of Object.keys(FIELD_NAMES)){annotation.fields[name]=typeof incoming.fields[name]==='string'?incoming.fields[name].slice(0,12000):'';annotation.evidence[name]=typeof incoming.evidence?.[name]==='string'?incoming.evidence[name].slice(0,12000):'';annotation.fieldStates[name]=hasOwn(STATE_NAMES,incoming.fieldStates?.[name])?incoming.fieldStates[name]:'unknown';annotation.evidenceMeta[name]=incoming.evidenceMeta?.[name];}
+    normalizeAnnotationEvidence(annotation);currentPage.annotations.push(annotation);return true;
+  }
+  function listManual(value){return Array.isArray(value)?[...new Set(value.filter(name=>hasOwn(FIELD_NAMES,name)))]:[];}
+
   function importData(data) {
     if (destroyed) throw new Error('标注已销毁，请重新运行。');
     if (typeof data === 'string') {
@@ -1529,21 +1650,28 @@
     if (dirty) throw new Error('当前有未保存草稿，请先保存或撤销，避免导入覆盖草稿。');
     const previousPage = copy(currentPage);
     const previousDrafts = new Map(drafts);
+    const previousNumber = nextNumber;
     let updated = 0;
     let skipped = 0;
+    let retained = 0;
+    const candidates=data.pages.filter(page=>page&&sameScope(page.scope,currentPage.scope)&&Array.isArray(page.annotations)).flatMap(page=>page.annotations).filter(item=>item&&typeof item==='object');
+    const identityKey=item=>validIdentity(item.identity)?JSON.stringify(['page_id','state_id','element_id','selector_fingerprint','content_hash'].map(key=>item.identity[key])):JSON.stringify(['legacy',item.id,item.anchor?.kind,item.anchor?.key]);
+    const frequencies=new Map();for(const incoming of candidates){const key=identityKey(incoming);frequencies.set(key,(frequencies.get(key)||0)+1);}
     for (const page of data.pages) {
       if (!page || !Array.isArray(page.annotations)) continue;
       if (!sameScope(page.scope, currentPage.scope)) { skipped += page.annotations.length; continue; }
       for (const incoming of page.annotations) {
         if (!incoming || typeof incoming !== 'object') { skipped++; continue; }
-        const target = currentPage.annotations.find(a => a.id === incoming.id || incoming.anchor && a.anchor.kind === incoming.anchor.kind && a.anchor.key === incoming.anchor.key);
-        if (!target) { skipped++; continue; }
+        const matches=currentPage.annotations.filter(annotation=>!unresolvedRecord(annotation)&&(validIdentity(incoming.identity)?identityMatches(annotation.identity,incoming.identity,true):!incoming.identity&&targets.has(annotation.id)&&legacyCompatible(incoming,annotation.anchor,annotation.identity,targets.get(annotation.id))&&incoming.anchor?.fingerprint===(annotation.currentFingerprint||annotation.anchor.fingerprint)));
+        const collision=currentPage.annotations.some(annotation=>annotation.id===incoming.id&&!matches.includes(annotation));
+        const target=matches.length===1&&!collision&&frequencies.get(identityKey(incoming))===1?matches[0]:null;
+        if (!target) { skipped++;if(retainUnmatched(incoming,'导入身份缺失、不唯一或与当前页面、状态、实体、内容摘要不一致；原文已隔离保留，未覆盖当前控件。'))retained++;continue; }
         if (!incoming.fields || typeof incoming.fields !== 'object') { skipped++; continue; }
         if (Array.isArray(incoming.revisions)) {
           const existing = new Set(target.revisions.map(revision => JSON.stringify(revision)));
           for (const revision of incoming.revisions) {
             if (!revision || !revision.fields || typeof revision.fields !== 'object') continue;
-            const restored = { at: text(revision.at, 40), action: text(revision.action, 100), fields: {}, evidence: {}, fieldStates: {}, evidenceMeta: {}, status: text(revision.status, 40), anchor: copy(target.anchor) };
+            const restored = { at: text(revision.at, 40), action: text(revision.action, 100), fields: {}, evidence: {}, fieldStates: {}, evidenceMeta: {}, claimRecords: copy(revision.claimRecords || {}), claimSources: copy(revision.claimSources || {}), status: text(revision.status, 40), anchor: copy(target.anchor), identity:validIdentity(revision.identity)?copy(revision.identity):null };
             for (const name of Object.keys(FIELD_NAMES)) {
               restored.fields[name] = typeof revision.fields[name] === 'string' ? revision.fields[name].slice(0, 12000) : '';
               restored.evidence[name] = revision.evidence && typeof revision.evidence[name] === 'string' ? revision.evidence[name].slice(0, 12000) : '';
@@ -1594,6 +1722,11 @@
             }
           }
         }
+        if(!protectedConflict && incoming.claimRecords && incoming.claimSources){
+          target.claimRecords=copy(incoming.claimRecords);target.claimSources=copy(incoming.claimSources);
+        }
+        const beforeImport=target.revisions[target.revisions.length-1];
+        for(const name of Object.keys(FIELD_NAMES)) if(claimIssues(target,name).length&&(target.fieldStates[name]==='supported'||name!=='content'&&target.fieldStates[name]==='observed'&&(beforeImport?.fields?.[name]!==target.fields[name]||beforeImport?.fieldStates?.[name]!=='observed'))){target.fieldStates[name]='review';target.status='needs-review';target.reviewReason='结论与来源未通过结构核对，请复核。';}
         // A document from a prior UI version cannot silently certify the current control.
         if (incoming.anchor && incoming.anchor.fingerprint && incoming.anchor.fingerprint !== (target.currentFingerprint || target.anchor.fingerprint)) {
           target.status = 'needs-review';
@@ -1612,18 +1745,63 @@
     if (!savePage()) {
       currentPage = previousPage;
       drafts = previousDrafts;
+      nextNumber = previousNumber;
       pageCache.set(currentScopeKey, currentPage);
       cacheUIState();
       renderPanel();
       throw new Error('导入未保存：本浏览器写入失败，已恢复导入前的说明、来源分级、修订和建议。请恢复存储后重试。');
     }
     renderPanel();
-    return { updated, skipped };
+    return { updated, skipped, retained };
   }
 
   function getSnapshot() {
     if (!currentPage) return null;
     return copy({ ...currentPage, currentControlIds: [...targets.keys()], ui: { openedIds: [...opened].filter(id => targets.has(id)), visible, drawerOpen, narrow, placementHiddenIds: [...placementHiddenIds], dirtyIds: [...drafts].filter(([id, draft]) => draft.dirty && targets.has(id)).map(([id]) => id), quality: qualitySnapshot(), evidenceSummary: evidenceSummary(), reviewQueue: reviewQueueSnapshot(), catalogOpen, storageAvailable: !storageWarning } });
+  }
+
+  function getQueueSnapshot({pageId,stateKey}={}) {
+    if(destroyed||!currentPage)throw new Error('标注未运行。');
+    if(typeof pageId!=='string'||!/^P-\d+$/.test(pageId)||typeof stateKey!=='string'||!stateKey.trim()||stateKey.length>200)throw new Error('需要任务登记的 pageId（P-编号）与非空 stateKey。');
+    const controls=[];
+    for(const [id,target] of targets){const annotation=currentPage.annotations.find(item=>item.id===id);if(!isVisible(target)||!validIdentity(annotation?.identity)||unresolvedRecord(annotation))continue;controls.push({id:annotation.displayId,fingerprint:annotation.identity.selector_fingerprint,contentHash:annotation.identity.content_hash});}
+    return {pageId,url:location.origin+location.pathname,stateKey,pageFingerprint:digest(JSON.stringify([digest(currentScopeKey),currentStateId])),controls:controls.sort((a,b)=>a.id.localeCompare(b.id))};
+  }
+
+  function getVerificationSnapshot({pageId,stateKey}={}) {
+    scan();
+    const queue=getQueueSnapshot({pageId,stateKey});
+    let persisted=null;
+    try { persisted=JSON.parse(localStorage.getItem(STORE_PREFIX+hash(currentScopeKey))||'null'); } catch (_) { /* unavailable storage */ }
+    const ids=[...targets.keys()];
+    return {pageId,stateKey,url:queue.url,sessionId:identitySession,controls:currentPage.annotations.filter(a=>ids.includes(a.id)).map(copy),
+      persisted: persisted&&sameScope(persisted.scope,currentPage.scope)?persisted.annotations:null,
+      dirtyIds:[...drafts].filter(([id,draft])=>draft.dirty&&ids.includes(id)).map(([id])=>id),
+      storageAvailable:!storageWarning&&Array.isArray(persisted?.annotations),coverage:copy(currentPage.coverage||[])};
+  }
+
+  // This gateway exposes only owned annotation operations. It never dispatches
+  // business-form submission, deletion, approval, messaging or arbitrary clicks.
+  function savedPageMatches() {
+    try { return JSON.stringify(JSON.parse(localStorage.getItem(STORE_PREFIX+hash(currentScopeKey))||'null'))===JSON.stringify(currentPage); } catch (_) { return false; }
+  }
+  function performAction(request) {
+    if(!request||typeof request!=='object')throw new Error('操作请求无效。');
+    if(request.action==='read_snapshot')return {allowed:true,category:'read_only',verified:true,result:getSnapshot()};
+    if(request.action==='scan_controls'){const result=scan();return {allowed:true,category:'annotation_write',verified:!storageWarning&&savedPageMatches(),result};}
+    if(request.action==='write_annotations'){
+      const data=request.data;
+      if(!data||!Array.isArray(data.pages))throw new Error('标注写入需要完整数据。');
+      if(data.pages.some(page=>!page||!sameScope(page.scope,currentPage.scope)||!Array.isArray(page.annotations)))throw new Error('写入范围与当前页面不一致。');
+      const incoming=data.pages.flatMap(page=>sameScope(page.scope,currentPage.scope)&&Array.isArray(page.annotations)?page.annotations:[]);
+      const keys=incoming.map(item=>JSON.stringify(['page_id','state_id','element_id','selector_fingerprint','content_hash'].map(key=>item?.identity?.[key])));
+      if(!incoming.length||new Set(keys).size!==keys.length||incoming.some(item=>!item?.fields||!validIdentity(item?.identity)||currentPage.annotations.filter(a=>targets.has(a.id)&&identityMatches(a.identity,item.identity,true)).length!==1))throw new Error('标注身份未通过唯一匹配，拒绝写入。');
+      const result=importData(data);
+      if(result.skipped)throw new Error('部分记录未匹配；请检查原页后复核。');
+      const verified=savedPageMatches();
+      return {allowed:true,category:'annotation_write',verified,result,reason:verified?'':'写入后读取的数据不一致，需复核和重试。'};
+    }
+    return {allowed:false,category:['expand_readonly','open_details'].includes(request.action)?'low_risk':'high_risk',verified:false,reason:'当前执行器不支持此操作；业务提交、删除、审批、发送及任意点击默认拒绝。'};
   }
 
   function toggle(value) {
@@ -1636,6 +1814,7 @@
 
   function onMutations(records) {
     if (records.every(record => record.target === root || root.contains(record.target))) return;
+    identityMutations(records);
     scheduleScan();
   }
 
@@ -1665,7 +1844,7 @@
   function patchedReplace(...args) { const result = Reflect.apply(originalReplace, this, args); scheduleScan(); return result; }
   history.pushState = patchedPush;
   history.replaceState = patchedReplace;
-  const api = { __runtime: true, version: VERSION, scan, exportData, importData, getSnapshot, toggle, toggleDrawer, destroy };
+  const api = { __runtime: true, version: VERSION, scan, exportData, importData, getSnapshot, getQueueSnapshot, getVerificationSnapshot, performAction, toggle, toggleDrawer, destroy };
   window.StrikeHerHeart = api;
   mutationObserver = new MutationObserver(onMutations);
   if (typeof ResizeObserver !== 'undefined') resizeObserver = new ResizeObserver(schedulePosition);

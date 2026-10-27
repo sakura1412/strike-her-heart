@@ -1,12 +1,14 @@
 """Private task-record checks; these do not run a named agent or a real website."""
 
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+import uuid
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -83,6 +85,33 @@ class TaskManifestTests(unittest.TestCase):
             self.check(page_id, name)
         self.verify(page_id)
         return page_id
+
+    def independent_verify(self):
+        """Synthetic source-linked pre/post snapshots, never evidence of a real site."""
+        data = self.manifest()
+        marker = uuid.uuid4().hex
+        source_path = self.directory / "evidence" / ("source-" + marker + ".txt")
+        source_path.write_text("Synthetic document: fixture rule", encoding="utf-8")
+        source = {"type": "DOCUMENT_SUPPORTED", "locator": "fixture §1", "version": "fixture-1", "quote": "fixture rule", "path": "evidence/" + source_path.name, "sha256": hashlib.sha256(source_path.read_bytes()).hexdigest()}
+        entries = []
+        count = 0
+        for page in data["pages"]:
+            controls = []
+            for binding in page["bindings"]:
+                fingerprint = hashlib.sha256(binding["runtimeId"].encode()).hexdigest()
+                fields = {key: "Synthetic " + key for key in ("content", "function", "limits", "navigation")}
+                claims = {key: [{"text": value, "textSha256": hashlib.sha256(value.encode()).hexdigest(), "type": "DOCUMENT_SUPPORTED", "kind": "specification", "scope": "specification", "derivation": "explicit", "sourceRefs": ["S1"], "controlFingerprint": fingerprint}] for key, value in fields.items()}
+                controls.append({"id": binding["runtimeId"], "displayId": binding["displayId"], "fields": fields, "evidenceMeta": {}, "fieldStates": {}, "claimRecords": claims, "claimSources": {"S1": source}, "manualFields": ["content"], "identity": {"page_id": fingerprint, "state_id": fingerprint, "element_id": fingerprint, "selector_fingerprint": fingerprint, "content_hash": fingerprint, "mapping_confidence": 1, "match_status": "matched"}})
+            count += len(controls)
+            paths = []
+            for state in ("before", "after"):
+                path = self.directory / "evidence" / (state + "-" + page["id"] + "-" + marker + ".json")
+                path.write_text(json.dumps({"pageId": page["id"], "stateKey": page["stateKey"], "url": page["url"], "sessionId": state, "controls": controls, "persisted": controls, "dirtyIds": [], "storageAvailable": True}), encoding="utf-8")
+                paths.append("evidence/" + path.name)
+            entries.append({"pageId": page["id"], "before": paths[0], "after": paths[1]})
+        bundle = self.directory / "evidence" / ("bundle-" + marker + ".json")
+        bundle.write_text(json.dumps({"pages": entries, "report": {"pages": len(data["pages"]), "verifiedPages": sum(p["status"] == "verified" for p in data["pages"]), "controls": count}}), encoding="utf-8")
+        return self.run_cli("verify", "--bundle", "evidence/" + bundle.name, "--actual", "--note", "Synthetic independent snapshot fixture", "--evidence", "evidence/" + source_path.name)
 
     def test_resume_keeps_stable_ids_and_stale_revision_cannot_overwrite(self):
         self.initialize()
@@ -204,7 +233,11 @@ class TaskManifestTests(unittest.TestCase):
         self.assertEqual(self.manifest()["pages"][0]["status"], "blocked")
         self.check(page_id, "navigation", "fail")
         self.verify(page_id, ok=False)
-        self.check(page_id, "navigation")
+        self.assertEqual(self.manifest()["pages"][0]["status"], "failed")
+        self.present(page_id, ok=False)
+        self.present(page_id, "--retry")
+        for name in task.CHECKS:
+            self.check(page_id, name)
         self.verify(page_id)
 
     def test_display_numbers_are_page_scoped_and_rebinding_invalidates_checks(self):
@@ -247,6 +280,10 @@ class TaskManifestTests(unittest.TestCase):
         self.assertEqual(self.manifest()["pages"][0]["status"], "blocked")
         self.verify(page_id, ok=False)
         self.capability(method="new integration")
+        self.assertEqual(self.manifest()["pages"][0]["status"], "blocked")
+        self.run_cli("page", "--page-id", page_id, "--status", "discovered", "--resume",
+                     "--actual", "--note", "Write capability restored; rediscover current targets",
+                     "--evidence", "evidence/write.txt")
         self.assertEqual(self.manifest()["pages"][0]["status"], "discovered")
         self.verify(page_id, ok=False)
 
@@ -259,7 +296,8 @@ class TaskManifestTests(unittest.TestCase):
                      "--actual", "--note", "Premature synthetic check",
                      "--evidence", "evidence/coverage.txt", ok=False)
         self.check(page_id, "coverage", "fail")
-        self.present(page_id)
+        self.present(page_id, ok=False)
+        self.present(page_id, "--retry")
         self.assertEqual(self.manifest()["pages"][0]["checks"]["coverage"]["result"], "untested")
         for name in task.CHECKS:
             self.check(page_id, name)

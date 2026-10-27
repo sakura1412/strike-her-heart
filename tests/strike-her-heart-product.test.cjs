@@ -74,12 +74,14 @@ test('quality and status filters describe only currently presented targets, with
       window.StrikeHerHeart.importData(data);
       return { unknown: unknown.id, review: review.id, manual: manual.id, total: items.length };
     });
-    assert.deepEqual((await state(page)).ui.quality, { total: records.total, unknown: 1, review: 1, manual: 1, dirty: 0, hidden: 0 });
+    // The fixture promotes every unlinked business field to "observed"; the
+    // evidence gate correctly leaves each such record in the review queue.
+    assert.deepEqual((await state(page)).ui.quality, { total: records.total, unknown: 1, review: records.total, manual: 1, dirty: 0, hidden: 0 });
     assert.match(await page.locator('[data-shh-quality]').innerText(), /当前呈现范围/);
     assert.match(await page.locator('.scope-note').innerText(), /未访问或未展开范围不代表已完成/);
     for (const filter of ['unknown', 'review', 'manual']) {
       await page.locator('[data-shh-filter]').selectOption(filter);
-      assert.equal(await page.locator('[data-shh-catalog-item]').count(), 1);
+      assert.equal(await page.locator('[data-shh-catalog-item]').count(), filter === 'review' ? records.total : 1);
       assert.equal(await page.locator(`[data-shh-catalog-item="${records[filter]}"]`).count(), 1);
     }
     await page.evaluate(() => { document.getElementById('action-3').hidden = true; window.StrikeHerHeart.scan(); });
@@ -170,7 +172,7 @@ for (const previousState of ['conflict', 'review']) test(`editing and saving pre
     await card(page, saved).locator(`[data-shh-save="${saved.id}"]`).click();
     await page.reload(); await page.waitForFunction(() => !!window.StrikeHerHeart?.getSnapshot());
     saved = (await state(page)).annotations.find(record => record.id === item.id);
-    assert.equal(saved.fieldStates.function, 'supported'); assert.equal(saved.status, 'enriched');
+    assert.equal(saved.fieldStates.function, 'review'); assert.equal(saved.status, 'needs-review');
     assert.ok(saved.manualFields.includes('function'));
   } finally { await context.close(); }
 });

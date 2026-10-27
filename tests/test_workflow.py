@@ -89,6 +89,16 @@ class WorkflowSnapshotTests(unittest.TestCase):
         self.assertNotIn(self.secret, document)
         self.assertFalse(payload["wholeSystemComplete"])
         self.assertTrue(payload["recordingOnly"])
+        self.assertFalse(payload["taskComplete"], "Verified page totals cannot finish an intake task")
+        self.assertEqual(payload["execution"]["state"], "intake")
+        self.assertTrue(payload["completion"]["missingConditions"])
+        self.assertEqual(set(payload["stateContracts"]["states"]),
+                         {"intake", "access", "discovery", "annotation", "presentation",
+                          "acceptance", "completed", "blocked", "failed", "cancelled"})
+        for kind in ("states", "pages"):
+            for contract in payload["stateContracts"][kind].values():
+                for field in ("entryConditions", "successConditions", "failureStates", "allowedNext"):
+                    self.assertIsInstance(contract[field], list)
 
     def test_missing_or_changed_evidence_uses_effective_blocked_status(self):
         self.verified_page()
@@ -170,6 +180,118 @@ class WorkflowSnapshotTests(unittest.TestCase):
                               "--evidence", "workflow.html", ok=False)
         self.assertIn("not interaction evidence", result["error"])
         self.assertEqual(self.manifest()["revision"], 1)
+
+    def test_exception_lifecycle_is_preserved_without_generating_new_execution_evidence(self):
+        for state in ("blocked", "failed", "cancelled"):
+            with self.subTest(state=state):
+                if self.manifest()["execution"]["state"] != "intake":
+                    self.run_cli("transition", "--to", "intake", "--reopen", "--actual",
+                                 "--note", "Synthetic restart", "--reason", "Synthetic restart scope",
+                                 "--evidence", "evidence/observation.txt", "--next-action", "Synthetic intake")
+                self.run_cli("transition", "--to", state, "--reason", "Synthetic " + state,
+                             "--next-action", "Synthetic explicit recovery", "--actual",
+                             "--note", "Synthetic exception observation", "--evidence", "evidence/observation.txt")
+                before = self.record_bytes()
+                status = self.run_cli("status")
+                self.run_cli("workflow")
+                payload = self.payload()
+                self.assertEqual(payload["execution"], status["execution"])
+                self.assertEqual(payload["execution"]["state"], state)
+                self.assertEqual(payload["execution"]["resumeState"], "intake")
+                self.assertEqual(payload["execution"]["phaseStates"]["intake"], state)
+                self.assertFalse(payload["taskComplete"])
+                self.assertEqual(payload["completion"], status["completion"])
+                self.assertEqual(payload["stateContracts"], status["stateContracts"])
+                self.assertEqual(self.record_bytes(), before)
+
+    def test_legacy_task_is_not_upgraded_or_completed_by_snapshot_generation(self):
+        self.verified_page()
+        path = self.directory / "task.json"
+        manifest = self.manifest()
+        del manifest["execution"]
+        path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        before = self.record_bytes()
+        self.run_cli("workflow")
+        payload = self.payload()
+        self.assertTrue(payload["execution"]["legacy"])
+        self.assertFalse(payload["taskComplete"])
+        self.assertFalse(payload["completion"]["eligible"])
+        self.assertTrue(any("旧记录" in item for item in payload["completion"]["missingConditions"]))
+        self.assertEqual(self.record_bytes(), before)
+        self.assertNotIn("execution", self.manifest())
+
+    def test_renderer_preserves_missing_lifecycle_fields_instead_of_fabricating_contracts(self):
+        summary = self.run_cli("status")
+        for key in ("execution", "completion", "stateContracts", "taskComplete", "workQueue"):
+            summary.pop(key)
+        original = json.loads(json.dumps(summary))
+        before = self.record_bytes()
+        view.render_workflow(self.directory, summary)
+        payload = self.payload()
+        payload.pop("view")
+        self.assertEqual(payload, original)
+        self.assertEqual(summary, original)
+        self.assertEqual(self.record_bytes(), before)
+
+    def test_queue_snapshot_preserves_progress_without_claiming_or_retrying(self):
+        page = self.add_page()
+        self.assertFalse(self.run_cli("status")["workQueue"]["enabled"])
+        self.run_cli("queue", "--action", "enqueue", "--page-id", page,
+                     "--phase", "annotation", "--side-effect", "read_only")
+        before = self.record_bytes()
+        status = self.run_cli("status")
+        self.run_cli("workflow")
+        payload = self.payload()
+        self.assertEqual(payload["workQueue"], status["workQueue"])
+        item = payload["workQueue"]["items"][0]
+        self.assertEqual(item["status"], "queued")
+        self.assertEqual(item["attempt"], 0)
+        self.assertIsNone(item["lease"])
+        self.assertEqual(item["checkpoints"]["done"], 0)
+        self.assertTrue(item["reconciliation"]["required"])
+        self.assertFalse(payload["taskComplete"])
+        self.assertEqual(self.record_bytes(), before)
+
+    def test_running_and_expired_lease_snapshots_hide_token_and_never_reap_records(self):
+        page = self.verified_page()
+        for target in ("access", "discovery", "annotation"):
+            options = ["--to", target, "--actual", "--note", "Synthetic stage observation",
+                       "--evidence", "evidence/observation.txt"]
+            if target == "annotation":
+                options.append("--scope-confirmed")
+            self.run_cli("transition", *options)
+        job = self.run_cli("queue", "--action", "enqueue", "--page-id", page,
+                           "--phase", "annotation", "--side-effect", "read_only")["queueResult"]["jobId"]
+        snapshot = {"pageId": page, "url": "https://example.invalid/app", "stateKey": "all",
+                    "pageFingerprint": "a" * 64,
+                    "controls": [{"id": "A-001", "fingerprint": "b" * 64, "contentHash": "c" * 64}]}
+        (self.directory / "evidence/page-snapshot.json").write_text(json.dumps(snapshot), encoding="utf-8")
+        self.run_cli("queue", "--action", "reconcile", "--job-id", job,
+                     "--snapshot", "evidence/page-snapshot.json", "--actual", "--note", "Synthetic current controls",
+                     "--evidence", "evidence/observation.txt")
+        claim = self.run_cli("queue", "--action", "claim", "--job-id", job)["queueResult"]
+        self.assertTrue(claim["claimed"])
+        token = claim["leaseToken"]
+        for expired in (False, True):
+            with self.subTest(expired=expired):
+                if expired:
+                    manifest = self.manifest()
+                    manifest["workQueue"]["items"][0]["lease"]["expiresAt"] = 1
+                    (self.directory / "task.json").write_text(json.dumps(manifest), encoding="utf-8")
+                before = self.record_bytes()
+                self.run_cli("workflow")
+                payload = self.payload()
+                item = payload["workQueue"]["items"][0]
+                self.assertEqual(item["recordedStatus"], "running")
+                self.assertEqual(item["status"], "retry_wait" if expired else "running")
+                self.assertEqual(item["lease"]["expired"], expired)
+                self.assertEqual(item["attempt"], 1)
+                self.assertEqual(self.manifest()["workQueue"]["items"][0]["status"], "running")
+                self.assertNotIn(token, (self.directory / "workflow.html").read_text(encoding="utf-8"))
+                self.assertNotIn("leaseToken", json.dumps(payload))
+                self.assertNotIn("queueResult", payload)
+                self.assertFalse(payload["taskComplete"])
+                self.assertEqual(self.record_bytes(), before)
 
 
 if __name__ == "__main__":

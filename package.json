@@ -1,11 +1,11 @@
 {
   "name": "strike-her-heart",
-  "version": "1.5.0",
+  "version": "1.7.0",
   "private": true,
   "description": "A Codex custom agent for evidence-based in-page annotations.",
   "scripts": {
     "test": "node --test --test-concurrency=1 tests/*.test.cjs",
-    "test:task": "python3 -m unittest discover -s tests -p \"test_task.py\"",
+    "test:task": "python3 -m unittest discover -s tests -p \"test_task*.py\"",
     "preview": "python3 scripts/serve.py",
     "test:python": "python3 -m unittest discover -s tests -p \"test_*.py\"",
     "eval:prepare": "python3 scripts/prepare_eval.py",

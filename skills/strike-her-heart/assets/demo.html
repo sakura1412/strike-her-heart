@@ -18,7 +18,7 @@
   <div class="demo-notice" data-shh-ignore><strong>STRIKE HER HEART · 交互演示</strong><span>虚构业务系统与数据。点击原页面旁的编号，在右侧查看、编辑说明；页面按钮仍可操作。</span> <a href="./workflow.html" style="display:inline-block;margin-top:4px;font-weight:600">查看 agent 工作流 ↗</a></div>
   <header class="topbar"><div class="brand"><span class="brand-mark">n</span> northstar <span class="workspace">／　演示工作空间</span></div><div class="top-right"><span class="mini">协作管理平台</span><span class="avatar" aria-label="演示用户 林澈">林</span></div></header>
   <div class="layout"><nav class="nav" aria-label="主导航"><div class="nav-label">Workspace</div><a id="nav-leads" href="#/leads">◈　客户线索</a><a id="nav-projects" href="#/projects">▦　协作项目</a><a id="nav-settings" href="#/settings">⚙　工作空间设置</a><div class="nav-footer">所有数据仅供演示<br>不会发送到业务服务器</div></nav><main id="main" class="main"></main></div>
-  <dialog id="lead-dialog" aria-labelledby="dialog-title"><form id="new-lead-form"><div class="dialog-head"><h2 id="dialog-title">新增客户线索</h2><button type="button" id="close-dialog" class="close" aria-label="关闭新增客户线索">×</button></div><div class="dialog-body"><div class="field"><label for="lead-name">客户名称 <span class="required">*</span></label><input id="lead-name" class="input" required maxlength="40" placeholder="请输入客户名称，最多 40 字"><small>必填，最多 40 个字符。</small></div><div class="field"><label for="lead-contact">联系人邮箱</label><input id="lead-contact" class="input" type="email" placeholder="name@example.com"><small>选填，填写后需要符合邮箱格式。</small></div><div class="field"><label for="lead-source">线索来源</label><select id="lead-source" class="input"><option value="website">官网咨询</option><option value="event">活动报名</option><option value="referral">客户推荐</option></select></div><div class="field"><label for="lead-note">备注</label><textarea id="lead-note" class="input" maxlength="200" placeholder="补充跟进背景，最多 200 字"></textarea></div></div><div class="dialog-foot"><button type="button" id="cancel-dialog" class="button">取消</button><button type="submit" id="save-lead" class="button primary">保存线索</button></div></form></dialog>
+  <dialog id="lead-dialog" data-shh-state-key="lead-create" aria-labelledby="dialog-title"><form id="new-lead-form"><div class="dialog-head"><h2 id="dialog-title">新增客户线索</h2><button type="button" id="close-dialog" class="close" aria-label="关闭新增客户线索">×</button></div><div class="dialog-body"><div class="field"><label for="lead-name">客户名称 <span class="required">*</span></label><input id="lead-name" class="input" required maxlength="40" placeholder="请输入客户名称，最多 40 字"><small>必填，最多 40 个字符。</small></div><div class="field"><label for="lead-contact">联系人邮箱</label><input id="lead-contact" class="input" type="email" placeholder="name@example.com"><small>选填，填写后需要符合邮箱格式。</small></div><div class="field"><label for="lead-source">线索来源</label><select id="lead-source" class="input"><option value="website">官网咨询</option><option value="event">活动报名</option><option value="referral">客户推荐</option></select></div><div class="field"><label for="lead-note">备注</label><textarea id="lead-note" class="input" maxlength="200" placeholder="补充跟进背景，最多 200 字"></textarea></div></div><div class="dialog-foot"><button type="button" id="cancel-dialog" class="button">取消</button><button type="submit" id="save-lead" class="button primary">保存线索</button></div></form></dialog>
   <div id="toast" class="toast" role="status" hidden></div>
   <script>
     (() => {
@@ -45,7 +45,7 @@
       window.addEventListener('hashchange',render);if(!location.hash)history.replaceState(null,'','#/leads');render();
     })();
   </script>
-  <script src="./overlay.js?v=1.5.0"></script>
-  <script src="./demo-annotations.js?v=1.5.0"></script>
+  <script src="./overlay.js?v=1.7.0"></script>
+  <script src="./demo-annotations.js?v=1.7.0"></script>
 </body>
 </html>

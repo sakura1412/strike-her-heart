@@ -25,7 +25,12 @@ def render_workflow(root, checked_summary, name="", updated_at=""):
     """Write only workflow.html; never change manifest, history or evidence.
 
     The caller must use task.summary(data, root) before rendering. This function
-    does not promote statuses or independently authenticate supplied observations.
+    preserves its execution, completion, workQueue and canonical stateContracts
+    verbatim. Queue leases and retry times remain observations from that snapshot;
+    rendering never claims, resumes, retries or reaps work.
+    It does not infer lifecycle success from page totals, promote statuses or
+    independently authenticate supplied observations. Legacy/missing lifecycle
+    fields remain missing so the renderer can explicitly request re-verification.
     """
     root = Path(root).resolve()
     destination = root / "workflow.html"

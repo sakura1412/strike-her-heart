@@ -283,7 +283,7 @@ test('tested evidence survives reload, export, import and revision history; chan
     await reload(page);
     let saved = await annotation(page);
     assert.deepEqual(saved.evidenceMeta.function, meta('tested'));
-    assert.equal(saved.fieldStates.function, 'supported');
+    assert.equal(saved.fieldStates.function, 'review');
     if (!(await card(page, saved).count())) await openCard(page, saved);
     await card(page, saved).locator('[data-shh-field="function"]').fill('人工改成的新说明，旧实测不认证此内容');
     assert.equal(await card(page, saved).locator('[data-shh-state="function"]').inputValue(), 'review');
@@ -388,7 +388,7 @@ test('importing new tested prose with only a changed source cannot reuse an old 
   try {
     const page = await load(context);
     const old = await patchField(page, 'submit', 'function', { value: '虚构原实测说明', state: 'supported', meta: meta('tested') });
-    assert.equal(old.fieldStates.function, 'supported');
+    assert.equal(old.fieldStates.function, 'review');
     const revised = meta('tested', { source: '另一份虚构记录名称', locator: '#submit revised-source' });
     const importedItem = await patchField(page, 'submit', 'function', { value: '导入的新业务规则与旧说明不同', state: 'supported', meta: revised });
     assert.equal(importedItem.fields.function, '导入的新业务规则与旧说明不同');

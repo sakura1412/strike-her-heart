@@ -148,7 +148,7 @@ test('focus mode filters opened cards without losing clean views or unsaved draf
     assert.equal(await card(page,clean).count(),1);
     assert.equal(await bubble(page,clean).getAttribute('aria-expanded'),'true');
     assert.equal(await input.inputValue(),'切换队列仍保留的人工草稿');
-    await toggle(page,true); await save(page,done);
+    await toggle(page,true); await card(page,done).locator('[data-shh-state="function"]').selectOption('user'); await save(page,done);
     current=await queue(page);
     assert.equal(current.retainedDraftIds.includes(done.id),false);
     assert.equal(await card(page,done).count(),0,'Successfully saved non-pending draft no longer bypasses the filter');
@@ -161,7 +161,7 @@ test('only saving the last resolved reason removes an item; editing conflict pro
   try {
     const page=await load(context), item=await record(page,'review'), conflict=await record(page,'conflict');
     await toggle(page,true); await open(page,item);
-    await card(page,item).locator('[data-shh-state="function"]').selectOption('supported');
+    await card(page,item).locator('[data-shh-state="function"]').selectOption('user');
     assert.ok((await queue(page)).pendingIds.includes(item.id),'Draft status does not remove saved work');
     assert.equal(await card(page,item).count(),1);
     await save(page,item);
@@ -172,7 +172,7 @@ test('only saving the last resolved reason removes an item; editing conflict pro
     await save(page,conflict);
     assert.equal((await record(page,'conflict')).fieldStates.function,'conflict');
     assert.ok((await queue(page)).pendingIds.includes(conflict.id));
-    await card(page,conflict).locator('[data-shh-state="limits"]').selectOption('supported');
+    await card(page,conflict).locator('[data-shh-state="limits"]').selectOption('user');
     await save(page,conflict);
     assert.ok((await queue(page)).pendingIds.includes(conflict.id),'Resolving one of multiple reasons does not complete the annotation');
   } finally {await context.close();}
@@ -183,19 +183,19 @@ test('failed saves retain queue membership and drafts, and one successful retry 
   try {
     const page=await load(context), item=await record(page,'review');
     await toggle(page,true); await open(page,item);
-    await card(page,item).locator('[data-shh-state="function"]').selectOption('supported');
+    await card(page,item).locator('[data-shh-state="function"]').selectOption('user');
     await blockStorage(page); await save(page,item);
     assert.ok((await queue(page)).pendingIds.includes(item.id));
     assert.equal((await record(page,'review')).fieldStates.function,'review');
     assert.ok((await snapshot(page)).ui.dirtyIds.includes(item.id));
-    assert.equal(await card(page,item).locator('[data-shh-state="function"]').inputValue(),'supported');
+    assert.equal(await card(page,item).locator('[data-shh-state="function"]').inputValue(),'user');
     assert.match(await card(page,item).locator('.save-status').innerText(),/尚未写入本浏览器/);
     await restoreStorage(page); await save(page,item);
     assert.equal((await queue(page)).pendingIds.includes(item.id),false);
     assert.equal((await record(page,'review')).revisions.length,item.revisions.length+1);
     await page.reload(); await page.waitForFunction(()=>!!window.StrikeHerHeart?.getSnapshot()?.ui.reviewQueue);
     assert.equal((await queue(page)).pendingIds.includes(item.id),false);
-    assert.equal((await record(page,'review')).fieldStates.function,'supported');
+    assert.equal((await record(page,'review')).fieldStates.function,'user');
   } finally {await context.close();}
 });
 
