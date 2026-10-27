@@ -55,7 +55,7 @@ class PreviewHandler(SimpleHTTPRequestHandler):
             return
         if path == "/__shh_health":
             content = json.dumps({"service": "strike-her-heart-local-preview",
-                                  "version": "1.4.0", "fictionalDemo": True,
+                                  "version": "1.5.0", "fictionalDemo": True,
                                   "agentRuntime": "Codex"}).encode()
             self.send_response(200)
             self.send_header("Content-Type", "application/json; charset=utf-8")

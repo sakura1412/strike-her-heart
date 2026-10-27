@@ -34,6 +34,7 @@
     .stats{font-size:12px;color:#645773}.stats strong{color:#6436a3;font-size:18px}.body{overflow:auto;overscroll-behavior:contain;flex:1;padding:12px}.notice{border:1px solid #eadcc6;background:#fff9ed;color:#7c5c28;border-radius:9px;padding:9px 11px;font-size:11px;margin:0 0 10px;white-space:pre-line}.notice summary{cursor:pointer;font-weight:650}.coverage{margin:6px 0 0;padding-left:16px}.empty{padding:22px 13px;text-align:center;color:#82748e}.empty b{display:block;color:#5d4478;font-size:15px;margin-bottom:7px}.empty p{margin:5px 0}.catalog{margin-top:16px;text-align:left}.catalog button{display:flex;gap:8px;align-items:center;width:100%;border:0;border-bottom:1px solid #ede6f4;background:transparent;padding:8px 0;text-align:left;color:#58446b}.catalog button:hover{color:#7a35b7}.num{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:23px;height:23px;border-radius:20px;background:#efe4ff;color:#723bb8;font-weight:700;font-size:11px}.catalog .label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}.muted{font-size:11px;color:#8d7b99}
     .card{background:white;border:1px solid #e5d9ef;border-radius:12px;margin-bottom:12px;padding:12px;box-shadow:0 2px 6px #40206005}.card:focus{outline:2px solid #caa5f2;outline-offset:2px}.cardhead{display:flex;gap:8px;align-items:flex-start}.cardtitle{min-width:0;flex:1}.cardtitle strong{display:block;overflow-wrap:anywhere;font-size:14px}.tag{font-size:10px;color:#8e719e}.review-note{margin:9px 0;padding:7px 9px;border-radius:7px;background:#fff5dd;color:#895807;font-size:11px}.field{margin-top:12px}.fieldbar{display:flex;gap:7px;justify-content:space-between;align-items:center;margin-bottom:4px}.fieldbar label{font-weight:650;font-size:12px}.state{font-size:10px;border:0;color:#796089;background:#f5effa;border-radius:5px;padding:2px 4px;max-width:125px}.field textarea{width:100%;min-height:60px;resize:vertical;border:1px solid #dfd4e9;border-radius:7px;padding:7px 8px;color:#382644;background:#fff;font-size:12px;line-height:1.5}.field .evidence{min-height:33px;background:#faf8fc;color:#7b6689;font-size:10px;margin-top:4px}.field .evidence-label{font-size:10px;color:#8c7898;margin-top:4px}.cardfoot{margin-top:11px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}.save-status{color:#8b7697;font-size:10px;flex:1}.history{font-size:11px;color:#8b729d;margin-top:9px}.history summary{cursor:pointer}.history ol{padding-left:20px}.history li{margin-top:6px;overflow-wrap:anywhere;white-space:pre-wrap}.footer{padding:9px 14px;border-top:1px solid #e8e1ef;background:white;color:#9a86a7;font-size:10px}.status{padding:7px 12px;color:#603b7f;background:#f1e7ff;font-size:11px;white-space:pre-line}.status:empty{display:none}.chip{position:fixed;right:18px;bottom:18px;pointer-events:auto;border:1px solid #e0c7f8;background:#6d38d4;color:white;padding:10px 15px;border-radius:30px;box-shadow:0 4px 15px #3f1f6340;font-weight:650;z-index:3}.jsonbox{width:100%;min-height:190px;border:1px solid #d8c6e7;border-radius:8px;padding:10px;font:11px/1.5 ui-monospace,monospace}.transfer{margin-bottom:12px;border:1px solid #d9c7ed;padding:12px;border-radius:12px;background:#f9f3ff}.transfer h3{margin:0 0 8px;font-size:13px}.transfer p{color:#806b90;font-size:11px;margin:5px 0 9px}.transfer .row{margin-top:7px}[hidden]{display:none!important}
     @media(max-width:650px){.panel{width:min(340px,calc(100vw - 24px));right:12px;top:12px;bottom:12px}.bubble{font-size:10px;min-width:23px;height:23px;line-height:19px}}
+    .review-tools{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 6px;margin-top:8px}.review-toggle{grid-column:1/-1;display:flex;align-items:center;gap:7px;font-size:12px;color:#5e3a7c;font-weight:600;cursor:pointer;padding:3px 0}.review-toggle input{width:15px;height:15px;margin:0;accent-color:#6d38d4}.queue-count{font-size:11px;color:#795b8c;align-self:center;overflow-wrap:anywhere}.review-tools .btn{font-size:11px;padding:4px 7px}.btn:disabled{cursor:default;opacity:.5}.queue-title{font-size:12px;color:#66437d;margin:0 0 4px}.queue-reasons{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:10px;color:#91621c;overflow-wrap:anywhere}.catalog-box[data-shh-review-queue] .catalog{max-height:170px}.catalog-box[data-shh-review-queue] .scope-note{margin-bottom:7px}
     @media(prefers-reduced-motion:reduce){*{transition:none!important}}
     .evidence-details{margin-top:5px;font-size:10px;color:#806b90}.evidence-details>summary{cursor:pointer;padding:3px 0}.evidence-details .evidence-label{display:block}.save-status.error{color:#a34229;font-weight:650}.catalog-box{margin:0 0 12px;border:1px solid #e4d8ef;border-radius:10px;background:#fff;padding:10px}.catalog-tools{display:flex;gap:6px;margin-bottom:7px}.catalog-search{min-width:0;flex:1;width:100%;border:1px solid #dacce8;border-radius:7px;padding:6px 8px;font-size:12px;color:#382644}.catalog-filter{max-width:118px;border:1px solid #dacce8;border-radius:7px;padding:5px;font-size:11px;color:#654778;background:white}.catalog-box .catalog{margin:0;max-height:210px;overflow:auto}.catalog-box .num{min-width:45px}.catalog-meta{font-size:10px;color:#8b6c9d;display:block;overflow-wrap:anywhere}.catalog-text{flex:1;min-width:0}.catalog-text>.label{display:block}.scope-note{font-size:10px;color:#8a7699;margin:4px 0 0}.catalog-count{font-size:10px;color:#8a7699;margin:6px 0 0}.catalog-empty{padding:14px 5px;color:#8a7699;font-size:11px}
     .fieldbar{flex-wrap:wrap}.level-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:3px 0 6px}.level-badge{display:inline-block;font-size:10px;font-weight:650;padding:2px 6px;border:1px solid #cfc5db;border-radius:5px;background:#f4f0f8;color:#655671;overflow-wrap:anywhere}.level-badge[data-level=tested]{background:#eaf6ef;color:#246646;border-color:#9bc6af}.level-badge[data-level=page]{background:#edf4ff;color:#315f91;border-color:#b2c7e1}.level-badge[data-level=prd]{background:#f4edff;color:#744a9e;border-color:#d1bce5}.level-badge[data-level=guess]{background:#fff4dd;color:#8a5b12;border-color:#dfbf7c}.level-state{font-size:10px;color:#766283}.level-hint{font-size:10px;color:#806b90;margin:3px 0;overflow-wrap:anywhere}.level-hint.warning{color:#915319;font-weight:600}.provenance-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;margin:7px 0}.provenance-grid label{display:block;color:#705d7d;font-size:10px;min-width:0}.provenance-grid input,.provenance-grid select{display:block;width:100%;min-width:0;margin-top:3px;border:1px solid #dfd4e9;border-radius:6px;padding:6px;background:white;color:#382644;font-size:11px}.evidence-summary{font-size:10px;color:#705c83;margin:5px 0;overflow-wrap:anywhere}.level-legend{font-size:10px;color:#806b90;margin:5px 0}.level-legend summary{cursor:pointer}.level-legend p{margin:5px 0;overflow-wrap:anywhere}
@@ -94,6 +95,9 @@
   let catalogOpen = true;
   let catalogQuery = '';
   let catalogFilter = 'all';
+  let reviewOnly = false;
+  let reviewCursor = '';
+  let refreshCatalog = null;
   const expandedEvidence = new Set();
   let nextNumber = 1;
   const targets = new Map();
@@ -220,10 +224,14 @@
     return scope;
   }
 
+  function cacheUIState() {
+    if (currentUIKey) uiCache.set(currentUIKey, { opened: new Set(opened), drafts: new Map(drafts), reviewOnly, reviewCursor, catalogOpen, catalogQuery, catalogFilter });
+  }
+
   function savePage() {
     if (!currentPage) return;
     pageCache.set(currentScopeKey, currentPage);
-    if (currentUIKey) uiCache.set(currentUIKey, { opened: new Set(opened), drafts: new Map(drafts) });
+    cacheUIState();
     try {
       localStorage.setItem(STORE_PREFIX + hash(currentScopeKey), JSON.stringify(currentPage));
       storageWarning = '';
@@ -263,6 +271,8 @@
     catalogOpen = true;
     catalogQuery = '';
     catalogFilter = 'all';
+    reviewOnly = false;
+    reviewCursor = '';
     nextNumber = Math.max(0, ...currentPage.annotations.map(a => Number(a.number) || 0)) + 1;
     targets.clear();
     bubbles.forEach(node => node.remove());
@@ -279,11 +289,16 @@
     const modalKey = activeModal ? activeModal.id || pathFor(activeModal) : '';
     const key = currentScopeKey + '|ui:' + hash(JSON.stringify([selected, modalKey]));
     if (key === currentUIKey) return false;
-    if (currentUIKey) uiCache.set(currentUIKey, { opened: new Set(opened), drafts: new Map(drafts) });
+    cacheUIState();
     currentUIKey = key;
     const saved = uiCache.get(key);
     opened = saved ? new Set(saved.opened) : new Set();
     drafts = saved ? new Map(saved.drafts) : new Map();
+    reviewOnly = saved?.reviewOnly === true;
+    reviewCursor = saved?.reviewCursor || '';
+    catalogOpen = saved?.catalogOpen ?? true;
+    catalogQuery = saved?.catalogQuery || '';
+    catalogFilter = saved?.catalogFilter || 'all';
     return true;
   }
 
@@ -605,7 +620,7 @@
       const badge = bubbles.get(id);
       badge.textContent = String(annotation.number);
       badge.setAttribute('aria-label', `${annotation.number}，${label}，打开标注详情`);
-      badge.setAttribute('aria-expanded', String(opened.has(id)));
+      badge.setAttribute('aria-expanded', String(cardIsShown(annotation)));
       badge.classList.toggle('review', annotation.status === 'needs-review');
     }
     for (const [id, badge] of bubbles) if (!seenIds.has(id)) { badge.remove(); bubbles.delete(id); badgePlacements.delete(id); }
@@ -862,8 +877,18 @@
   }
 
   function openCard(id) {
+    const annotation = currentPage.annotations.find(item => item.id === id);
+    if (!annotation || !targets.has(id)) return;
+    if (reviewOnly && !reviewDetails(annotation).pending) {
+      reviewOnly = false;
+      reviewCursor = '';
+      catalogQuery = '';
+      catalogFilter = 'all';
+      noticeText = '此项没有待确认或冲突信息，已切换为查看全部标注。原草稿继续保留。';
+    }
+    if (reviewDetails(annotation).pending) reviewCursor = id;
     opened.add(id);
-    catalogOpen = false;
+    catalogOpen = reviewOnly;
     drawerOpen = true;
     renderPanel();
     const card = shadow.getElementById('shh-card-' + id);
@@ -876,7 +901,7 @@
   function closeCard(id) {
     opened.delete(id);
     if (![...opened].some(openId => targets.has(openId))) catalogOpen = true;
-    if (narrow && ![...opened].some(openId => targets.has(openId))) drawerOpen = false;
+    if (narrow && !reviewOnly && ![...opened].some(openId => targets.has(openId))) drawerOpen = false;
     renderPanel();
     positionBubbles();
     bubbles.get(id)?.setAttribute('aria-expanded', 'false');
@@ -1017,7 +1042,7 @@
       if (card) card.querySelector('.save-status').textContent = '有未保存修改';
       refreshEvidenceUI();
       renderQuality();
-      uiCache.set(currentUIKey, { opened: new Set(opened), drafts: new Map(drafts) });
+      cacheUIState();
     }
     function refreshEvidenceUI() {
       const meta = draft.evidenceMeta[name];
@@ -1124,6 +1149,11 @@
     identifier.style.minWidth = '45px';
     head.append(identifier, title, close);
     card.append(head);
+    if (reviewOnly && draft.dirty && !reviewDetails(annotation).pending) {
+      const retained = el('p', 'review-note', '未保存草稿暂留。保存或撤销后，将按筛选条件收起此详情。');
+      retained.setAttribute('data-shh-retained-draft', annotation.id);
+      card.append(retained);
+    }
     if (annotation.status === 'needs-review') card.append(el('p', 'review-note', annotation.reviewReason || '控件已变化，请核对标注与当前对象是否仍对应。'));
     for (const name of Object.keys(FIELD_NAMES)) card.append(makeField(annotation, draft, name));
     const foot = el('div', 'cardfoot');
@@ -1190,14 +1220,92 @@
     if (status) status.textContent = value;
   }
 
-  function annotationFlags(annotation) {
+  // Review membership is deliberately based on saved records. Choosing a new
+  // state in a draft must not make the item disappear before save succeeds.
+  function reviewDetails(annotation) {
+    const reasons = [];
+    let conflict = false;
+    let review = annotation.status === 'needs-review';
+    for (const [name, label] of Object.entries(FIELD_NAMES)) {
+      const state = annotation.fieldStates?.[name];
+      if (['unknown', 'conflict', 'review'].includes(state)) reasons.push(label + '：' + STATE_NAMES[state]);
+      if (state === 'conflict') conflict = true;
+      if (state === 'review') review = true;
+      if (annotation.suggestions?.[name]) { reasons.push(label + '：有待处理建议'); review = true; }
+      if (annotation.fieldReviews?.[name]) { reasons.push(label + '：页面信息变化待核对'); review = true; }
+    }
+    if (Object.keys(annotation.suggestions || {}).length || Object.keys(annotation.fieldReviews || {}).length) review = true;
+    if (annotation.status === 'needs-review') reasons.push(annotation.reviewReason || '控件对应关系需复核');
+    if (review && !reasons.length) reasons.push('有待核对的来源或建议');
+    return { pending: conflict || review || reasons.length > 0, priority: conflict ? 0 : review ? 1 : 2, reasons };
+  }
+
+  function pendingAnnotations() {
+    return (currentPage?.annotations || []).filter(annotation => targets.has(annotation.id) && reviewDetails(annotation).pending)
+      .sort((a, b) => reviewDetails(a).priority - reviewDetails(b).priority || a.number - b.number);
+  }
+
+  function cardIsShown(annotation) {
+    return !!annotation && targets.has(annotation.id) && opened.has(annotation.id) && (!reviewOnly || reviewDetails(annotation).pending || !!drafts.get(annotation.id)?.dirty);
+  }
+
+  function shownAnnotations() {
+    return [...opened].map(id => currentPage?.annotations.find(annotation => annotation.id === id)).filter(cardIsShown);
+  }
+
+  function reviewQueueSnapshot() {
+    const pending = pendingAnnotations();
+    const shown = shownAnnotations();
+    return {
+      enabled: reviewOnly, pendingIds: pending.map(annotation => annotation.id), count: pending.length,
+      retainedDraftIds: reviewOnly ? shown.filter(annotation => !reviewDetails(annotation).pending && drafts.get(annotation.id)?.dirty).map(annotation => annotation.id) : [],
+      visibleCardIds: shown.map(annotation => annotation.id)
+    };
+  }
+
+  function setReviewOnly(value) {
+    reviewOnly = !!value;
+    reviewCursor = '';
+    catalogQuery = '';
+    catalogFilter = 'all';
+    catalogOpen = true;
+    noticeText = '';
+    cacheUIState();
+    renderPanel();
+  }
+
+  function openNextReview() {
+    if (!reviewOnly) setReviewOnly(true);
+    const queue = matchingCatalogAnnotations();
+    if (!queue.length) return;
+    const index = queue.findIndex(annotation => annotation.id === reviewCursor);
+    const next = queue[(index + 1) % queue.length];
+    targets.get(next.id)?.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'auto' });
+    openCard(next.id);
+  }
+
+  function matchingCatalogAnnotations() {
+    const query = catalogQuery.trim().toLowerCase();
+    const numeric = /^(?:a-?)?0*(\d+)$/i.exec(query);
+    const requestedNumber = numeric ? Number(numeric[1]) : null;
+    const current = reviewOnly ? pendingAnnotations() : currentPage.annotations.filter(annotation => targets.has(annotation.id));
+    return current.filter(annotation => {
+      const flags = annotationFlags(annotation, !reviewOnly);
+      const stateMatches = catalogFilter === 'all' || !!flags[catalogFilter];
+      const label = (annotation.currentLabel || annotation.label).toLowerCase();
+      const textMatches = !query || (requestedNumber > 0 ? annotation.number === requestedNumber : label.includes(query) || (annotation.displayId || '').toLowerCase().includes(query));
+      return stateMatches && textMatches;
+    });
+  }
+
+  function annotationFlags(annotation, useDraft = true) {
     const draft = drafts.get(annotation.id);
-    const states = Object.values(draft?.fieldStates || annotation.fieldStates || {});
-    const levels = Object.values(draft?.evidenceMeta || annotation.evidenceMeta || {}).map(meta => meta.level);
+    const states = Object.values((useDraft && draft?.fieldStates) || annotation.fieldStates || {});
+    const levels = Object.values((useDraft && draft?.evidenceMeta) || annotation.evidenceMeta || {}).map(meta => meta.level);
     return {
       ...Object.fromEntries(Object.keys(LEVEL_NAMES).map(level => [level, levels.includes(level)])),
       unknown: states.includes('unknown'),
-      review: annotation.status === 'needs-review' || states.some(value => ['conflict', 'review'].includes(value)) || Object.keys(annotation.suggestions || {}).length > 0,
+      review: annotation.status === 'needs-review' || states.some(value => ['conflict', 'review'].includes(value)) || Object.keys(annotation.suggestions || {}).length > 0 || Object.keys(annotation.fieldReviews || {}).length > 0,
       manual: !!(annotation.manualFields?.length || draft?.touched?.length || states.includes('user')),
       dirty: !!draft?.dirty
     };
@@ -1219,8 +1327,13 @@
     if (!node) return;
     const q = qualitySnapshot();
     const openedCount = [...opened].filter(id => targets.has(id)).length;
-    const line = `当前呈现范围 ${q.total} 项 · 已开 ${openedCount} · 未保存 ${q.dirty}\n待确认 ${q.unknown} · 待复核 ${q.review} · 人工修改 ${q.manual}${q.hidden ? ' · 气泡暂藏 ' + q.hidden : ''}`;
+    const line = `当前呈现范围 ${q.total} 项 · 已开 ${openedCount}${reviewOnly ? ' · 当前展示 ' + shownAnnotations().length : ''} · 未保存 ${q.dirty}\n待确认 ${q.unknown} · 待复核 ${q.review} · 人工修改 ${q.manual}${q.hidden ? ' · 气泡暂藏 ' + q.hidden : ''}`;
     if (node.textContent !== line) node.textContent = line;
+    const queueCount = shadow.querySelector('[data-shh-review-count]');
+    if (queueCount) queueCount.textContent = '当前范围待处理 ' + pendingAnnotations().length + ' 项';
+    const next = shadow.querySelector('[data-shh-review-next]');
+    if (next) next.disabled = (reviewOnly ? matchingCatalogAnnotations() : pendingAnnotations()).length === 0;
+    if (refreshCatalog) refreshCatalog();
     const summary = shadow.querySelector('[data-shh-evidence-summary]');
     if (summary) {
       const levels = evidenceSummary();
@@ -1240,8 +1353,12 @@
 
   function renderCatalog() {
     const box = el('section', 'catalog-box');
-    box.setAttribute('aria-label', '当前呈现范围标注目录');
+    box.setAttribute('aria-label', reviewOnly ? '当前呈现范围待复核队列' : '当前呈现范围标注目录');
     box.setAttribute('data-shh-catalog', '');
+    if (reviewOnly) {
+      box.setAttribute('data-shh-review-queue', '');
+      box.append(el('h3', 'queue-title', '待复核队列'), el('p', 'scope-note', '按已保存状态统计，保存后更新。先处理冲突，再处理复核与待确认。'));
+    }
     const tools = el('div', 'catalog-tools');
     const search = el('input', 'catalog-search');
     search.type = 'search';
@@ -1263,19 +1380,10 @@
     const count = el('p', 'catalog-count');
     const update = () => {
       list.replaceChildren();
-      const query = catalogQuery.trim().toLowerCase();
-      const numeric = /^(?:a-?)?0*(\d+)$/i.exec(query);
-      const requestedNumber = numeric ? Number(numeric[1]) : null;
       const current = currentPage.annotations.filter(annotation => targets.has(annotation.id));
-      const matching = current.filter(annotation => {
-        const flags = annotationFlags(annotation);
-        const stateMatches = catalogFilter === 'all' || !!flags[catalogFilter];
-        const label = (annotation.currentLabel || annotation.label).toLowerCase();
-        const textMatches = !query || (requestedNumber > 0 ? annotation.number === requestedNumber : label.includes(query) || (annotation.displayId || '').toLowerCase().includes(query));
-        return stateMatches && textMatches;
-      });
+      const matching = matchingCatalogAnnotations();
       for (const annotation of matching) {
-        const flags = annotationFlags(annotation);
+        const flags = annotationFlags(annotation, !reviewOnly);
         const item = button('', () => {
           targets.get(annotation.id)?.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'auto' });
           openCard(annotation.id);
@@ -1285,14 +1393,23 @@
         content.append(el('span', 'label', annotation.currentLabel || annotation.label));
         const status = [flags.unknown && '待确认', flags.review && '待复核', flags.manual && '人工修改', flags.dirty && '未保存', placementHiddenIds.includes(annotation.id) && '气泡暂藏'].filter(Boolean).join(' · ');
         if (status) content.append(el('span', 'catalog-meta', status));
+        if (reviewOnly) {
+          const reason = el('span', 'queue-reasons', reviewDetails(annotation).reasons.join('；'));
+          reason.setAttribute('data-shh-review-reasons', annotation.id);
+          reason.title = reason.textContent;
+          content.append(reason);
+        }
         item.append(el('span', 'num', annotation.displayId || annotation.number), content, el('span', 'muted', '定位'));
         list.append(item);
       }
-      if (!matching.length) list.append(el('p', 'catalog-empty', '当前呈现范围没有匹配项。可清空名称或切换状态筛选。'));
-      count.textContent = `显示 ${matching.length} / ${current.length} 项；未访问页面、未展开状态不计入。`;
+      if (!matching.length) list.append(el('p', 'catalog-empty', reviewOnly && !pendingAnnotations().length ? '当前呈现范围没有待确认或冲突项。' : '当前筛选没有匹配项。可清空名称或切换状态筛选。'));
+      count.textContent = reviewOnly ? `显示 ${matching.length} / ${pendingAnnotations().length} 项待复核；仅当前呈现范围，未访问或未展开状态不计入。` : `显示 ${matching.length} / ${current.length} 项；未访问页面、未展开状态不计入。`;
+      const next = shadow.querySelector('[data-shh-review-next]');
+      if (next && reviewOnly) next.disabled = matching.length === 0;
     };
-    search.addEventListener('input', () => { catalogQuery = search.value; update(); });
-    filter.addEventListener('change', () => { catalogFilter = filter.value; update(); });
+    search.addEventListener('input', () => { catalogQuery = search.value; update(); cacheUIState(); });
+    filter.addEventListener('change', () => { catalogFilter = filter.value; update(); cacheUIState(); });
+    refreshCatalog = update;
     box.append(tools, list, count);
     update();
     return box;
@@ -1304,6 +1421,7 @@
     const focused = shadow.activeElement;
     const focusId = focused && focused.id;
     const selection = focused && focused.tagName === 'TEXTAREA' ? [focused.selectionStart, focused.selectionEnd] : null;
+    refreshCatalog = null;
     panel.replaceChildren();
     applyDrawerVisibility();
     const head = el('header', 'head');
@@ -1324,11 +1442,27 @@
     row.append(stats);
     head.append(row);
     head.append(el('p', 'scope-note', '仅此页当前呈现状态；未访问或未展开范围不代表已完成。'));
+    const reviewTools = el('div', 'review-tools');
+    const reviewLabel = el('label', 'review-toggle');
+    const reviewInput = el('input');
+    reviewInput.type = 'checkbox';
+    reviewInput.id = 'shh-review-only';
+    reviewInput.setAttribute('data-shh-review-only', '');
+    reviewInput.checked = reviewOnly;
+    reviewInput.addEventListener('change', () => setReviewOnly(reviewInput.checked));
+    reviewLabel.append(reviewInput, el('span', '', '只看待确认／冲突项'));
+    const queueCount = el('span', 'queue-count');
+    queueCount.setAttribute('data-shh-review-count', '');
+    const nextReview = button('下一项待复核', openNextReview);
+    nextReview.setAttribute('data-shh-review-next', '');
+    reviewTools.append(reviewLabel, queueCount, nextReview);
+    head.append(reviewTools);
     const actions = el('div', 'row');
     actions.style.marginTop = '10px';
     actions.append(button('重新识别', () => { scan(); setNotice('已重新识别当前可见控件。'); }), button('导出', () => { transferMode = 'export'; transferValue = JSON.stringify(exportData(), null, 2); renderPanel(); }), button('导入', () => { transferMode = 'import'; transferValue = ''; renderPanel(); }));
-    const catalogToggle = button(catalogOpen ? '收起目录' : '查找标注', () => {
+    const catalogToggle = button(catalogOpen ? (reviewOnly ? '收起复核队列' : '收起目录') : (reviewOnly ? '打开复核队列' : '查找标注'), () => {
       catalogOpen = !catalogOpen;
+      cacheUIState();
       renderPanel();
       if (catalogOpen) shadow.getElementById('shh-catalog-search')?.focus({ preventScroll: true });
     });
@@ -1352,11 +1486,12 @@
     if (storageWarning) body.append(el('p', 'notice', storageWarning));
     if (transferMode) body.append(renderTransfer());
     if (catalogOpen) body.append(renderCatalog());
-    const openedAnnotations = [...opened].filter(id => targets.has(id)).map(id => currentPage.annotations.find(a => a.id === id)).filter(Boolean);
+    const openedAnnotations = shownAnnotations();
     for (const annotation of openedAnnotations) body.append(renderCard(annotation));
     if (!openedAnnotations.length) {
       const empty = el('div', 'empty');
-      empty.append(el('b', '', '点击页面上的编号气泡'), el('p', '', '每个气泡对应一个可见控件。'), el('p', '', '可同时打开多条说明，在右侧逐项修改与保存。'));
+      if (reviewOnly) empty.append(el('b', '', pendingAnnotations().length ? '选择一项开始复核' : '当前队列为空'), el('p', '', '可从复核队列或“下一项待复核”打开详情。'), el('p', '', '取消筛选可恢复其他已打开详情，原草稿保留。'));
+      else empty.append(el('b', '', '点击页面上的编号气泡'), el('p', '', '每个气泡对应一个可见控件。'), el('p', '', '可同时打开多条说明，在右侧逐项修改与保存。'));
       body.append(empty);
     }
     const status = el('div', 'status', noticeText);
@@ -1373,7 +1508,8 @@
         if (selection) replacement.setSelectionRange(...selection);
       }
     }
-    bubbles.forEach((badge, id) => badge.setAttribute('aria-expanded', String(opened.has(id))));
+    const shownIds = new Set(openedAnnotations.map(annotation => annotation.id));
+    bubbles.forEach((badge, id) => badge.setAttribute('aria-expanded', String(shownIds.has(id))));
     schedulePosition();
   }
 
@@ -1477,7 +1613,7 @@
       currentPage = previousPage;
       drafts = previousDrafts;
       pageCache.set(currentScopeKey, currentPage);
-      if (currentUIKey) uiCache.set(currentUIKey, { opened: new Set(opened), drafts: new Map(drafts) });
+      cacheUIState();
       renderPanel();
       throw new Error('导入未保存：本浏览器写入失败，已恢复导入前的说明、来源分级、修订和建议。请恢复存储后重试。');
     }
@@ -1487,7 +1623,7 @@
 
   function getSnapshot() {
     if (!currentPage) return null;
-    return copy({ ...currentPage, currentControlIds: [...targets.keys()], ui: { openedIds: [...opened].filter(id => targets.has(id)), visible, drawerOpen, narrow, placementHiddenIds: [...placementHiddenIds], dirtyIds: [...drafts].filter(([id, draft]) => draft.dirty && targets.has(id)).map(([id]) => id), quality: qualitySnapshot(), evidenceSummary: evidenceSummary(), catalogOpen, storageAvailable: !storageWarning } });
+    return copy({ ...currentPage, currentControlIds: [...targets.keys()], ui: { openedIds: [...opened].filter(id => targets.has(id)), visible, drawerOpen, narrow, placementHiddenIds: [...placementHiddenIds], dirtyIds: [...drafts].filter(([id, draft]) => draft.dirty && targets.has(id)).map(([id]) => id), quality: qualitySnapshot(), evidenceSummary: evidenceSummary(), reviewQueue: reviewQueueSnapshot(), catalogOpen, storageAvailable: !storageWarning } });
   }
 
   function toggle(value) {
