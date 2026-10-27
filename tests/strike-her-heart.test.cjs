@@ -27,6 +27,10 @@ function annotationFor(state, id) {
 }
 function bubble(page, annotation) { return page.locator(`[data-shh-bubble="${annotation.id}"]`); }
 function card(page, annotation) { return page.locator(`[data-shh-card="${annotation.id}"]`); }
+async function openEvidence(page, annotation, field) {
+  const evidence = card(page, annotation).locator(`[data-shh-evidence="${field}"]`);
+  if (!(await evidence.isVisible())) await card(page, annotation).locator(`[data-shh-evidence-details="${field}"] > summary`).click();
+}
 async function readyAnnotation(page, id) {
   await page.waitForFunction(id => window.StrikeHerHeart.getSnapshot().annotations.some(item => [id, `#${id}`, `id:${id}`].includes(item.anchor?.key)), id);
   const found = annotationFor(await snapshot(page), id);
@@ -116,6 +120,7 @@ test('edited text, evidence and stable identifiers persist after refresh, and JS
     const search = await readyAnnotation(page, 'search-name');
     await bubble(page, search).click();
     await card(page, search).locator('textarea[data-shh-field="function"]').fill('测试修订：以客户名称过滤当前列表。');
+    await openEvidence(page, search, 'function');
     await card(page, search).locator('textarea[data-shh-evidence="function"]').fill('测试证据：demo.html #filter-form 提交事件。');
     await page.locator(`[data-shh-save="${search.id}"]`).click();
     const edited = annotationFor(await snapshot(page), 'search-name');

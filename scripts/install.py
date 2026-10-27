@@ -56,7 +56,8 @@ def main():
         if not re.fullmatch(r"name\s*=\s*(['\"])Strike Her Heart\1\s*(?:#.*)?", first_setting):
             parser.error("Existing agent must begin with name = 'Strike Her Heart'; refusing to replace an unidentified agent")
     required = ("SKILL.md", "agents/openai.yaml", "assets/overlay.js", "assets/demo.html",
-                "assets/demo-annotations.js", "references/runtime.md", "references/annotation-evidence.md")
+                "assets/demo-annotations.js", "references/runtime.md", "references/annotation-evidence.md",
+                "references/task-workflow.md", "scripts/task.py")
     if not agent_source.is_file():
         parser.error(f"Missing agent definition: {agent_source}")
     for relative in required:

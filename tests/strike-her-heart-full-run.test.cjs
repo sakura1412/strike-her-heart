@@ -48,6 +48,10 @@ async function state(page) { return page.evaluate(() => window.StrikeHerHeart.ge
 async function settle(page) { await page.waitForTimeout(650); }
 const bubble = (page, annotation) => page.locator(`[data-shh-bubble="${annotation.id}"]`);
 const card = (page, annotation) => page.locator(`[data-shh-card="${annotation.id}"]`);
+async function openEvidence(page, annotation, field) {
+  const evidence = card(page, annotation).locator(`[data-shh-evidence="${field}"]`);
+  if (!(await evidence.isVisible())) await card(page, annotation).locator(`[data-shh-evidence-details="${field}"] > summary`).click();
+}
 async function screenshot(page, name, fullPage = false) {
   const file = path.join(output, `${name}.png`);
   await page.screenshot({ path: file, fullPage }); report.screenshots.push(file); return file;
@@ -211,6 +215,7 @@ async function editAndRefresh(page,origin,scene,entry) {
     const marker=`本次隔离验收 ${scene.key} ${report.startedAt}`;
     for(const name of fields) {
       await card(page,annotation).locator(`[data-shh-field="${name}"]`).fill(marker+' '+name);
+      await openEvidence(page,annotation,name);
       await card(page,annotation).locator(`[data-shh-evidence="${name}"]`).fill('测试 UI 证据 '+scene.key+' '+name);
     }
     await page.locator(`[data-shh-save="${annotation.id}"]`).click();
@@ -225,6 +230,7 @@ async function editAndRefresh(page,origin,scene,entry) {
     for(const name of fields) {
       assert.equal(await card(page,annotation).locator(`[data-shh-field="${name}"]`).inputValue(),marker+' '+name);
       await card(page,annotation).locator(`[data-shh-field="${name}"]`).fill(original.fields[name]);
+      await openEvidence(page,annotation,name);
       await card(page,annotation).locator(`[data-shh-evidence="${name}"]`).fill(original.evidence[name]);
     }
     await page.locator(`[data-shh-save="${annotation.id}"]`).click();
@@ -305,6 +311,7 @@ async function interactionChecks(browser,origin) {
       await bubble(page,a).click();
       const original=a.fields.function,originalEvidence=a.evidence.function;
       await card(page,a).locator('[data-shh-field="function"]').fill('人工保护测试文字');
+      await openEvidence(page,a,'function');
       await card(page,a).locator('[data-shh-evidence="function"]').fill('人工保护测试证据');
       await page.locator(`[data-shh-save="${a.id}"]`).click();
       await page.getByRole('button',{name:'重新识别',exact:true}).click();
@@ -323,6 +330,7 @@ async function interactionChecks(browser,origin) {
       assert.match(await card(page,a).innerText(),/冲突 AI 建议/);
       await card(page,a).getByRole('button',{name:'保留人工版本',exact:true}).click();
       await card(page,a).locator('[data-shh-field="function"]').fill(original);
+      await openEvidence(page,a,'function');
       await card(page,a).locator('[data-shh-evidence="function"]').fill(originalEvidence);
       await page.locator(`[data-shh-save="${a.id}"]`).click();
       return {rescanPreserved:true,importPreserved:true,suggestionDisplayed:true,originalTextRestored:true};

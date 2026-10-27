@@ -33,6 +33,7 @@
     .card{background:white;border:1px solid #e5d9ef;border-radius:12px;margin-bottom:12px;padding:12px;box-shadow:0 2px 6px #40206005}.card:focus{outline:2px solid #caa5f2;outline-offset:2px}.cardhead{display:flex;gap:8px;align-items:flex-start}.cardtitle{min-width:0;flex:1}.cardtitle strong{display:block;overflow-wrap:anywhere;font-size:14px}.tag{font-size:10px;color:#8e719e}.review-note{margin:9px 0;padding:7px 9px;border-radius:7px;background:#fff5dd;color:#895807;font-size:11px}.field{margin-top:12px}.fieldbar{display:flex;gap:7px;justify-content:space-between;align-items:center;margin-bottom:4px}.fieldbar label{font-weight:650;font-size:12px}.state{font-size:10px;border:0;color:#796089;background:#f5effa;border-radius:5px;padding:2px 4px;max-width:125px}.field textarea{width:100%;min-height:60px;resize:vertical;border:1px solid #dfd4e9;border-radius:7px;padding:7px 8px;color:#382644;background:#fff;font-size:12px;line-height:1.5}.field .evidence{min-height:33px;background:#faf8fc;color:#7b6689;font-size:10px;margin-top:4px}.field .evidence-label{font-size:10px;color:#8c7898;margin-top:4px}.cardfoot{margin-top:11px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}.save-status{color:#8b7697;font-size:10px;flex:1}.history{font-size:11px;color:#8b729d;margin-top:9px}.history summary{cursor:pointer}.history ol{padding-left:20px}.history li{margin-top:6px;overflow-wrap:anywhere;white-space:pre-wrap}.footer{padding:9px 14px;border-top:1px solid #e8e1ef;background:white;color:#9a86a7;font-size:10px}.status{padding:7px 12px;color:#603b7f;background:#f1e7ff;font-size:11px;white-space:pre-line}.status:empty{display:none}.chip{position:fixed;right:18px;bottom:18px;pointer-events:auto;border:1px solid #e0c7f8;background:#6d38d4;color:white;padding:10px 15px;border-radius:30px;box-shadow:0 4px 15px #3f1f6340;font-weight:650;z-index:3}.jsonbox{width:100%;min-height:190px;border:1px solid #d8c6e7;border-radius:8px;padding:10px;font:11px/1.5 ui-monospace,monospace}.transfer{margin-bottom:12px;border:1px solid #d9c7ed;padding:12px;border-radius:12px;background:#f9f3ff}.transfer h3{margin:0 0 8px;font-size:13px}.transfer p{color:#806b90;font-size:11px;margin:5px 0 9px}.transfer .row{margin-top:7px}[hidden]{display:none!important}
     @media(max-width:650px){.panel{width:min(340px,calc(100vw - 24px));right:12px;top:12px;bottom:12px}.bubble{font-size:10px;min-width:23px;height:23px;line-height:19px}}
     @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+    .evidence-details{margin-top:5px;font-size:10px;color:#806b90}.evidence-details>summary{cursor:pointer;padding:3px 0}.evidence-details .evidence-label{display:block}.save-status.error{color:#a34229;font-weight:650}.catalog-box{margin:0 0 12px;border:1px solid #e4d8ef;border-radius:10px;background:#fff;padding:10px}.catalog-tools{display:flex;gap:6px;margin-bottom:7px}.catalog-search{min-width:0;flex:1;width:100%;border:1px solid #dacce8;border-radius:7px;padding:6px 8px;font-size:12px;color:#382644}.catalog-filter{max-width:118px;border:1px solid #dacce8;border-radius:7px;padding:5px;font-size:11px;color:#654778;background:white}.catalog-box .catalog{margin:0;max-height:210px;overflow:auto}.catalog-box .num{min-width:45px}.catalog-meta{font-size:10px;color:#8b6c9d;display:block;overflow-wrap:anywhere}.catalog-text{flex:1;min-width:0}.catalog-text>.label{display:block}.scope-note{font-size:10px;color:#8a7699;margin:4px 0 0}.catalog-count{font-size:10px;color:#8a7699;margin:6px 0 0}.catalog-empty{padding:14px 5px;color:#8a7699;font-size:11px}
   `;
   shadow.append(style);
   const bubblesLayer = document.createElement('div');
@@ -87,6 +88,10 @@
   let transferMode = '';
   let transferValue = '';
   let noticeText = '';
+  let catalogOpen = true;
+  let catalogQuery = '';
+  let catalogFilter = 'all';
+  const expandedEvidence = new Set();
   let nextNumber = 1;
   const targets = new Map();
   const bubbles = new Map();
@@ -153,7 +158,11 @@
     try {
       localStorage.setItem(STORE_PREFIX + hash(currentScopeKey), JSON.stringify(currentPage));
       storageWarning = '';
-    } catch (_) { storageWarning = '当前浏览器无法保存本地标注。请导出 JSON 保留修改。'; }
+      return true;
+    } catch (_) {
+      storageWarning = '当前浏览器写入失败。未保存编辑仍保留在本次会话，请恢复存储后重试；普通导出不包含未保存草稿。';
+      return false;
+    }
   }
 
   function switchScope(scope) {
@@ -178,6 +187,9 @@
     transferMode = '';
     transferValue = '';
     noticeText = '';
+    catalogOpen = true;
+    catalogQuery = '';
+    catalogFilter = 'all';
     nextNumber = Math.max(0, ...currentPage.annotations.map(a => Number(a.number) || 0)) + 1;
     targets.clear();
     bubbles.forEach(node => node.remove());
@@ -722,6 +734,7 @@
       line.setAttribute('y2', String(Math.max(rect.top, Math.min(rect.bottom, centerY))));
       leaders.append(line);
     }
+    renderQuality();
   }
 
   function schedulePosition() {
@@ -759,6 +772,7 @@
 
   function openCard(id) {
     opened.add(id);
+    catalogOpen = false;
     drawerOpen = true;
     renderPanel();
     const card = shadow.getElementById('shh-card-' + id);
@@ -770,6 +784,7 @@
 
   function closeCard(id) {
     opened.delete(id);
+    if (![...opened].some(openId => targets.has(openId))) catalogOpen = true;
     if (narrow && ![...opened].some(openId => targets.has(openId))) drawerOpen = false;
     renderPanel();
     positionBubbles();
@@ -779,7 +794,7 @@
   }
 
   function draftFor(annotation) {
-    if (!drafts.has(annotation.id)) drafts.set(annotation.id, { fields: copy(annotation.fields), evidence: copy(annotation.evidence), fieldStates: copy(annotation.fieldStates), touched: [], dirty: false });
+    if (!drafts.has(annotation.id)) drafts.set(annotation.id, { fields: copy(annotation.fields), evidence: copy(annotation.evidence), fieldStates: copy(annotation.fieldStates), touched: [], stateTouched: [], dirty: false, saveError: '' });
     return drafts.get(annotation.id);
   }
 
@@ -793,14 +808,23 @@
     state.setAttribute('data-shh-state', name);
     Object.entries(STATE_NAMES).forEach(([value, title]) => { const option = el('option', '', title); option.value = value; state.append(option); });
     state.value = draft.fieldStates[name] || 'unknown';
-    state.addEventListener('change', () => { draft.fieldStates[name] = state.value; dirty(); });
+    state.addEventListener('change', () => {
+      draft.fieldStates[name] = state.value;
+      draft.stateTouched = [...new Set([...(draft.stateTouched || []), name])];
+      dirty();
+    });
     bar.append(label, state);
     const input = el('textarea');
     input.id = label.htmlFor;
     input.setAttribute('data-shh-field', name);
     input.value = draft.fields[name] || '';
     input.setAttribute('aria-label', FIELD_NAMES[name]);
-    input.addEventListener('input', () => { draft.fields[name] = input.value; draft.fieldStates[name] = 'user'; state.value = 'user'; dirty(); });
+    input.addEventListener('input', () => {
+      draft.fields[name] = input.value;
+      if (!['conflict', 'review'].includes(draft.fieldStates[name])) draft.fieldStates[name] = 'user';
+      state.value = draft.fieldStates[name];
+      dirty();
+    });
     const evidenceLabel = el('label', 'evidence-label', '来源 / 证据（请写明 PRD 段落、原型页或验证过程）');
     evidenceLabel.htmlFor = annotation.id + '-evidence-' + name;
     const evidence = el('textarea', 'evidence');
@@ -810,7 +834,16 @@
     evidence.rows = 1;
     evidence.value = draft.evidence[name] || '';
     evidence.addEventListener('input', () => { draft.evidence[name] = evidence.value; dirty(); });
-    field.append(bar, input, evidenceLabel, evidence);
+    const evidenceDetails = el('details', 'evidence-details');
+    evidenceDetails.setAttribute('data-shh-evidence-details', name);
+    const evidenceKey = currentUIKey + ':' + annotation.id + ':' + name;
+    evidenceDetails.open = expandedEvidence.has(evidenceKey);
+    evidenceDetails.addEventListener('toggle', () => {
+      if (evidenceDetails.open) expandedEvidence.add(evidenceKey); else expandedEvidence.delete(evidenceKey);
+    });
+    evidenceDetails.append(el('summary', '', '来源依据与状态说明'), evidenceLabel, evidence);
+    if (['conflict', 'review'].includes(draft.fieldStates[name])) evidenceDetails.append(el('p', 'muted', '编辑文字不会自动解除冲突或待复核。核对后，请在字段状态中明确选择。'));
+    field.append(bar, input, evidenceDetails);
     if (annotation.fieldReviews && annotation.fieldReviews[name]) field.append(el('p', 'review-note', '当前页面观察：' + annotation.fieldReviews[name]));
     if (annotation.suggestions && annotation.suggestions[name]) {
       const suggestion = annotation.suggestions[name];
@@ -831,9 +864,11 @@
     }
     function dirty() {
       draft.dirty = true;
+      draft.saveError = '';
       draft.touched = [...new Set([...(draft.touched || []), name])];
       const card = shadow.querySelector('[data-shh-card="' + annotation.id + '"]');
       if (card) card.querySelector('.save-status').textContent = '有未保存修改';
+      renderQuality();
       uiCache.set(currentUIKey, { opened: new Set(opened), drafts: new Map(drafts) });
     }
     return field;
@@ -848,21 +883,43 @@
     const draft = drafts.get(id);
     if (!annotation || !draft) return;
     if (draft.dirty || confirmTarget) {
+      const previous = copy(annotation);
+      const previousPageTime = currentPage.updatedAt;
       annotation.revisions.push(revisionOf(annotation, confirmTarget ? '确认当前控件并保存' : '人工保存前版本'));
       annotation.fields = copy(draft.fields);
       annotation.evidence = copy(draft.evidence);
       annotation.fieldStates = copy(draft.fieldStates);
       annotation.manualFields = [...new Set([...(annotation.manualFields || []), ...(draft.touched || [])])];
-      if (confirmTarget || annotation.status !== 'needs-review') annotation.status = 'enriched';
+      for (const name of draft.stateTouched || []) {
+        if (!['conflict', 'review'].includes(draft.fieldStates[name]) && annotation.fieldReviews) delete annotation.fieldReviews[name];
+      }
       if (confirmTarget) {
         annotation.anchor.fingerprint = annotation.currentFingerprint || annotation.anchor.fingerprint;
         annotation.label = annotation.currentLabel || annotation.label;
         delete annotation.reviewReason;
       }
+      const unresolved = Object.values(annotation.fieldStates).some(value => ['conflict', 'review'].includes(value)) || Object.keys(annotation.suggestions || {}).length > 0;
+      const changedTarget = annotation.currentFingerprint && annotation.anchor.fingerprint !== annotation.currentFingerprint;
+      const observedReviews = Object.keys(annotation.fieldReviews || {}).length > 0;
+      if (unresolved) {
+        annotation.status = 'needs-review';
+        annotation.reviewReason = annotation.reviewReason || '仍有字段冲突、待复核或待处理建议。核对后，请显式选择字段状态或处理建议。';
+      } else if (confirmTarget || annotation.status !== 'needs-review' || (draft.stateTouched?.length && !changedTarget && !observedReviews)) {
+        annotation.status = 'enriched';
+        delete annotation.reviewReason;
+      }
       annotation.updatedAt = new Date().toISOString();
-      draft.dirty = false;
       currentPage.updatedAt = annotation.updatedAt;
-      savePage();
+      if (savePage()) {
+        draft.dirty = false;
+        draft.saveError = '';
+        draft.stateTouched = [];
+      } else {
+        currentPage.annotations[currentPage.annotations.findIndex(item => item.id === id)] = previous;
+        currentPage.updatedAt = previousPageTime;
+        draft.dirty = true;
+        draft.saveError = '尚未写入本浏览器；草稿仍在，请重试保存。';
+      }
     }
     renderPanel();
   }
@@ -886,8 +943,11 @@
     if (annotation.status === 'needs-review') card.append(el('p', 'review-note', annotation.reviewReason || '控件已变化，请核对标注与当前对象是否仍对应。'));
     for (const name of Object.keys(FIELD_NAMES)) card.append(makeField(annotation, draft, name));
     const foot = el('div', 'cardfoot');
-    foot.append(el('span', 'save-status', draft.dirty ? '有未保存修改' : `已保存 · ${annotation.revisions.length} 次修订`));
-    const save = button('保存修改', () => saveAnnotation(annotation.id), 'btn primary');
+    const saveStatus = el('span', 'save-status' + (draft.saveError ? ' error' : ''), draft.saveError || (draft.dirty ? '有未保存修改' : storageWarning ? '会话记录 · 本地保存尚未确认' : `已保存 · ${annotation.revisions.length} 次修订`));
+    saveStatus.setAttribute('role', 'status');
+    saveStatus.setAttribute('aria-live', 'polite');
+    foot.append(saveStatus);
+    const save = button(draft.saveError ? '重试保存' : '保存修改', () => saveAnnotation(annotation.id), 'btn primary');
     save.setAttribute('data-shh-save', annotation.id);
     foot.append(save);
     if (annotation.status === 'needs-review') foot.append(button('确认当前控件', () => saveAnnotation(annotation.id, true)));
@@ -909,7 +969,7 @@
 
   function renderTransfer() {
     const box = el('section', 'transfer');
-    box.append(el('h3', '', transferMode === 'export' ? '导出可编辑标注 JSON' : '导入有来源的补充说明'), el('p', '', transferMode === 'export' ? '包含已访问范围、说明、证据与修订历史。未保存草稿不包含在内；导出前请先保存。' : '仅合并当前 origin / path / route / scopeKey 的同一控件。导入前请保存当前草稿；其他范围不会覆盖当前页面。'));
+    box.append(el('h3', '', transferMode === 'export' ? '导出可编辑标注 JSON' : '导入有来源的补充说明'), el('p', '', transferMode === 'export' ? '包含本次运行中已缓存的页面记录、说明、证据与修订历史。整页跳转前的其他页面不一定包含在内；未保存草稿不包含在内，请先保存。' : '仅合并当前 origin / path / route / scopeKey 的同一控件。导入前请保存当前草稿；其他范围不会覆盖当前页面。'));
     const area = el('textarea', 'jsonbox');
     area.setAttribute('data-shh-transfer', transferMode);
     area.setAttribute('aria-label', transferMode === 'export' ? '导出标注 JSON' : '待导入的标注 JSON');
@@ -946,6 +1006,97 @@
     if (status) status.textContent = value;
   }
 
+  function annotationFlags(annotation) {
+    const draft = drafts.get(annotation.id);
+    const states = Object.values(draft?.fieldStates || annotation.fieldStates || {});
+    return {
+      unknown: states.includes('unknown'),
+      review: annotation.status === 'needs-review' || states.some(value => ['conflict', 'review'].includes(value)) || Object.keys(annotation.suggestions || {}).length > 0,
+      manual: !!(annotation.manualFields?.length || draft?.touched?.length || states.includes('user')),
+      dirty: !!draft?.dirty
+    };
+  }
+
+  function qualitySnapshot() {
+    const counts = { total: 0, unknown: 0, review: 0, manual: 0, dirty: 0, hidden: placementHiddenIds.filter(id => targets.has(id)).length };
+    for (const annotation of currentPage?.annotations || []) {
+      if (!targets.has(annotation.id)) continue;
+      counts.total++;
+      const flags = annotationFlags(annotation);
+      for (const key of ['unknown', 'review', 'manual', 'dirty']) if (flags[key]) counts[key]++;
+    }
+    return counts;
+  }
+
+  function renderQuality() {
+    const node = shadow.querySelector('[data-shh-quality]');
+    if (!node) return;
+    const q = qualitySnapshot();
+    const openedCount = [...opened].filter(id => targets.has(id)).length;
+    const line = `当前呈现范围 ${q.total} 项 · 已开 ${openedCount} · 未保存 ${q.dirty}\n待确认 ${q.unknown} · 待复核 ${q.review} · 人工修改 ${q.manual}${q.hidden ? ' · 气泡暂藏 ' + q.hidden : ''}`;
+    if (node.textContent !== line) node.textContent = line;
+  }
+
+  function renderCatalog() {
+    const box = el('section', 'catalog-box');
+    box.setAttribute('aria-label', '当前呈现范围标注目录');
+    box.setAttribute('data-shh-catalog', '');
+    const tools = el('div', 'catalog-tools');
+    const search = el('input', 'catalog-search');
+    search.type = 'search';
+    search.id = 'shh-catalog-search';
+    search.setAttribute('data-shh-search', '');
+    search.setAttribute('aria-label', '按编号或名称查找标注');
+    search.placeholder = '编号或名称，如 A-009 / 9';
+    search.value = catalogQuery;
+    const filter = el('select', 'catalog-filter');
+    filter.id = 'shh-catalog-filter';
+    filter.setAttribute('data-shh-filter', '');
+    filter.setAttribute('aria-label', '按标注状态筛选');
+    for (const [value, title] of [['all', '全部状态'], ['unknown', '待确认'], ['review', '冲突 / 待复核'], ['manual', '人工修改']]) {
+      const option = el('option', '', title); option.value = value; filter.append(option);
+    }
+    filter.value = catalogFilter;
+    tools.append(search, filter);
+    const list = el('div', 'catalog');
+    const count = el('p', 'catalog-count');
+    const update = () => {
+      list.replaceChildren();
+      const query = catalogQuery.trim().toLowerCase();
+      const numeric = /^(?:a-?)?0*(\d+)$/i.exec(query);
+      const requestedNumber = numeric ? Number(numeric[1]) : null;
+      const current = currentPage.annotations.filter(annotation => targets.has(annotation.id));
+      const matching = current.filter(annotation => {
+        const flags = annotationFlags(annotation);
+        const stateMatches = catalogFilter === 'all' || !!flags[catalogFilter];
+        const label = (annotation.currentLabel || annotation.label).toLowerCase();
+        const textMatches = !query || (requestedNumber > 0 ? annotation.number === requestedNumber : label.includes(query) || (annotation.displayId || '').toLowerCase().includes(query));
+        return stateMatches && textMatches;
+      });
+      for (const annotation of matching) {
+        const flags = annotationFlags(annotation);
+        const item = button('', () => {
+          targets.get(annotation.id)?.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'auto' });
+          openCard(annotation.id);
+        });
+        item.setAttribute('data-shh-catalog-item', annotation.id);
+        const content = el('span', 'catalog-text');
+        content.append(el('span', 'label', annotation.currentLabel || annotation.label));
+        const status = [flags.unknown && '待确认', flags.review && '待复核', flags.manual && '人工修改', flags.dirty && '未保存', placementHiddenIds.includes(annotation.id) && '气泡暂藏'].filter(Boolean).join(' · ');
+        if (status) content.append(el('span', 'catalog-meta', status));
+        item.append(el('span', 'num', annotation.displayId || annotation.number), content, el('span', 'muted', '定位'));
+        list.append(item);
+      }
+      if (!matching.length) list.append(el('p', 'catalog-empty', '当前呈现范围没有匹配项。可清空名称或切换状态筛选。'));
+      count.textContent = `显示 ${matching.length} / ${current.length} 项；未访问页面、未展开状态不计入。`;
+    };
+    search.addEventListener('input', () => { catalogQuery = search.value; update(); });
+    filter.addEventListener('change', () => { catalogFilter = filter.value; update(); });
+    box.append(tools, list, count);
+    update();
+    return box;
+  }
+
   function renderPanel() {
     if (!currentPage || destroyed) return;
     const scroll = panel.querySelector('.body')?.scrollTop || 0;
@@ -967,13 +1118,23 @@
     head.append(brand, el('p', 'sub', '在原页面标注 · 编号定位 · 多条详情 · 可编辑'));
     const row = el('div', 'row');
     const stats = el('span', 'stats');
-    stats.append(el('strong', '', targets.size), document.createTextNode(' 个当前页面 / 控件 · ' + [...opened].filter(id => targets.has(id)).length + ' 条已打开'));
+    stats.style.whiteSpace = 'pre-line';
+    stats.setAttribute('data-shh-quality', '');
     row.append(stats);
     head.append(row);
+    head.append(el('p', 'scope-note', '仅此页当前呈现状态；未访问或未展开范围不代表已完成。'));
     const actions = el('div', 'row');
     actions.style.marginTop = '10px';
     actions.append(button('重新识别', () => { scan(); setNotice('已重新识别当前可见控件。'); }), button('导出', () => { transferMode = 'export'; transferValue = JSON.stringify(exportData(), null, 2); renderPanel(); }), button('导入', () => { transferMode = 'import'; transferValue = ''; renderPanel(); }));
-    if (opened.size) actions.append(button('关闭全部详情', () => { opened.clear(); renderPanel(); bubbles.forEach(b => b.setAttribute('aria-expanded', 'false')); savePage(); }));
+    const catalogToggle = button(catalogOpen ? '收起目录' : '查找标注', () => {
+      catalogOpen = !catalogOpen;
+      renderPanel();
+      if (catalogOpen) shadow.getElementById('shh-catalog-search')?.focus({ preventScroll: true });
+    });
+    catalogToggle.setAttribute('data-shh-catalog-toggle', '');
+    catalogToggle.setAttribute('aria-expanded', String(catalogOpen));
+    actions.prepend(catalogToggle);
+    if (opened.size) actions.append(button('关闭全部详情', () => { opened.clear(); catalogOpen = true; renderPanel(); bubbles.forEach(b => b.setAttribute('aria-expanded', 'false')); savePage(); }));
     head.append(actions);
     const body = el('div', 'body');
     const coverage = el('details', 'notice');
@@ -984,18 +1145,12 @@
     body.append(coverage);
     if (storageWarning) body.append(el('p', 'notice', storageWarning));
     if (transferMode) body.append(renderTransfer());
+    if (catalogOpen) body.append(renderCatalog());
     const openedAnnotations = [...opened].filter(id => targets.has(id)).map(id => currentPage.annotations.find(a => a.id === id)).filter(Boolean);
     for (const annotation of openedAnnotations) body.append(renderCard(annotation));
     if (!openedAnnotations.length) {
       const empty = el('div', 'empty');
       empty.append(el('b', '', '点击页面上的编号气泡'), el('p', '', '每个气泡对应一个可见控件。'), el('p', '', '可同时打开多条说明，在右侧逐项修改与保存。'));
-      const catalog = el('div', 'catalog');
-      currentPage.annotations.filter(a => targets.has(a.id)).forEach(annotation => {
-        const item = button('', () => openCard(annotation.id));
-        item.append(el('span', 'num', annotation.number), el('span', 'label', annotation.currentLabel || annotation.label), el('span', 'muted', '打开'));
-        catalog.append(item);
-      });
-      empty.append(catalog);
       body.append(empty);
     }
     const status = el('div', 'status', noticeText);
@@ -1003,6 +1158,7 @@
     status.setAttribute('aria-live', 'polite');
     const footer = el('footer', 'footer', '修改仅保存于本浏览器。请勿在说明中填写密码或敏感输入值。');
     panel.append(head, status, body, footer);
+    renderQuality();
     body.scrollTop = scroll;
     if (focusId) {
       const replacement = shadow.getElementById(focusId);
@@ -1100,7 +1256,7 @@
 
   function getSnapshot() {
     if (!currentPage) return null;
-    return copy({ ...currentPage, currentControlIds: [...targets.keys()], ui: { openedIds: [...opened].filter(id => targets.has(id)), visible, drawerOpen, narrow, placementHiddenIds: [...placementHiddenIds], dirtyIds: [...drafts].filter(([id, draft]) => draft.dirty && targets.has(id)).map(([id]) => id) } });
+    return copy({ ...currentPage, currentControlIds: [...targets.keys()], ui: { openedIds: [...opened].filter(id => targets.has(id)), visible, drawerOpen, narrow, placementHiddenIds: [...placementHiddenIds], dirtyIds: [...drafts].filter(([id, draft]) => draft.dirty && targets.has(id)).map(([id]) => id), quality: qualitySnapshot(), catalogOpen, storageAvailable: !storageWarning } });
   }
 
   function toggle(value) {
