@@ -1,0 +1,307 @@
+{
+  "caseId": "list-navigation",
+  "scope": "当前项目列表与同页说明区域的4个可见控件；禁用导出按钮仍应标注。",
+  "controls": [
+    {
+      "target": "#project-query",
+      "label": "项目名称",
+      "fields": {
+        "content": {
+          "answer": "项目名称搜索输入框。",
+          "requiredFacts": [
+            {
+              "text": "项目名称搜索输入框。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#project-query",
+                  "quote": "id=\"project-query\" type=\"search\" placeholder=\"按项目名称筛选\""
+                }
+              ],
+              "id": "list-navigation-F001"
+            }
+          ]
+        },
+        "function": {
+          "answer": "输入后立即按名称包含关系筛选本地表格，与状态条件组合。",
+          "requiredFacts": [
+            {
+              "text": "输入后立即按名称包含关系筛选本地表格，与状态条件组合。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "筛选",
+                  "quote": "项目名称输入后立即按名称包含关系筛选本地表格。"
+                }
+              ],
+              "id": "list-navigation-F002"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "名称没有必填或长度上限要求。",
+          "requiredFacts": [
+            {
+              "text": "名称没有必填或长度上限要求。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "筛选",
+                  "quote": "名称无必填或长度上限要求。"
+                }
+              ],
+              "id": "list-navigation-F003"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "筛选不发网络请求，不改变路由。",
+          "requiredFacts": [
+            {
+              "text": "筛选不发网络请求，不改变路由。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "筛选",
+                  "quote": "不发送网络请求，也不改变路由。"
+                }
+              ],
+              "id": "list-navigation-F004"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#project-stage",
+      "label": "项目状态",
+      "fields": {
+        "content": {
+          "answer": "项目状态选择器，初始为全部。",
+          "requiredFacts": [
+            {
+              "text": "项目状态选择器，初始为全部。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "筛选",
+                  "quote": "状态可选全部、进行中、已完成，初始为全部；"
+                }
+              ],
+              "id": "list-navigation-F005"
+            }
+          ]
+        },
+        "function": {
+          "answer": "选择状态后，与名称条件组合筛选本地表格。",
+          "requiredFacts": [
+            {
+              "text": "选择状态后，与名称条件组合筛选本地表格。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "筛选",
+                  "quote": "状态选择与名称条件组合筛选，不发送网络请求，也不改变路由。"
+                }
+              ],
+              "id": "list-navigation-F006"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "可选全部、进行中、已完成。",
+          "requiredFacts": [
+            {
+              "text": "可选全部、进行中、已完成。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "筛选",
+                  "quote": "状态可选全部、进行中、已完成，初始为全部；"
+                }
+              ],
+              "id": "list-navigation-F007"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "选择后不改变路由，也不发送网络请求。",
+          "requiredFacts": [
+            {
+              "text": "选择后不改变路由，也不发送网络请求。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "筛选",
+                  "quote": "不发送网络请求，也不改变路由。"
+                }
+              ],
+              "id": "list-navigation-F008"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#project-link",
+      "label": "查看项目说明",
+      "fields": {
+        "content": {
+          "answer": "“查看项目说明”链接。",
+          "requiredFacts": [
+            {
+              "text": "“查看项目说明”链接。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#project-link",
+                  "quote": "id=\"project-link\" href=\"#project-overview\">查看项目说明"
+                }
+              ],
+              "id": "list-navigation-F009"
+            }
+          ]
+        },
+        "function": {
+          "answer": "点击定位到当前页面的项目说明区。",
+          "requiredFacts": [
+            {
+              "text": "点击定位到当前页面的项目说明区。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "项目说明",
+                  "quote": "“查看项目说明”是当前页片段链接，目标为 #project-overview，"
+                }
+              ],
+              "id": "list-navigation-F010"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "不打开新窗口，不进入独立详情路由。",
+          "requiredFacts": [
+            {
+              "text": "不打开新窗口，不进入独立详情路由。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "项目说明",
+                  "quote": "不打开新窗口，不进入独立详情路由。"
+                }
+              ],
+              "id": "list-navigation-F011"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "目标为当前页片段#project-overview。",
+          "requiredFacts": [
+            {
+              "text": "目标为当前页片段#project-overview。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#project-link",
+                  "quote": "href=\"#project-overview\""
+                }
+              ],
+              "id": "list-navigation-F012"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#export-disabled",
+      "label": "导出项目",
+      "fields": {
+        "content": {
+          "answer": "导出项目按钮，当前禁用。",
+          "requiredFacts": [
+            {
+              "text": "导出项目按钮，当前禁用。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#export-disabled",
+                  "quote": "id=\"export-disabled\" disabled>导出项目"
+                }
+              ],
+              "id": "list-navigation-F013"
+            }
+          ]
+        },
+        "function": {
+          "answer": "当前不能触发导出，因为演示尚未接入导出。",
+          "requiredFacts": [
+            {
+              "text": "当前不能触发导出，因为演示尚未接入导出。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "导出",
+                  "quote": "本演示尚未接入导出，按钮固定禁用。"
+                }
+              ],
+              "id": "list-navigation-F014"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "固定禁用不代表账号权限不足；导出格式、数量上限和资费均未说明。",
+          "requiredFacts": [
+            {
+              "text": "固定禁用不代表账号权限不足；导出格式、数量上限和资费均未说明。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "导出",
+                  "quote": "禁用原因不是账号权限，也不说明真实产品的导出格式、数量上限或资费。"
+                }
+              ],
+              "id": "list-navigation-F015"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "当前禁用按钮不能触发页面跳转。",
+          "requiredFacts": [
+            {
+              "text": "当前禁用按钮不能触发页面跳转。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#export-disabled",
+                  "quote": "id=\"export-disabled\" disabled>导出项目"
+                }
+              ],
+              "id": "list-navigation-F016"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "forbiddenClaims": [
+    {
+      "target": "#project-query",
+      "field": "function",
+      "text": "点击查询后才向服务器搜索",
+      "reason": "实际input事件即时筛选本地行，无查询按钮或请求。"
+    },
+    {
+      "target": "#project-link",
+      "field": "navigation",
+      "text": "打开新的项目详情页面",
+      "reason": "链接只是当前页片段。"
+    },
+    {
+      "target": "#export-disabled",
+      "field": "limits",
+      "text": "只有管理员可以导出CSV，最多1000条",
+      "reason": "权限、格式和数量上限均无依据。"
+    }
+  ],
+  "standardStatus": "author-created synthetic reference; not independently human-calibrated"
+}

@@ -1,0 +1,26 @@
+{
+  "fromVersion": "1.0.0",
+  "toVersion": "1.0.1",
+  "priorDatasetSha256": "90de201143f95b9933ccdea95723919218f35deaef9e92ef5178ae66af9a8af9",
+  "newDatasetSha256": "567a094b5fd104b94b5733ce3b2f52b205e410fbe74a7b98270741dae4719e7d",
+  "changeKind": "reference-evidence-only",
+  "facts": [
+    "list-navigation-F002",
+    "native-form-F007",
+    "native-form-F011",
+    "open-dialog-F002",
+    "open-dialog-F005",
+    "open-dialog-F008",
+    "open-dialog-F009",
+    "open-dialog-F012",
+    "source-conflict-F017",
+    "unknown-rules-F002",
+    "unknown-rules-F004",
+    "untrusted-page-F002",
+    "untrusted-page-F011"
+  ],
+  "candidateChanged": false,
+  "pageAndPrdChanged": false,
+  "expectedFactIdsTextAnswersAndTargetsChanged": false,
+  "reason": "Expanded source quotations to cover the already frozen facts; no scoring requirements were changed."
+}

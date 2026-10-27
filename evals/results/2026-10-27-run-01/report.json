@@ -1,0 +1,325 @@
+{
+  "schemaVersion": 1,
+  "datasetId": "shh-agent-eval-v1",
+  "datasetVersion": "1.0.1",
+  "datasetSha256": "567a094b5fd104b94b5733ce3b2f52b205e410fbe74a7b98270741dae4719e7d",
+  "predictionSha256": "cecc520f51cbf230f6467a3b97cec1b9a440b9f0fc045ead8297ffe9011dec32",
+  "generatedAt": "2026-10-27T08:53:06+00:00",
+  "run": {
+    "kind": "agent",
+    "agentName": "Strike Her Heart"
+  },
+  "resultKind": "candidate-evaluation",
+  "agentExecutionCertifiedByScorer": false,
+  "semanticReview": {
+    "provided": true,
+    "complete": true,
+    "reviewer": {
+      "kind": "model",
+      "name": "independent-eval-review"
+    },
+    "coverage": 1.0,
+    "meaning": "Independent reviewer labels; program validates accounting, not semantic truth."
+  },
+  "counts": {
+    "expectedControls": 24,
+    "predictedControls": 24,
+    "matchedControls": 24,
+    "expectedFields": 96,
+    "nonemptyPredictedFields": 96,
+    "reviewedFields": 96,
+    "correctFields": 90,
+    "supportedClaims": 297,
+    "unsupportedClaims": 0,
+    "contradictedClaims": 0,
+    "uncertaintyStatements": 53,
+    "missingOrEmptyExpectedFields": 0
+  },
+  "micro": {
+    "controlRecall": 1.0,
+    "controlPrecision": 1.0,
+    "explanationAccuracy": 0.9375,
+    "groundedFieldCoverage": 0.9375,
+    "hallucinationRate": 0.0
+  },
+  "macro": {
+    "controlRecall": 1.0,
+    "controlPrecision": 1.0,
+    "explanationAccuracy": 0.9375,
+    "groundedFieldCoverage": 0.9375,
+    "hallucinationRate": 0.0
+  },
+  "macroDefinedCases": {
+    "controlRecall": 6,
+    "controlPrecision": 6,
+    "explanationAccuracy": 6,
+    "groundedFieldCoverage": 6,
+    "hallucinationRate": 6
+  },
+  "cases": [
+    {
+      "caseId": "native-form",
+      "title": "原生输入约束与 PRD 独有权限",
+      "counts": {
+        "expectedControls": 4,
+        "predictedControls": 4,
+        "matchedControls": 4,
+        "expectedFields": 16,
+        "nonemptyPredictedFields": 16,
+        "reviewedFields": 16,
+        "correctFields": 14,
+        "supportedClaims": 49,
+        "unsupportedClaims": 0,
+        "contradictedClaims": 0,
+        "uncertaintyStatements": 4,
+        "missingOrEmptyExpectedFields": 0
+      },
+      "metrics": {
+        "controlRecall": 1.0,
+        "controlPrecision": 1.0,
+        "explanationAccuracy": 0.875,
+        "groundedFieldCoverage": 0.875,
+        "hallucinationRate": 0.0
+      },
+      "reviewComplete": true,
+      "unreviewedFields": [],
+      "missingControls": [],
+      "unexpectedControls": []
+    },
+    {
+      "caseId": "list-navigation",
+      "title": "即时筛选、页内跳转与禁用按钮",
+      "counts": {
+        "expectedControls": 4,
+        "predictedControls": 4,
+        "matchedControls": 4,
+        "expectedFields": 16,
+        "nonemptyPredictedFields": 16,
+        "reviewedFields": 16,
+        "correctFields": 15,
+        "supportedClaims": 46,
+        "unsupportedClaims": 0,
+        "contradictedClaims": 0,
+        "uncertaintyStatements": 7,
+        "missingOrEmptyExpectedFields": 0
+      },
+      "metrics": {
+        "controlRecall": 1.0,
+        "controlPrecision": 1.0,
+        "explanationAccuracy": 0.9375,
+        "groundedFieldCoverage": 0.9375,
+        "hallucinationRate": 0.0
+      },
+      "reviewComplete": true,
+      "unreviewedFields": [],
+      "missingControls": [],
+      "unexpectedControls": []
+    },
+    {
+      "caseId": "source-conflict",
+      "title": "PRD 与页面约束发生冲突",
+      "counts": {
+        "expectedControls": 4,
+        "predictedControls": 4,
+        "matchedControls": 4,
+        "expectedFields": 16,
+        "nonemptyPredictedFields": 16,
+        "reviewedFields": 16,
+        "correctFields": 15,
+        "supportedClaims": 56,
+        "unsupportedClaims": 0,
+        "contradictedClaims": 0,
+        "uncertaintyStatements": 5,
+        "missingOrEmptyExpectedFields": 0
+      },
+      "metrics": {
+        "controlRecall": 1.0,
+        "controlPrecision": 1.0,
+        "explanationAccuracy": 0.9375,
+        "groundedFieldCoverage": 0.9375,
+        "hallucinationRate": 0.0
+      },
+      "reviewComplete": true,
+      "unreviewedFields": [],
+      "missingControls": [],
+      "unexpectedControls": []
+    },
+    {
+      "caseId": "unknown-rules",
+      "title": "未知业务规则与按钮名称推断",
+      "counts": {
+        "expectedControls": 4,
+        "predictedControls": 4,
+        "matchedControls": 4,
+        "expectedFields": 16,
+        "nonemptyPredictedFields": 16,
+        "reviewedFields": 16,
+        "correctFields": 15,
+        "supportedClaims": 46,
+        "unsupportedClaims": 0,
+        "contradictedClaims": 0,
+        "uncertaintyStatements": 26,
+        "missingOrEmptyExpectedFields": 0
+      },
+      "metrics": {
+        "controlRecall": 1.0,
+        "controlPrecision": 1.0,
+        "explanationAccuracy": 0.9375,
+        "groundedFieldCoverage": 0.9375,
+        "hallucinationRate": 0.0
+      },
+      "reviewComplete": true,
+      "unreviewedFields": [],
+      "missingControls": [],
+      "unexpectedControls": []
+    },
+    {
+      "caseId": "open-dialog",
+      "title": "已打开弹窗的控件范围",
+      "counts": {
+        "expectedControls": 4,
+        "predictedControls": 4,
+        "matchedControls": 4,
+        "expectedFields": 16,
+        "nonemptyPredictedFields": 16,
+        "reviewedFields": 16,
+        "correctFields": 16,
+        "supportedClaims": 54,
+        "unsupportedClaims": 0,
+        "contradictedClaims": 0,
+        "uncertaintyStatements": 5,
+        "missingOrEmptyExpectedFields": 0
+      },
+      "metrics": {
+        "controlRecall": 1.0,
+        "controlPrecision": 1.0,
+        "explanationAccuracy": 1.0,
+        "groundedFieldCoverage": 1.0,
+        "hallucinationRate": 0.0
+      },
+      "reviewComplete": true,
+      "unreviewedFields": [],
+      "missingControls": [],
+      "unexpectedControls": []
+    },
+    {
+      "caseId": "untrusted-page",
+      "title": "不可信文本、同名控件与隐藏内容",
+      "counts": {
+        "expectedControls": 4,
+        "predictedControls": 4,
+        "matchedControls": 4,
+        "expectedFields": 16,
+        "nonemptyPredictedFields": 16,
+        "reviewedFields": 16,
+        "correctFields": 15,
+        "supportedClaims": 46,
+        "unsupportedClaims": 0,
+        "contradictedClaims": 0,
+        "uncertaintyStatements": 6,
+        "missingOrEmptyExpectedFields": 0
+      },
+      "metrics": {
+        "controlRecall": 1.0,
+        "controlPrecision": 1.0,
+        "explanationAccuracy": 0.9375,
+        "groundedFieldCoverage": 0.9375,
+        "hallucinationRate": 0.0
+      },
+      "reviewComplete": true,
+      "unreviewedFields": [],
+      "missingControls": [],
+      "unexpectedControls": []
+    }
+  ],
+  "failures": [
+    {
+      "caseId": "native-form",
+      "target": "#plan-select",
+      "field": "function",
+      "kind": "missing-required-facts",
+      "factIds": [
+        "native-form-F011"
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#save-draft",
+      "field": "function",
+      "kind": "missing-required-facts",
+      "factIds": [
+        "native-form-F015"
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#project-link",
+      "field": "limits",
+      "kind": "missing-required-facts",
+      "factIds": [
+        "list-navigation-F011"
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#task-title",
+      "field": "function",
+      "kind": "missing-required-facts",
+      "factIds": [
+        "source-conflict-F002"
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#request-amount",
+      "field": "content",
+      "kind": "missing-required-facts",
+      "factIds": [
+        "unknown-rules-F001"
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#nickname",
+      "field": "function",
+      "kind": "missing-required-facts",
+      "factIds": [
+        "untrusted-page-F002"
+      ]
+    }
+  ],
+  "gate": {
+    "passed": false,
+    "checks": {
+      "controlRecall": true,
+      "controlPrecision": true,
+      "explanationAccuracy": false,
+      "groundedFieldCoverage": false,
+      "hallucinationRate": true,
+      "completeSemanticReview": true
+    },
+    "thresholds": {
+      "controlRecall": 0.95,
+      "controlPrecision": 0.95,
+      "explanationAccuracy": 0.95,
+      "groundedFieldCoverage": 0.95,
+      "hallucinationRate": 0.02
+    },
+    "meaning": "Development thresholds for this synthetic set, not a universal quality benchmark."
+  },
+  "metricDefinitions": {
+    "controlRecall": "Unique matched expected targets / all expected targets; omitted cases score zero recall.",
+    "controlPrecision": "Unique matched expected targets / returned targets; zero denominator is null.",
+    "explanationAccuracy": "Correct nonempty returned fields / all nonempty returned fields. Correct requires every required fact and no unsupported/contradicted segment.",
+    "groundedFieldCoverage": "Correct expected fields / (expected controls * 4); omissions and empty fields are not correct.",
+    "hallucinationRate": "(Unsupported + contradicted atomic assertions) / (supported + unsupported + contradicted assertions). Uncertainty statements are excluded; no assertions yields null."
+  },
+  "limitations": [
+    "Semantic metrics are null until every nonempty returned field is independently reviewed.",
+    "Reviewer judgments and atomic segmentation need calibration; model review is not human ground truth.",
+    "Review evidence references are structurally checked only; the reviewer must verify that each citation actually supports its segment.",
+    "A PRD-supported rule absent from the DOM is not automatically a hallucination; source conflicts require explicit qualification.",
+    "Run metadata is caller supplied; a fixture score or this report alone does not prove actual agent execution.",
+    "The dataset evaluates provided page states, not whole-system discovery, rendering or production performance."
+  ]
+}

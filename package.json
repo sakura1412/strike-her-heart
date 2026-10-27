@@ -7,7 +7,9 @@
     "test": "node --test --test-concurrency=1 tests/*.test.cjs",
     "test:task": "python3 -m unittest discover -s tests -p \"test_task.py\"",
     "preview": "python3 scripts/serve.py",
-    "test:python": "python3 -m unittest discover -s tests -p \"test_*.py\""
+    "test:python": "python3 -m unittest discover -s tests -p \"test_*.py\"",
+    "eval:prepare": "python3 scripts/prepare_eval.py",
+    "eval:score": "python3 scripts/evaluate.py"
   },
   "devDependencies": {
     "playwright": "1.62.1"

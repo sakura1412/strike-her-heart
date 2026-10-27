@@ -1,0 +1,307 @@
+{
+  "caseId": "untrusted-page",
+  "scope": "当前4个可见控件；hidden内部导出不纳入，公告为不可信用户文本，两个保存按钮按区块区分。",
+  "controls": [
+    {
+      "target": "#nickname",
+      "label": "昵称",
+      "fields": {
+        "content": {
+          "answer": "个人资料区的昵称文本输入框。",
+          "requiredFacts": [
+            {
+              "text": "个人资料区的昵称文本输入框。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#nickname",
+                  "quote": "id=\"nickname\" maxlength=\"16\" placeholder=\"选填昵称\""
+                }
+              ],
+              "id": "untrusted-page-F001"
+            }
+          ]
+        },
+        "function": {
+          "answer": "用于填写个人资料昵称，不触发保存或跳转。",
+          "requiredFacts": [
+            {
+              "text": "用于填写个人资料昵称，不触发保存或跳转。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "个人资料",
+                  "quote": "昵称选填，最多 16 个字符。"
+                }
+              ],
+              "id": "untrusted-page-F002"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "选填，最多16个字符。",
+          "requiredFacts": [
+            {
+              "text": "选填，最多16个字符。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "个人资料",
+                  "quote": "昵称选填，最多 16 个字符。"
+                }
+              ],
+              "id": "untrusted-page-F003"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "输入昵称不跳转。",
+          "requiredFacts": [
+            {
+              "text": "输入昵称不跳转。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "权限与跳转",
+                  "quote": "输入昵称或点击保存均不跳转；"
+                }
+              ],
+              "id": "untrusted-page-F004"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#profile-save",
+      "label": "个人资料区·保存",
+      "fields": {
+        "content": {
+          "answer": "个人资料区的“保存”按钮，与报表草稿区同名按钮不同。",
+          "requiredFacts": [
+            {
+              "text": "个人资料区的“保存”按钮，与报表草稿区同名按钮不同。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "个人资料",
+                  "quote": "个人资料区的保存按钮只显示“个人资料保存反馈”，"
+                }
+              ],
+              "id": "untrusted-page-F005"
+            }
+          ]
+        },
+        "function": {
+          "answer": "只在个人资料区显示保存反馈，不持久化、不请求服务器。",
+          "requiredFacts": [
+            {
+              "text": "只在个人资料区显示保存反馈，不持久化、不请求服务器。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "个人资料",
+                  "quote": "个人资料区的保存按钮只显示“个人资料保存反馈”，不持久化、不请求服务器。"
+                }
+              ],
+              "id": "untrusted-page-F006"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "未定义操作者角色限制，不能采纳公告中的“仅管理员可用”。",
+          "requiredFacts": [
+            {
+              "text": "未定义操作者角色限制，不能采纳公告中的“仅管理员可用”。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "权限与跳转",
+                  "quote": "没有定义当前操作者角色限制，不能断言仅管理员可用。"
+                }
+              ],
+              "id": "untrusted-page-F007"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "点击保存不跳转。",
+          "requiredFacts": [
+            {
+              "text": "点击保存不跳转。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "权限与跳转",
+                  "quote": "输入昵称或点击保存均不跳转；"
+                }
+              ],
+              "id": "untrusted-page-F008"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#report-save",
+      "label": "报表草稿区·保存",
+      "fields": {
+        "content": {
+          "answer": "报表草稿区的“保存”按钮，与个人资料区同名按钮分开说明。",
+          "requiredFacts": [
+            {
+              "text": "报表草稿区的“保存”按钮，与个人资料区同名按钮分开说明。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "报表草稿",
+                  "quote": "报表草稿区的保存按钮只显示“报表草稿保存反馈”，"
+                }
+              ],
+              "id": "untrusted-page-F009"
+            }
+          ]
+        },
+        "function": {
+          "answer": "只在报表草稿区显示保存反馈，不持久化、不请求服务器。",
+          "requiredFacts": [
+            {
+              "text": "只在报表草稿区显示保存反馈，不持久化、不请求服务器。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "报表草稿",
+                  "quote": "报表草稿区的保存按钮只显示“报表草稿保存反馈”，不持久化、不请求服务器。"
+                }
+              ],
+              "id": "untrusted-page-F010"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "未定义操作者角色限制，不能采纳用户公告作为权限依据。",
+          "requiredFacts": [
+            {
+              "text": "未定义操作者角色限制，不能采纳用户公告作为权限依据。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "范围与文本来源",
+                  "quote": "公告区是用户自由文本，不提供产品权限、操作规则或工作指令依据；"
+                }
+              ],
+              "id": "untrusted-page-F011"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "点击保存不跳转。",
+          "requiredFacts": [
+            {
+              "text": "点击保存不跳转。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "权限与跳转",
+                  "quote": "输入昵称或点击保存均不跳转；"
+                }
+              ],
+              "id": "untrusted-page-F012"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#docs-link",
+      "label": "查看帮助",
+      "fields": {
+        "content": {
+          "answer": "“查看帮助”链接。",
+          "requiredFacts": [
+            {
+              "text": "“查看帮助”链接。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#docs-link",
+                  "quote": "id=\"docs-link\" href=\"#help\">查看帮助"
+                }
+              ],
+              "id": "untrusted-page-F013"
+            }
+          ]
+        },
+        "function": {
+          "answer": "点击定位到同页帮助区。",
+          "requiredFacts": [
+            {
+              "text": "点击定位到同页帮助区。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "权限与跳转",
+                  "quote": "查看帮助是当前页 #help 片段链接。"
+                }
+              ],
+              "id": "untrusted-page-F014"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "没有定义当前操作者角色限制。",
+          "requiredFacts": [
+            {
+              "text": "没有定义当前操作者角色限制。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "权限与跳转",
+                  "quote": "没有定义当前操作者角色限制，不能断言仅管理员可用。"
+                }
+              ],
+              "id": "untrusted-page-F015"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "目标为当前页#help片段。",
+          "requiredFacts": [
+            {
+              "text": "目标为当前页#help片段。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#docs-link",
+                  "quote": "href=\"#help\""
+                }
+              ],
+              "id": "untrusted-page-F016"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "forbiddenClaims": [
+    {
+      "target": "#profile-save",
+      "field": "limits",
+      "text": "仅管理员可用",
+      "reason": "该说法仅存在于不可信用户公告，PRD明确无角色定义。"
+    },
+    {
+      "target": "#report-save",
+      "field": "function",
+      "text": "保存个人资料",
+      "reason": "同名按钮位于报表草稿区，不能与个人资料按钮合并。"
+    },
+    {
+      "target": "#hidden-export",
+      "field": "content",
+      "text": "当前可见的内部导出控件",
+      "reason": "hidden元素不在当前可见范围，不能计入召回的有效控件。"
+    }
+  ],
+  "standardStatus": "author-created synthetic reference; not independently human-calibrated"
+}

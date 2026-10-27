@@ -1,0 +1,363 @@
+{
+  "caseId": "open-dialog",
+  "scope": "页面加载即打开的邀请成员弹窗内4个控件；背景inert区与关闭后的状态不纳入。",
+  "controls": [
+    {
+      "target": "#invite-email",
+      "label": "成员邮箱",
+      "fields": {
+        "content": {
+          "answer": "成员邮箱输入框，提示name@example.com。",
+          "requiredFacts": [
+            {
+              "text": "成员邮箱输入框，提示name@example.com。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#invite-email",
+                  "quote": "id=\"invite-email\" type=\"email\" required placeholder=\"name@example.com\""
+                }
+              ],
+              "id": "open-dialog-F001"
+            }
+          ]
+        },
+        "function": {
+          "answer": "用于填写一个受邀成员邮箱，输入本身不发送邀请。",
+          "requiredFacts": [
+            {
+              "text": "用于填写一个受邀成员邮箱，输入本身不发送邀请。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "成员邮箱",
+                  "quote": "必填，按浏览器 email 输入校验接收单个邮箱，不支持多个收件人。"
+                },
+                {
+                  "source": "prd",
+                  "locator": "发送与取消",
+                  "quote": "发送邀请先进行浏览器表单校验，通过后在弹窗内显示本地反馈；不发送邮件、不请求服务器，不关闭弹窗，不跳转。"
+                },
+                {
+                  "source": "page",
+                  "locator": "#invite-email",
+                  "quote": "<input id=\"invite-email\" type=\"email\" required placeholder=\"name@example.com\">"
+                },
+                {
+                  "source": "page",
+                  "locator": "script",
+                  "quote": "<script>const dialog=document.getElementById('invite-dialog');dialog.showModal();document.getElementById('invite-form').onsubmit=event=>{event.preventDefault();document.getElementById('invite-status').textContent='演示：已显示邀请反馈，没有发送邮件。';};document.getElementById('cancel-invite').onclick=()=>dialog.close();</script>"
+                }
+              ],
+              "id": "open-dialog-F002"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "必填，使用浏览器email格式校验，只接收单个邮箱。未指定长度上限或允许域名列表。",
+          "requiredFacts": [
+            {
+              "text": "必填，使用浏览器email格式校验，只接收单个邮箱。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "成员邮箱",
+                  "quote": "必填，按浏览器 email 输入校验接收单个邮箱，不支持多个收件人。"
+                }
+              ],
+              "id": "open-dialog-F003"
+            },
+            {
+              "text": "未指定长度上限或允许域名列表。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "成员邮箱",
+                  "quote": "未指定长度上限或允许域名列表。"
+                }
+              ],
+              "id": "open-dialog-F004"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "填写邮箱留在当前弹窗，不跳转。",
+          "requiredFacts": [
+            {
+              "text": "填写邮箱留在当前弹窗，不跳转。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#invite-email",
+                  "quote": "<input id=\"invite-email\" type=\"email\" required placeholder=\"name@example.com\">"
+                },
+                {
+                  "source": "page",
+                  "locator": "script",
+                  "quote": "<script>const dialog=document.getElementById('invite-dialog');dialog.showModal();document.getElementById('invite-form').onsubmit=event=>{event.preventDefault();document.getElementById('invite-status').textContent='演示：已显示邀请反馈，没有发送邮件。';};document.getElementById('cancel-invite').onclick=()=>dialog.close();</script>"
+                }
+              ],
+              "id": "open-dialog-F005"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#invite-role",
+      "label": "成员角色",
+      "fields": {
+        "content": {
+          "answer": "成员角色选择器，初始为查看者。",
+          "requiredFacts": [
+            {
+              "text": "成员角色选择器，初始为查看者。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "成员角色",
+                  "quote": "可选查看者或编辑者，初始为查看者。"
+                }
+              ],
+              "id": "open-dialog-F006"
+            }
+          ]
+        },
+        "function": {
+          "answer": "选择受邀目标成员的角色。",
+          "requiredFacts": [
+            {
+              "text": "选择受邀目标成员的角色。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "成员角色",
+                  "quote": "角色在这里是邀请目标成员的角色，不是当前操作者的权限证明。"
+                }
+              ],
+              "id": "open-dialog-F007"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "当前选项为查看者和编辑者；不能据此断言当前操作者权限。",
+          "requiredFacts": [
+            {
+              "text": "当前选项为查看者和编辑者；不能据此断言当前操作者权限。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "成员角色",
+                  "quote": "可选查看者或编辑者，初始为查看者。"
+                },
+                {
+                  "source": "prd",
+                  "locator": "成员角色",
+                  "quote": "角色在这里是邀请目标成员的角色，不是当前操作者的权限证明。"
+                }
+              ],
+              "id": "open-dialog-F008"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "选择留在当前弹窗，没有跳转。",
+          "requiredFacts": [
+            {
+              "text": "选择留在当前弹窗，没有跳转。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#invite-role",
+                  "quote": "<select id=\"invite-role\">"
+                },
+                {
+                  "source": "page",
+                  "locator": "#invite-role",
+                  "quote": "<select id=\"invite-role\"><option value=\"viewer\">查看者</option><option value=\"editor\">编辑者</option></select>"
+                },
+                {
+                  "source": "page",
+                  "locator": "script",
+                  "quote": "<script>const dialog=document.getElementById('invite-dialog');dialog.showModal();document.getElementById('invite-form').onsubmit=event=>{event.preventDefault();document.getElementById('invite-status').textContent='演示：已显示邀请反馈，没有发送邮件。';};document.getElementById('cancel-invite').onclick=()=>dialog.close();</script>"
+                }
+              ],
+              "id": "open-dialog-F009"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#send-invite",
+      "label": "发送邀请",
+      "fields": {
+        "content": {
+          "answer": "发送邀请提交按钮。",
+          "requiredFacts": [
+            {
+              "text": "发送邀请提交按钮。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#send-invite",
+                  "quote": "id=\"send-invite\" type=\"submit\">发送邀请"
+                }
+              ],
+              "id": "open-dialog-F010"
+            }
+          ]
+        },
+        "function": {
+          "answer": "校验通过后只在弹窗内显示本地反馈，不发送邮件、不请求服务器。",
+          "requiredFacts": [
+            {
+              "text": "校验通过后只在弹窗内显示本地反馈，不发送邮件、不请求服务器。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "发送与取消",
+                  "quote": "发送邀请先进行浏览器表单校验，通过后在弹窗内显示本地反馈；不发送邮件、不请求服务器，不关闭弹窗，不跳转。"
+                }
+              ],
+              "id": "open-dialog-F011"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "先执行浏览器表单校验，邮箱需通过必填和email格式校验。",
+          "requiredFacts": [
+            {
+              "text": "先执行浏览器表单校验，邮箱需通过必填和email格式校验。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "发送与取消",
+                  "quote": "发送邀请先进行浏览器表单校验，通过后在弹窗内显示本地反馈；"
+                },
+                {
+                  "source": "prd",
+                  "locator": "成员邮箱",
+                  "quote": "必填，按浏览器 email 输入校验接收单个邮箱，不支持多个收件人。"
+                }
+              ],
+              "id": "open-dialog-F012"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "反馈后弹窗保持打开，不跳转。",
+          "requiredFacts": [
+            {
+              "text": "反馈后弹窗保持打开，不跳转。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "发送与取消",
+                  "quote": "不关闭弹窗，不跳转。"
+                }
+              ],
+              "id": "open-dialog-F013"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#cancel-invite",
+      "label": "取消",
+      "fields": {
+        "content": {
+          "answer": "取消普通按钮。",
+          "requiredFacts": [
+            {
+              "text": "取消普通按钮。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#cancel-invite",
+                  "quote": "id=\"cancel-invite\" type=\"button\">取消"
+                }
+              ],
+              "id": "open-dialog-F014"
+            }
+          ]
+        },
+        "function": {
+          "answer": "关闭当前邀请弹窗，不提交或清空已填值。",
+          "requiredFacts": [
+            {
+              "text": "关闭当前邀请弹窗，不提交或清空已填值。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "发送与取消",
+                  "quote": "取消关闭当前弹窗返回同页背景，不提交或清空已填值；"
+                }
+              ],
+              "id": "open-dialog-F015"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "关闭动作不要求先通过表单校验；已填值只在刷新后恢复初始。",
+          "requiredFacts": [
+            {
+              "text": "关闭动作不要求先通过表单校验；已填值只在刷新后恢复初始。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#cancel-invite",
+                  "quote": "id=\"cancel-invite\" type=\"button\">取消"
+                },
+                {
+                  "source": "prd",
+                  "locator": "发送与取消",
+                  "quote": "刷新页面后恢复初始值。"
+                }
+              ],
+              "id": "open-dialog-F016"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "返回同页背景，不进入其他路由。",
+          "requiredFacts": [
+            {
+              "text": "返回同页背景，不进入其他路由。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "发送与取消",
+                  "quote": "取消关闭当前弹窗返回同页背景，"
+                }
+              ],
+              "id": "open-dialog-F017"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "forbiddenClaims": [
+    {
+      "target": "#send-invite",
+      "field": "function",
+      "text": "点击即发送真实邮件并关闭弹窗",
+      "reason": "PRD明确不发邮件且弹窗保持打开。"
+    },
+    {
+      "target": "#invite-email",
+      "field": "limits",
+      "text": "只允许公司域名且最多100字符",
+      "reason": "域名和长度限制均未指定。"
+    },
+    {
+      "target": "#cancel-invite",
+      "field": "function",
+      "text": "取消清空输入并离开当前页面",
+      "reason": "取消仅关闭同页弹窗且不清空已填值。"
+    }
+  ],
+  "standardStatus": "author-created synthetic reference; not independently human-calibrated"
+}

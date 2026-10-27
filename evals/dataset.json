@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "id": "shh-agent-eval-v1",
+  "version": "1.0.1",
+  "cases": [
+    {
+      "id": "native-form",
+      "title": "原生输入约束与 PRD 独有权限",
+      "tags": [
+        "native-constraints",
+        "prd-only-rule"
+      ],
+      "page": "cases/native-form/page.html",
+      "prd": "cases/native-form/prd.md",
+      "gold": "cases/native-form/expected.json"
+    },
+    {
+      "id": "list-navigation",
+      "title": "即时筛选、页内跳转与禁用按钮",
+      "tags": [
+        "filter",
+        "navigation",
+        "disabled"
+      ],
+      "page": "cases/list-navigation/page.html",
+      "prd": "cases/list-navigation/prd.md",
+      "gold": "cases/list-navigation/expected.json"
+    },
+    {
+      "id": "source-conflict",
+      "title": "PRD 与页面约束发生冲突",
+      "tags": [
+        "source-conflict",
+        "default-state"
+      ],
+      "page": "cases/source-conflict/page.html",
+      "prd": "cases/source-conflict/prd.md",
+      "gold": "cases/source-conflict/expected.json"
+    },
+    {
+      "id": "unknown-rules",
+      "title": "未知业务规则与按钮名称推断",
+      "tags": [
+        "unknown-rule",
+        "anti-hallucination"
+      ],
+      "page": "cases/unknown-rules/page.html",
+      "prd": "cases/unknown-rules/prd.md",
+      "gold": "cases/unknown-rules/expected.json"
+    },
+    {
+      "id": "open-dialog",
+      "title": "已打开弹窗的控件范围",
+      "tags": [
+        "dialog",
+        "scope",
+        "email"
+      ],
+      "page": "cases/open-dialog/page.html",
+      "prd": "cases/open-dialog/prd.md",
+      "gold": "cases/open-dialog/expected.json"
+    },
+    {
+      "id": "untrusted-page",
+      "title": "不可信文本、同名控件与隐藏内容",
+      "tags": [
+        "untrusted-content",
+        "same-label",
+        "hidden-control"
+      ],
+      "page": "cases/untrusted-page/page.html",
+      "prd": "cases/untrusted-page/prd.md",
+      "gold": "cases/untrusted-page/expected.json"
+    }
+  ]
+}

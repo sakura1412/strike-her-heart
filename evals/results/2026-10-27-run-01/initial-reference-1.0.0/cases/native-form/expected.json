@@ -1,0 +1,329 @@
+{
+  "caseId": "native-form",
+  "scope": "仅当前创建项目草稿页面的4个可见表单控件；无需进入外部页面。",
+  "controls": [
+    {
+      "target": "#customer-name",
+      "label": "客户名称",
+      "fields": {
+        "content": {
+          "answer": "客户名称文本输入框，提示“请输入客户名称”。",
+          "requiredFacts": [
+            {
+              "text": "客户名称文本输入框，提示“请输入客户名称”。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#customer-name",
+                  "quote": "placeholder=\"请输入客户名称\""
+                }
+              ],
+              "id": "native-form-F001"
+            }
+          ]
+        },
+        "function": {
+          "answer": "用于填写客户名称，填写不会触发提交。",
+          "requiredFacts": [
+            {
+              "text": "用于填写客户名称，填写不会触发提交。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "输入",
+                  "quote": "填写或选择不会触发提交或路由跳转。"
+                }
+              ],
+              "id": "native-form-F002"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "必填。最多24个字符。",
+          "requiredFacts": [
+            {
+              "text": "必填。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#customer-name",
+                  "quote": "required maxlength=\"24\""
+                }
+              ],
+              "id": "native-form-F003"
+            },
+            {
+              "text": "最多24个字符。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#customer-name",
+                  "quote": "maxlength=\"24\""
+                }
+              ],
+              "id": "native-form-F004"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "填写不触发路由跳转。",
+          "requiredFacts": [
+            {
+              "text": "填写不触发路由跳转。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "输入",
+                  "quote": "填写或选择不会触发提交或路由跳转。"
+                }
+              ],
+              "id": "native-form-F005"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#seat-count",
+      "label": "成员席位",
+      "fields": {
+        "content": {
+          "answer": "成员席位数值输入框，初始值为1。",
+          "requiredFacts": [
+            {
+              "text": "成员席位数值输入框，初始值为1。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#seat-count",
+                  "quote": "type=\"number\" min=\"1\" max=\"50\" value=\"1\""
+                }
+              ],
+              "id": "native-form-F006"
+            }
+          ]
+        },
+        "function": {
+          "answer": "用于填写成员席位数量，填写不会提交。",
+          "requiredFacts": [
+            {
+              "text": "用于填写成员席位数量，填写不会提交。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "输入",
+                  "quote": "成员席位为选填数值，填写时为 1 到 50。"
+                }
+              ],
+              "id": "native-form-F007"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "选填，可留空；填写时范围为1到50。",
+          "requiredFacts": [
+            {
+              "text": "选填，可留空；填写时范围为1到50。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "输入",
+                  "quote": "成员席位为选填数值，填写时为 1 到 50。"
+                }
+              ],
+              "id": "native-form-F008"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "填写不触发路由跳转。",
+          "requiredFacts": [
+            {
+              "text": "填写不触发路由跳转。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "输入",
+                  "quote": "填写或选择不会触发提交或路由跳转。"
+                }
+              ],
+              "id": "native-form-F009"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#plan-select",
+      "label": "方案",
+      "fields": {
+        "content": {
+          "answer": "方案选择器，初始为基础版。",
+          "requiredFacts": [
+            {
+              "text": "方案选择器，初始为基础版。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "输入",
+                  "quote": "方案可选基础版或专业版，初始为基础版。"
+                }
+              ],
+              "id": "native-form-F010"
+            }
+          ]
+        },
+        "function": {
+          "answer": "用于在基础版与专业版之间选择方案，选择不会立即提交。",
+          "requiredFacts": [
+            {
+              "text": "用于在基础版与专业版之间选择方案，选择不会立即提交。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "输入",
+                  "quote": "填写或选择不会触发提交或路由跳转。"
+                }
+              ],
+              "id": "native-form-F011"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "当前可选基础版和专业版。",
+          "requiredFacts": [
+            {
+              "text": "当前可选基础版和专业版。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "输入",
+                  "quote": "方案可选基础版或专业版，初始为基础版。"
+                }
+              ],
+              "id": "native-form-F012"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "选择不触发路由跳转。",
+          "requiredFacts": [
+            {
+              "text": "选择不触发路由跳转。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "输入",
+                  "quote": "填写或选择不会触发提交或路由跳转。"
+                }
+              ],
+              "id": "native-form-F013"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#save-draft",
+      "label": "保存草稿",
+      "fields": {
+        "content": {
+          "answer": "保存草稿提交按钮。",
+          "requiredFacts": [
+            {
+              "text": "保存草稿提交按钮。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#save-draft",
+                  "quote": "id=\"save-draft\" type=\"submit\">保存草稿"
+                }
+              ],
+              "id": "native-form-F014"
+            }
+          ]
+        },
+        "function": {
+          "answer": "表单校验通过后，仅在当前页显示保存反馈；不持久化、不请求服务器、不进入审批。",
+          "requiredFacts": [
+            {
+              "text": "表单校验通过后，仅在当前页显示保存反馈；不持久化、不请求服务器、不进入审批。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "保存草稿",
+                  "quote": "浏览器校验通过后，保存按钮在当前页面显示保存反馈；此原型不持久化业务数据、不向服务器请求，也不进入审批或新页面。"
+                }
+              ],
+              "id": "native-form-F015"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "产品要求仅项目编辑者可用。当前原型没有角色校验，不能断言该权限限制已经生效。",
+          "requiredFacts": [
+            {
+              "text": "产品要求仅项目编辑者可用。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "保存草稿",
+                  "quote": "产品要求：保存草稿仅项目编辑者可用；"
+                }
+              ],
+              "id": "native-form-F016"
+            },
+            {
+              "text": "当前原型没有角色校验，不能断言该权限限制已经生效。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "保存草稿",
+                  "quote": "当前原型未实现角色校验，不能据按钮可点断言权限已生效。"
+                }
+              ],
+              "id": "native-form-F017"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "保存反馈停留当前页，不进入新页面。",
+          "requiredFacts": [
+            {
+              "text": "保存反馈停留当前页，不进入新页面。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "保存草稿",
+                  "quote": "也不进入审批或新页面。"
+                }
+              ],
+              "id": "native-form-F018"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "forbiddenClaims": [
+    {
+      "target": "#save-draft",
+      "field": "function",
+      "text": "保存后写入服务器并启动审批",
+      "reason": "与PRD明确的本地反馈、不持久化、不进入审批冲突。"
+    },
+    {
+      "target": "#save-draft",
+      "field": "limits",
+      "text": "当前页面已强制校验编辑者权限",
+      "reason": "PRD有角色要求，但明确当前原型尚未实现。"
+    },
+    {
+      "target": "#seat-count",
+      "field": "limits",
+      "text": "成员席位必填",
+      "reason": "PRD及页面说明席位选填。"
+    }
+  ],
+  "standardStatus": "author-created synthetic reference; not independently human-calibrated"
+}

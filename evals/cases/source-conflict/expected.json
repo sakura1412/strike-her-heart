@@ -1,0 +1,369 @@
+{
+  "caseId": "source-conflict",
+  "scope": "当前任务草稿页面4个可见控件；必须保留页面与旧PRD的差异。",
+  "controls": [
+    {
+      "target": "#task-title",
+      "label": "任务标题",
+      "fields": {
+        "content": {
+          "answer": "任务标题文本输入框，当前页面提示最多30个字符。",
+          "requiredFacts": [
+            {
+              "text": "任务标题文本输入框，当前页面提示最多30个字符。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#task-title",
+                  "quote": "placeholder=\"最多 30 个字符\""
+                }
+              ],
+              "id": "source-conflict-F001"
+            }
+          ]
+        },
+        "function": {
+          "answer": "用于输入任务标题，填写本身不跳转。",
+          "requiredFacts": [
+            {
+              "text": "用于输入任务标题，填写本身不跳转。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "保存",
+                  "quote": "填写输入或切换复选框不跳转。"
+                }
+              ],
+              "id": "source-conflict-F002"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "当前页面maxlength为30，旧PRD要求最多20个字符，二者冲突，需并列记录并待产品核对。PRD将标题定义为选填且最多20个字符。",
+          "requiredFacts": [
+            {
+              "text": "当前页面maxlength为30，旧PRD要求最多20个字符，二者冲突，需并列记录并待产品核对。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#task-title",
+                  "quote": "maxlength=\"30\""
+                },
+                {
+                  "source": "prd",
+                  "locator": "标题",
+                  "quote": "任务标题选填，最多 20 个字符。"
+                },
+                {
+                  "source": "prd",
+                  "locator": "版本说明",
+                  "quote": "发生差异时需并列记录并请求产品核对，不可自行选择某一来源覆盖另一来源。"
+                }
+              ],
+              "id": "source-conflict-F003"
+            },
+            {
+              "text": "PRD将标题定义为选填且最多20个字符。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "标题",
+                  "quote": "任务标题选填，最多 20 个字符。"
+                }
+              ],
+              "id": "source-conflict-F004"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "填写时停留当前页。",
+          "requiredFacts": [
+            {
+              "text": "填写时停留当前页。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "保存",
+                  "quote": "填写输入或切换复选框不跳转。"
+                }
+              ],
+              "id": "source-conflict-F005"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#review-quota",
+      "label": "复核人数",
+      "fields": {
+        "content": {
+          "answer": "复核人数数值输入框，当前初始值2。",
+          "requiredFacts": [
+            {
+              "text": "复核人数数值输入框，当前初始值2。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#review-quota",
+                  "quote": "type=\"number\" min=\"1\" max=\"10\" value=\"2\""
+                }
+              ],
+              "id": "source-conflict-F006"
+            }
+          ]
+        },
+        "function": {
+          "answer": "用于填写复核人数。",
+          "requiredFacts": [
+            {
+              "text": "用于填写复核人数。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "复核人数",
+                  "quote": "复核人数选填，填写时范围为 1 到 5。"
+                }
+              ],
+              "id": "source-conflict-F007"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "当前页面范围1到10，旧PRD范围1到5，需保留冲突待核对。PRD规定复核人数选填、填写时1到5。",
+          "requiredFacts": [
+            {
+              "text": "当前页面范围1到10，旧PRD范围1到5，需保留冲突待核对。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#review-quota",
+                  "quote": "min=\"1\" max=\"10\""
+                },
+                {
+                  "source": "prd",
+                  "locator": "复核人数",
+                  "quote": "复核人数选填，填写时范围为 1 到 5。"
+                },
+                {
+                  "source": "prd",
+                  "locator": "版本说明",
+                  "quote": "发生差异时需并列记录并请求产品核对，不可自行选择某一来源覆盖另一来源。"
+                }
+              ],
+              "id": "source-conflict-F008"
+            },
+            {
+              "text": "PRD规定复核人数选填、填写时1到5。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "复核人数",
+                  "quote": "复核人数选填，填写时范围为 1 到 5。"
+                }
+              ],
+              "id": "source-conflict-F009"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "输入时不发生跳转。",
+          "requiredFacts": [
+            {
+              "text": "输入时不发生跳转。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "保存",
+                  "quote": "填写输入或切换复选框不跳转。"
+                }
+              ],
+              "id": "source-conflict-F010"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#remind-owner",
+      "label": "提醒负责人",
+      "fields": {
+        "content": {
+          "answer": "提醒负责人复选框，当前页面初始勾选。",
+          "requiredFacts": [
+            {
+              "text": "提醒负责人复选框，当前页面初始勾选。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#remind-owner",
+                  "quote": "id=\"remind-owner\" type=\"checkbox\" checked"
+                }
+              ],
+              "id": "source-conflict-F011"
+            }
+          ]
+        },
+        "function": {
+          "answer": "切换只收集提醒偏好，演示中不发送通知。",
+          "requiredFacts": [
+            {
+              "text": "切换只收集提醒偏好，演示中不发送通知。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "提醒负责人",
+                  "quote": "开关仅收集偏好，演示中不发送通知。"
+                }
+              ],
+              "id": "source-conflict-F012"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "PRD要求默认关闭，页面却初始勾选，两者冲突需待核对。",
+          "requiredFacts": [
+            {
+              "text": "PRD要求默认关闭，页面却初始勾选，两者冲突需待核对。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "提醒负责人",
+                  "quote": "提醒负责人默认关闭。"
+                },
+                {
+                  "source": "page",
+                  "locator": "#remind-owner",
+                  "quote": "id=\"remind-owner\" type=\"checkbox\" checked"
+                }
+              ],
+              "id": "source-conflict-F013"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "切换复选框不跳转。",
+          "requiredFacts": [
+            {
+              "text": "切换复选框不跳转。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "保存",
+                  "quote": "填写输入或切换复选框不跳转。"
+                }
+              ],
+              "id": "source-conflict-F014"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#save-task",
+      "label": "保存草稿",
+      "fields": {
+        "content": {
+          "answer": "保存草稿提交按钮。",
+          "requiredFacts": [
+            {
+              "text": "保存草稿提交按钮。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#save-task",
+                  "quote": "id=\"save-task\" type=\"submit\">保存草稿"
+                }
+              ],
+              "id": "source-conflict-F015"
+            }
+          ]
+        },
+        "function": {
+          "answer": "只在当前页显示草稿保存反馈，不发请求、不持久化、不触发审批。",
+          "requiredFacts": [
+            {
+              "text": "只在当前页显示草稿保存反馈，不发请求、不持久化、不触发审批。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "保存",
+                  "quote": "保存草稿仅在当前页显示反馈，不发网络请求、不持久化、不触发审批；"
+                }
+              ],
+              "id": "source-conflict-F016"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "受当前页面原生表单约束；冲突规则的最终业务要求尚未确认，不能自行选一方作为定论。",
+          "requiredFacts": [
+            {
+              "text": "受当前页面原生表单约束；冲突规则的最终业务要求尚未确认，不能自行选一方作为定论。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "版本说明",
+                  "quote": "发生差异时需并列记录并请求产品核对，不可自行选择某一来源覆盖另一来源。"
+                },
+                {
+                  "source": "page",
+                  "locator": "#task-title",
+                  "quote": "<input id=\"task-title\" maxlength=\"30\" placeholder=\"最多 30 个字符\">"
+                },
+                {
+                  "source": "page",
+                  "locator": "#review-quota",
+                  "quote": "<input id=\"review-quota\" type=\"number\" min=\"1\" max=\"10\" value=\"2\">"
+                },
+                {
+                  "source": "page",
+                  "locator": "#save-task",
+                  "quote": "<button id=\"save-task\" type=\"submit\">保存草稿</button>"
+                }
+              ],
+              "id": "source-conflict-F017"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "保存反馈位于当前页。",
+          "requiredFacts": [
+            {
+              "text": "保存反馈位于当前页。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "保存",
+                  "quote": "保存草稿仅在当前页显示反馈，"
+                }
+              ],
+              "id": "source-conflict-F018"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "forbiddenClaims": [
+    {
+      "target": "#task-title",
+      "field": "limits",
+      "text": "任务标题最多20字，页面没有差异",
+      "reason": "漏报DOM30与PRD20的冲突。"
+    },
+    {
+      "target": "#review-quota",
+      "field": "limits",
+      "text": "复核人数最终业务范围确定为1到10",
+      "reason": "来源冲突且最终业务要求未定。"
+    },
+    {
+      "target": "#remind-owner",
+      "field": "function",
+      "text": "勾选后立即给负责人发送通知",
+      "reason": "PRD明确只收集偏好且不发送通知。"
+    }
+  ],
+  "standardStatus": "author-created synthetic reference; not independently human-calibrated"
+}

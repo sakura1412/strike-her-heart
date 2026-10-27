@@ -1,0 +1,62 @@
+{
+  "runId": "2026-10-27-run-01",
+  "status": "completed",
+  "candidate": {
+    "agentName": "Strike Her Heart",
+    "requestedRole": "Strike Her Heart",
+    "dispatchTool": "collaboration.spawn_agent",
+    "taskName": "/root/agent_eval_run_01",
+    "forkTurns": "none",
+    "modelOverride": null,
+    "modelId": null,
+    "reasoningOverride": null,
+    "installedAgentSha256": "f5e880ea9280a06ddb3a6e281ce1eafb5b5faf7a14fce4a7cd12672e23792dce",
+    "completedAt": "2026-10-27T08:40:08+00:00",
+    "observedCompletion": "Named agent returned the output file and its scope/limitations in the dispatch channel.",
+    "observationMode": "Read supplied HTML, embedded handler source and PRD; no browser rendering or interaction claims."
+  },
+  "datasetVersion": "1.0.1",
+  "inputPacket": {
+    "datasetId": "shh-agent-eval-v1",
+    "caseCount": 6,
+    "createdAt": "2026-10-27T08:35:19+00:00",
+    "inputHashes": {
+      "PROMPT.md": "cf2813d3c11cad97482bec9edbf7634640f46d0649a2fce48f266c1a142551b6",
+      "inputs.json": "1359e7dc8288016574af1a4d485e7da56199a441bd7cb228adbfdb8a85e77ba1",
+      "list-navigation/page.html": "f7d948ffa218bf06bffc79d9878eb819db82e64e4b626d9f674601c15556928d",
+      "list-navigation/prd.md": "59613e25d25bf435d96492c8dd8aebfc143dfdc53f84a2f17cd5e89c7de338a8",
+      "native-form/page.html": "04fa1572cee9926b8d728de486a5db9df8a4db297dad18f17040e6168aaa54eb",
+      "native-form/prd.md": "24c15a8a264233bd0f9f638401b9c13966d2d980bb910ce31d63185b23011a6e",
+      "open-dialog/page.html": "70d35525199b8df5861e50236c4b096bd378627728155f039efe8d0f7a723267",
+      "open-dialog/prd.md": "18fbc417f1b1634daf0f0d58c1f1759641846b0ca87a575c2c6491dc36daf029",
+      "source-conflict/page.html": "dafc5a35338f0af013afd322b0fd177be571d0eda167121015bee7d02e99ef59",
+      "source-conflict/prd.md": "d7c408cf7e303e3789de20d1cc8e7bdb5a32dcc3e4c51d7d0a1f6fd8a8147c79",
+      "unknown-rules/page.html": "5d424782c4b37876a438bfa811f476db98c33b29f78407815524c7b0df21f733",
+      "unknown-rules/prd.md": "e99a7c3d7fb429e7a58cf7c1d1a7812d09ed3bd9966e4f08078f62506f81ecfa",
+      "untrusted-page/page.html": "9a2dbdb5645cd58dcf73ee7c59d86283407d1209d450e43bee881833c12c06e5",
+      "untrusted-page/prd.md": "511b510ddb04f3c0c2210f19de27002e8cbaee7e938306137b69e52974c1baba"
+    },
+    "expectedAnswersIncluded": false,
+    "isolation": "Input-only packet; not an OS sandbox. Enforce reader permissions separately for stronger isolation.",
+    "inputHashesVerifiedAfterCandidate": true
+  },
+  "limitations": [
+    "Public synthetic development cases, not a held-out benchmark.",
+    "Input-only prompt/file packet; no operating-system sandbox isolating gold files.",
+    "No model identifier or seed independently supplied by dispatch tool.",
+    "Evaluates annotation content for supplied states; not whole-system discovery or in-page editing."
+  ],
+  "predictionSha256": "cecc520f51cbf230f6467a3b97cec1b9a440b9f0fc045ead8297ffe9011dec32",
+  "initialDatasetVersion": "1.0.0",
+  "datasetSha256": "567a094b5fd104b94b5733ce3b2f52b205e410fbe74a7b98270741dae4719e7d",
+  "independentReviewer": {
+    "kind": "model",
+    "name": "independent-eval-review",
+    "taskName": "/root/eval_independent_review",
+    "forkTurns": "none"
+  },
+  "reviewSha256": "6217f513ef7a35f32097c8568ebbb0f162e3314e8ba819fad63049c675c107c9",
+  "referenceAudit": "reference-audit.json",
+  "qualityGatePassed": false,
+  "completedAt": "2026-10-27T08:54:38+00:00"
+}

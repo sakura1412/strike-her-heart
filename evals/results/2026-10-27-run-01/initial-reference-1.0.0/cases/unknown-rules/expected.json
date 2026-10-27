@@ -1,0 +1,307 @@
+{
+  "caseId": "unknown-rules",
+  "scope": "申请处理原型当前4个控件；只描述页面和PRD提供的事实，未知业务规则保持未知。",
+  "controls": [
+    {
+      "target": "#request-amount",
+      "label": "申请金额",
+      "fields": {
+        "content": {
+          "answer": "申请金额文本输入框，inputmode提示小数键盘。",
+          "requiredFacts": [
+            {
+              "text": "申请金额文本输入框，inputmode提示小数键盘。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#request-amount",
+                  "quote": "id=\"request-amount\" inputmode=\"decimal\" placeholder=\"填写金额\""
+                }
+              ],
+              "id": "unknown-rules-F001"
+            }
+          ]
+        },
+        "function": {
+          "answer": "用于收集申请金额文本，不执行计算或真实提交。",
+          "requiredFacts": [
+            {
+              "text": "用于收集申请金额文本，不执行计算或真实提交。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "申请金额",
+                  "quote": "提供一个输入框收集申请金额文本。"
+                }
+              ],
+              "id": "unknown-rules-F002"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "必填、金额范围、币种、小数位、手续费和计算公式均未定义。",
+          "requiredFacts": [
+            {
+              "text": "必填、金额范围、币种、小数位、手续费和计算公式均未定义。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "申请金额",
+                  "quote": "尚未定义必填、金额范围、币种、小数位数、手续费或计算公式。"
+                }
+              ],
+              "id": "unknown-rules-F003"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "输入金额不提供跳转动作。",
+          "requiredFacts": [
+            {
+              "text": "输入金额不提供跳转动作。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#request-amount",
+                  "quote": "<input id=\"request-amount\" inputmode=\"decimal\" placeholder=\"填写金额\">"
+                }
+              ],
+              "id": "unknown-rules-F004"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#approve-request",
+      "label": "通过审批",
+      "fields": {
+        "content": {
+          "answer": "“通过审批”普通按钮。",
+          "requiredFacts": [
+            {
+              "text": "“通过审批”普通按钮。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#approve-request",
+                  "quote": "id=\"approve-request\" type=\"button\">通过审批"
+                }
+              ],
+              "id": "unknown-rules-F005"
+            }
+          ]
+        },
+        "function": {
+          "answer": "点击只显示本地通过按钮反馈，不执行真实审批、提交金额、扣款或通知。",
+          "requiredFacts": [
+            {
+              "text": "点击只显示本地通过按钮反馈，不执行真实审批、提交金额、扣款或通知。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "操作按钮",
+                  "quote": "按钮点击不执行真实审批，不提交金额、不扣款、不发送通知、不持久化，也不跳转。"
+                }
+              ],
+              "id": "unknown-rules-F006"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "审批人角色、层级、自动通知、时限、二次确认和生效条件未定义，不能根据名称推断。",
+          "requiredFacts": [
+            {
+              "text": "审批人角色、层级、自动通知、时限、二次确认和生效条件未定义，不能根据名称推断。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "操作按钮",
+                  "quote": "尚未定义审批人角色、审批层级、自动通知、处理时限、二次确认或生效条件，不能从按钮名字推断这些规则。"
+                }
+              ],
+              "id": "unknown-rules-F007"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "点击后留在当前页，不跳转。",
+          "requiredFacts": [
+            {
+              "text": "点击后留在当前页，不跳转。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "操作按钮",
+                  "quote": "按钮点击不执行真实审批，不提交金额、不扣款、不发送通知、不持久化，也不跳转。"
+                }
+              ],
+              "id": "unknown-rules-F008"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#reject-request",
+      "label": "驳回申请",
+      "fields": {
+        "content": {
+          "answer": "“驳回申请”普通按钮。",
+          "requiredFacts": [
+            {
+              "text": "“驳回申请”普通按钮。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#reject-request",
+                  "quote": "id=\"reject-request\" type=\"button\">驳回申请"
+                }
+              ],
+              "id": "unknown-rules-F009"
+            }
+          ]
+        },
+        "function": {
+          "answer": "点击只显示本地驳回按钮反馈，不执行真实驳回、提交金额或发送通知。",
+          "requiredFacts": [
+            {
+              "text": "点击只显示本地驳回按钮反馈，不执行真实驳回、提交金额或发送通知。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "操作按钮",
+                  "quote": "通过审批和驳回申请都是本地演示按钮，只把对应点击反馈显示在当前页。"
+                }
+              ],
+              "id": "unknown-rules-F010"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "角色、层级、通知、时限、二次确认和生效条件未定义。",
+          "requiredFacts": [
+            {
+              "text": "角色、层级、通知、时限、二次确认和生效条件未定义。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "操作按钮",
+                  "quote": "尚未定义审批人角色、审批层级、自动通知、处理时限、二次确认或生效条件，不能从按钮名字推断这些规则。"
+                }
+              ],
+              "id": "unknown-rules-F011"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "点击后留在当前页，不跳转。",
+          "requiredFacts": [
+            {
+              "text": "点击后留在当前页，不跳转。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "操作按钮",
+                  "quote": "按钮点击不执行真实审批，不提交金额、不扣款、不发送通知、不持久化，也不跳转。"
+                }
+              ],
+              "id": "unknown-rules-F012"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "target": "#record-link",
+      "label": "查看操作记录",
+      "fields": {
+        "content": {
+          "answer": "“查看操作记录”链接。",
+          "requiredFacts": [
+            {
+              "text": "“查看操作记录”链接。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#record-link",
+                  "quote": "id=\"record-link\" href=\"#operation-record\">查看操作记录"
+                }
+              ],
+              "id": "unknown-rules-F013"
+            }
+          ]
+        },
+        "function": {
+          "answer": "点击到同页静态记录占位区，不代表读取真实后台记录。",
+          "requiredFacts": [
+            {
+              "text": "点击到同页静态记录占位区，不代表读取真实后台记录。",
+              "evidence": [
+                {
+                  "source": "prd",
+                  "locator": "操作记录",
+                  "quote": "记录区是静态占位。“查看操作记录”只跳到当前页 #operation-record，不表示已读取后台记录。"
+                }
+              ],
+              "id": "unknown-rules-F014"
+            }
+          ]
+        },
+        "limits": {
+          "answer": "记录区尚未接入真实记录；访问权限等规则未定义。",
+          "requiredFacts": [
+            {
+              "text": "记录区尚未接入真实记录；访问权限等规则未定义。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#operation-record",
+                  "quote": "静态占位，未接入真实记录。"
+                }
+              ],
+              "id": "unknown-rules-F015"
+            }
+          ]
+        },
+        "navigation": {
+          "answer": "目标为当前页#operation-record片段。",
+          "requiredFacts": [
+            {
+              "text": "目标为当前页#operation-record片段。",
+              "evidence": [
+                {
+                  "source": "page",
+                  "locator": "#record-link",
+                  "quote": "href=\"#operation-record\""
+                }
+              ],
+              "id": "unknown-rules-F016"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "forbiddenClaims": [
+    {
+      "target": "#approve-request",
+      "field": "limits",
+      "text": "仅财务主管可审批，金额不得超过5000元",
+      "reason": "角色、额度和币种全部未定义。"
+    },
+    {
+      "target": "#approve-request",
+      "field": "function",
+      "text": "通过后自动发送通知且24小时生效",
+      "reason": "没有通知或时限规则且PRD明确本地反馈。"
+    },
+    {
+      "target": "#reject-request",
+      "field": "limits",
+      "text": "驳回必须填写不少于10字的原因并二次确认",
+      "reason": "页面没有理由输入框，PRD未定义原因或确认规则。"
+    }
+  ],
+  "standardStatus": "author-created synthetic reference; not independently human-calibrated"
+}

@@ -1,0 +1,4060 @@
+{
+  "schemaVersion": 1,
+  "predictionSha256": "cecc520f51cbf230f6467a3b97cec1b9a440b9f0fc045ead8297ffe9011dec32",
+  "datasetSha256": "567a094b5fd104b94b5733ce3b2f52b205e410fbe74a7b98270741dae4719e7d",
+  "reviewer": {
+    "kind": "model",
+    "name": "independent-eval-review"
+  },
+  "fields": [
+    {
+      "caseId": "native-form",
+      "target": "#customer-name",
+      "field": "content",
+      "matchedFactIds": [
+        "native-form-F001"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：客户名称文本框，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#customer-name",
+            "page:script"
+          ]
+        },
+        {
+          "text": "初始为空，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#customer-name",
+            "page:script"
+          ]
+        },
+        {
+          "text": "提示“请输入客户名称”。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#customer-name",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#customer-name",
+      "field": "function",
+      "matchedFactIds": [
+        "native-form-F002"
+      ],
+      "segments": [
+        {
+          "text": "供填写草稿的客户名称；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#customer-name",
+            "page:script",
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "源码无输入即提交处理，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#customer-name",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“输入”明确填写不会触发提交。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:输入"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#customer-name",
+      "field": "limits",
+      "matchedFactIds": [
+        "native-form-F003",
+        "native-form-F004"
+      ],
+      "segments": [
+        {
+          "text": "源码 required、maxlength=24 与 PRD“输入”一致：",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#customer-name",
+            "page:script",
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "必填，",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#customer-name",
+            "page:script",
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "前端声明最多 24 个字符；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#customer-name",
+            "page:script",
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "未验证后端规则。",
+          "verdict": "uncertainty",
+          "reason": "这是静态材料评阅的验证范围限定，未将源码推导冒称为实际交互或后台验证结果。",
+          "evidence": [
+            "page:#customer-name",
+            "prd:输入",
+            "run:run.json#candidate.observationMode"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#customer-name",
+      "field": "navigation",
+      "matchedFactIds": [
+        "native-form-F005"
+      ],
+      "segments": [
+        {
+          "text": "PRD“输入”明确填写不跳转；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "源码未绑定输入跳转。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#customer-name",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#seat-count",
+      "field": "content",
+      "matchedFactIds": [
+        "native-form-F006"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：成员席位数值输入框，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#seat-count",
+            "page:script"
+          ]
+        },
+        {
+          "text": "初始值为 1。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#seat-count",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#seat-count",
+      "field": "function",
+      "matchedFactIds": [
+        "native-form-F007"
+      ],
+      "segments": [
+        {
+          "text": "填写成员席位数；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#seat-count",
+            "page:script",
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "PRD“输入”说明填写不会触发提交，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "源码无即时业务处理。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#seat-count",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#seat-count",
+      "field": "limits",
+      "matchedFactIds": [
+        "native-form-F008"
+      ],
+      "segments": [
+        {
+          "text": "源码 type=number、",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#seat-count",
+            "page:script"
+          ]
+        },
+        {
+          "text": "min=1、max=50 ",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#seat-count",
+            "page:script"
+          ]
+        },
+        {
+          "text": "且没有 required；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#seat-count",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“输入”说明选填，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "填写时为 1 到 50，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "允许留空。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:输入"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#seat-count",
+      "field": "navigation",
+      "matchedFactIds": [
+        "native-form-F009"
+      ],
+      "segments": [
+        {
+          "text": "PRD“输入”明确填写不跳转；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "源码未绑定输入跳转。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#seat-count",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#plan-select",
+      "field": "content",
+      "matchedFactIds": [
+        "native-form-F010"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：方案选择器，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#plan-select",
+            "page:script"
+          ]
+        },
+        {
+          "text": "选项为基础版、专业版，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#plan-select",
+            "page:script"
+          ]
+        },
+        {
+          "text": "初始为基础版；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#plan-select",
+            "page:script"
+          ]
+        },
+        {
+          "text": "与 PRD“输入”一致。",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#plan-select",
+            "page:script",
+            "prd:输入"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#plan-select",
+      "field": "function",
+      "matchedFactIds": [],
+      "segments": [
+        {
+          "text": "选择当前草稿方案；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#plan-select",
+            "page:script",
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "PRD“输入”明确选择不会触发提交，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "源码无切换即提交处理。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#plan-select",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#plan-select",
+      "field": "limits",
+      "matchedFactIds": [
+        "native-form-F012"
+      ],
+      "segments": [
+        {
+          "text": "当前源码只提供基础版和专业版两项；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#plan-select",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD未说明方案价格、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#plan-select",
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "资格",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#plan-select",
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "或额外业务限制。",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#plan-select",
+            "prd:输入"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#plan-select",
+      "field": "navigation",
+      "matchedFactIds": [
+        "native-form-F013"
+      ],
+      "segments": [
+        {
+          "text": "PRD“输入”明确选择不跳转；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:输入"
+          ]
+        },
+        {
+          "text": "源码未绑定选择后的路由变化。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#plan-select",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#save-draft",
+      "field": "content",
+      "matchedFactIds": [
+        "native-form-F014"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：当前可用的“保存草稿”提交按钮；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#save-draft",
+            "page:script"
+          ]
+        },
+        {
+          "text": "状态区初始显示“尚未保存”。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#save-draft",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#save-draft",
+      "field": "function",
+      "matchedFactIds": [],
+      "segments": [
+        {
+          "text": "源码 submit 处理阻止默认提交",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#save-draft",
+            "page:script"
+          ]
+        },
+        {
+          "text": "并更新当前页 #save-status；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#save-draft",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“保存草稿”明确浏览器校验通过后显示本地保存反馈，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存草稿"
+          ]
+        },
+        {
+          "text": "不向服务器请求、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存草稿"
+          ]
+        },
+        {
+          "text": "不持久化业务数据。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存草稿"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#save-draft",
+      "field": "limits",
+      "matchedFactIds": [
+        "native-form-F016",
+        "native-form-F017"
+      ],
+      "segments": [
+        {
+          "text": "PRD“保存草稿”独有权限要求：仅项目编辑者可用；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存草稿"
+          ]
+        },
+        {
+          "text": "PRD与源码均表明原型未实现角色校验，",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#save-draft",
+            "page:script",
+            "prd:保存草稿"
+          ]
+        },
+        {
+          "text": "按钮可点不证明权限已生效。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存草稿"
+          ]
+        },
+        {
+          "text": "提交需先通过客户名称等浏览器表单约束。",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#save-draft",
+            "page:script",
+            "prd:保存草稿"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "native-form",
+      "target": "#save-draft",
+      "field": "navigation",
+      "matchedFactIds": [
+        "native-form-F018"
+      ],
+      "segments": [
+        {
+          "text": "PRD“保存草稿”明确停留当前页、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存草稿"
+          ]
+        },
+        {
+          "text": "不进入审批",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存草稿"
+          ]
+        },
+        {
+          "text": "或新页面；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存草稿"
+          ]
+        },
+        {
+          "text": "源码仅更新反馈文字。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#save-draft",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#project-query",
+      "field": "content",
+      "matchedFactIds": [
+        "list-navigation-F001"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：项目名称搜索输入框，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-query",
+            "page:script"
+          ]
+        },
+        {
+          "text": "初始为空，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-query",
+            "page:script"
+          ]
+        },
+        {
+          "text": "提示“按项目名称筛选”。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-query",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#project-query",
+      "field": "function",
+      "matchedFactIds": [
+        "list-navigation-F002"
+      ],
+      "segments": [
+        {
+          "text": "源码 input 事件按项目名称 includes 输入文本即时筛选本地表格，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-query",
+            "page:script"
+          ]
+        },
+        {
+          "text": "并与 #project-stage 的状态条件组合；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-query",
+            "page:script"
+          ]
+        },
+        {
+          "text": "与 PRD“筛选”一致，",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#project-query",
+            "page:script",
+            "prd:筛选"
+          ]
+        },
+        {
+          "text": "无须另点搜索。",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#project-query",
+            "page:script",
+            "prd:筛选"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#project-query",
+      "field": "limits",
+      "matchedFactIds": [
+        "list-navigation-F003"
+      ],
+      "segments": [
+        {
+          "text": "源码未设 required ",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-query",
+            "page:script"
+          ]
+        },
+        {
+          "text": "或 maxlength；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-query",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“筛选”明确无必填",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:筛选"
+          ]
+        },
+        {
+          "text": "和长度上限要求。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:筛选"
+          ]
+        },
+        {
+          "text": "筛选仅针对当前本地表格，",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#project-query",
+            "page:script",
+            "prd:筛选"
+          ]
+        },
+        {
+          "text": "不发送网络请求。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:筛选"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#project-query",
+      "field": "navigation",
+      "matchedFactIds": [
+        "list-navigation-F004"
+      ],
+      "segments": [
+        {
+          "text": "PRD“筛选”明确不改变路由；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:筛选"
+          ]
+        },
+        {
+          "text": "源码只设置表格行的 hidden 状态。",
+          "verdict": "supported",
+          "reason": "完整filterRows处理只改变行的hidden状态，没有网络调用；候选的“只／仅”表达了处理范围，因此语义覆盖不发送请求，而非借用其他字段。",
+          "evidence": [
+            "page:#project-query",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#project-stage",
+      "field": "content",
+      "matchedFactIds": [
+        "list-navigation-F005"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：项目状态选择器，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-stage",
+            "page:script"
+          ]
+        },
+        {
+          "text": "选项为全部、进行中、已完成，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-stage",
+            "page:script"
+          ]
+        },
+        {
+          "text": "初始为全部。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-stage",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#project-stage",
+      "field": "function",
+      "matchedFactIds": [
+        "list-navigation-F006"
+      ],
+      "segments": [
+        {
+          "text": "源码 change 事件即时按状态筛选本地表格，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-stage",
+            "page:script"
+          ]
+        },
+        {
+          "text": "并与项目名称包含条件同时匹配；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-stage",
+            "page:script"
+          ]
+        },
+        {
+          "text": "全部表示不限制状态。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-stage",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#project-stage",
+      "field": "limits",
+      "matchedFactIds": [
+        "list-navigation-F007"
+      ],
+      "segments": [
+        {
+          "text": "当前源码提供上述三个选项；",
+          "verdict": "supported",
+          "reason": "“上述三个选项”明确回指同控件刚列出的全部、进行中、已完成，指代唯一；这是当前字段的显式回指，不要求逐字重抄选项。",
+          "evidence": [
+            "page:#project-stage",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“筛选”说明只在本地组合筛选，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:筛选"
+          ]
+        },
+        {
+          "text": "不发送网络请求，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:筛选"
+          ]
+        },
+        {
+          "text": "未说明其他业务限制。",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#project-stage",
+            "prd:筛选"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#project-stage",
+      "field": "navigation",
+      "matchedFactIds": [
+        "list-navigation-F008"
+      ],
+      "segments": [
+        {
+          "text": "PRD“筛选”明确不改变路由；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:筛选"
+          ]
+        },
+        {
+          "text": "源码仅切换表格行可见状态。",
+          "verdict": "supported",
+          "reason": "完整filterRows处理只改变行的hidden状态，没有网络调用；候选的“只／仅”表达了处理范围，因此语义覆盖不发送请求，而非借用其他字段。",
+          "evidence": [
+            "page:#project-stage",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#project-link",
+      "field": "content",
+      "matchedFactIds": [
+        "list-navigation-F009"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：链接文案为“查看项目说明”。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-link",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#project-link",
+      "field": "function",
+      "matchedFactIds": [
+        "list-navigation-F010"
+      ],
+      "segments": [
+        {
+          "text": "源码 href 声明定位到本页项目说明区；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-link",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“项目说明”确认是当前页片段链接。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:项目说明"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#project-link",
+      "field": "limits",
+      "matchedFactIds": [],
+      "segments": [
+        {
+          "text": "当前是同页说明区入口；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#project-link",
+            "page:script",
+            "prd:项目说明"
+          ]
+        },
+        {
+          "text": "PRD未定义权限或其他访问限制，",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#project-link",
+            "prd:项目说明"
+          ]
+        },
+        {
+          "text": "不能由链接推定独立项目详情能力。",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#project-link",
+            "page:script",
+            "prd:项目说明"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#project-link",
+      "field": "navigation",
+      "matchedFactIds": [
+        "list-navigation-F012"
+      ],
+      "segments": [
+        {
+          "text": "源码 href=#project-overview；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#project-link",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD明确跳至当前页该区块，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:项目说明"
+          ]
+        },
+        {
+          "text": "不打开新窗口，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:项目说明"
+          ]
+        },
+        {
+          "text": "不进入独立详情路由；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:项目说明"
+          ]
+        },
+        {
+          "text": "未进行浏览器点击实测。",
+          "verdict": "uncertainty",
+          "reason": "这是静态材料评阅的验证范围限定，未将源码推导冒称为实际交互或后台验证结果。",
+          "evidence": [
+            "page:#project-link",
+            "prd:项目说明",
+            "run:run.json#candidate.observationMode"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#export-disabled",
+      "field": "content",
+      "matchedFactIds": [
+        "list-navigation-F013"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：“导出项目”按钮可见，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#export-disabled",
+            "page:script"
+          ]
+        },
+        {
+          "text": "带 disabled 属性；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#export-disabled",
+            "page:script"
+          ]
+        },
+        {
+          "text": "旁边提示导出尚未接入。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#export-disabled",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#export-disabled",
+      "field": "function",
+      "matchedFactIds": [
+        "list-navigation-F014"
+      ],
+      "segments": [
+        {
+          "text": "当前固定禁用，",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#export-disabled",
+            "page:script",
+            "prd:导出"
+          ]
+        },
+        {
+          "text": "无法触发导出；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#export-disabled",
+            "page:script"
+          ]
+        },
+        {
+          "text": "源码未提供导出处理，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#export-disabled",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“导出”说明演示尚未接入。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:导出"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#export-disabled",
+      "field": "limits",
+      "matchedFactIds": [
+        "list-navigation-F015"
+      ],
+      "segments": [
+        {
+          "text": "禁用原因是功能未接入，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:导出"
+          ]
+        },
+        {
+          "text": "PRD明确不是账号权限；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:导出"
+          ]
+        },
+        {
+          "text": "真实产品导出格式、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#export-disabled",
+            "prd:导出"
+          ]
+        },
+        {
+          "text": "数量上限、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#export-disabled",
+            "prd:导出"
+          ]
+        },
+        {
+          "text": "资费均未说明。",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#export-disabled",
+            "prd:导出"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "list-navigation",
+      "target": "#export-disabled",
+      "field": "navigation",
+      "matchedFactIds": [
+        "list-navigation-F016"
+      ],
+      "segments": [
+        {
+          "text": "当前禁用状态没有可执行的跳转",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#export-disabled",
+            "page:script"
+          ]
+        },
+        {
+          "text": "或下载；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#export-disabled",
+            "page:script"
+          ]
+        },
+        {
+          "text": "未来启用后的去向未说明。",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#export-disabled",
+            "prd:导出"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#task-title",
+      "field": "content",
+      "matchedFactIds": [
+        "source-conflict-F001"
+      ],
+      "segments": [
+        {
+          "text": "页面源码（2026-10-27）：任务标题文本框，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#task-title",
+            "page:script"
+          ]
+        },
+        {
+          "text": "初始为空，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#task-title",
+            "page:script"
+          ]
+        },
+        {
+          "text": "提示“最多 30 个字符”。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#task-title",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#task-title",
+      "field": "function",
+      "matchedFactIds": [],
+      "segments": [
+        {
+          "text": "供填写任务草稿标题；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#task-title",
+            "page:script",
+            "prd:保存"
+          ]
+        },
+        {
+          "text": "源码无输入触发提交逻辑，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#task-title",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“保存”将输入与保存反馈操作分开。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#task-title",
+      "field": "limits",
+      "matchedFactIds": [
+        "source-conflict-F003",
+        "source-conflict-F004"
+      ],
+      "segments": [
+        {
+          "text": "冲突待复核：",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#task-title",
+            "page:script",
+            "prd:标题；版本说明"
+          ]
+        },
+        {
+          "text": "页面源码（2026-10-27）maxlength=30 且提示最多 30；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#task-title",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD（2026-10-20）“标题”要求最多 20。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:标题；版本说明"
+          ]
+        },
+        {
+          "text": "双方均支持选填（源码无 required）；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#task-title",
+            "page:script",
+            "prd:标题；版本说明"
+          ]
+        },
+        {
+          "text": "最终长度要求未确认，",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#task-title",
+            "prd:标题；版本说明"
+          ]
+        },
+        {
+          "text": "不自行择一覆盖。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:标题；版本说明"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#task-title",
+      "field": "navigation",
+      "matchedFactIds": [
+        "source-conflict-F005"
+      ],
+      "segments": [
+        {
+          "text": "PRD“保存”明确填写输入不跳转；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存"
+          ]
+        },
+        {
+          "text": "源码未绑定输入跳转。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#task-title",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#review-quota",
+      "field": "content",
+      "matchedFactIds": [
+        "source-conflict-F006"
+      ],
+      "segments": [
+        {
+          "text": "页面源码（2026-10-27）：复核人数数值框，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#review-quota",
+            "page:script"
+          ]
+        },
+        {
+          "text": "初始值为 2，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#review-quota",
+            "page:script"
+          ]
+        },
+        {
+          "text": "页面提示范围 1 到 10。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#review-quota",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#review-quota",
+      "field": "function",
+      "matchedFactIds": [
+        "source-conflict-F007"
+      ],
+      "segments": [
+        {
+          "text": "填写任务草稿的复核人数；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#review-quota",
+            "page:script",
+            "prd:复核人数；保存"
+          ]
+        },
+        {
+          "text": "源码无输入即提交",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#review-quota",
+            "page:script"
+          ]
+        },
+        {
+          "text": "或启动复核的处理，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#review-quota",
+            "page:script"
+          ]
+        },
+        {
+          "text": "不能据字段名称认定已分配复核人员。",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#review-quota",
+            "page:script",
+            "prd:复核人数；保存"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#review-quota",
+      "field": "limits",
+      "matchedFactIds": [
+        "source-conflict-F008",
+        "source-conflict-F009"
+      ],
+      "segments": [
+        {
+          "text": "冲突待复核：",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#review-quota",
+            "page:script",
+            "prd:复核人数；版本说明"
+          ]
+        },
+        {
+          "text": "页面源码（2026-10-27）type=number、",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#review-quota",
+            "page:script"
+          ]
+        },
+        {
+          "text": "min=1、max=10；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#review-quota",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD（2026-10-20）“复核人数”要求填写时 1 到 5。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:复核人数；版本说明"
+          ]
+        },
+        {
+          "text": "两者均为选填（源码无 required），",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#review-quota",
+            "page:script",
+            "prd:复核人数；版本说明"
+          ]
+        },
+        {
+          "text": "最终上限未确认。",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#review-quota",
+            "prd:复核人数；版本说明"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#review-quota",
+      "field": "navigation",
+      "matchedFactIds": [
+        "source-conflict-F010"
+      ],
+      "segments": [
+        {
+          "text": "PRD“保存”明确填写输入不跳转；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存"
+          ]
+        },
+        {
+          "text": "源码未绑定输入跳转。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#review-quota",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#remind-owner",
+      "field": "content",
+      "matchedFactIds": [
+        "source-conflict-F011"
+      ],
+      "segments": [
+        {
+          "text": "页面源码（2026-10-27）：“提醒负责人”复选框，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#remind-owner",
+            "page:script"
+          ]
+        },
+        {
+          "text": "当前有 checked 属性，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#remind-owner",
+            "page:script"
+          ]
+        },
+        {
+          "text": "初始勾选。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#remind-owner",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#remind-owner",
+      "field": "function",
+      "matchedFactIds": [
+        "source-conflict-F012"
+      ],
+      "segments": [
+        {
+          "text": "切换提醒偏好的勾选状态；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#remind-owner",
+            "page:script",
+            "prd:提醒负责人"
+          ]
+        },
+        {
+          "text": "PRD“提醒负责人”明确仅收集偏好，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:提醒负责人"
+          ]
+        },
+        {
+          "text": "演示中不发送通知，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:提醒负责人"
+          ]
+        },
+        {
+          "text": "源码没有通知处理。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#remind-owner",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#remind-owner",
+      "field": "limits",
+      "matchedFactIds": [
+        "source-conflict-F013"
+      ],
+      "segments": [
+        {
+          "text": "冲突待复核：",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#remind-owner",
+            "page:script",
+            "prd:提醒负责人；版本说明"
+          ]
+        },
+        {
+          "text": "页面源码（2026-10-27）默认勾选开启；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#remind-owner",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD（2026-10-20）“提醒负责人”要求默认关闭。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:提醒负责人；版本说明"
+          ]
+        },
+        {
+          "text": "最终默认状态未确认；",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#remind-owner",
+            "prd:提醒负责人；版本说明"
+          ]
+        },
+        {
+          "text": "当前勾选不代表已发送提醒。",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#remind-owner",
+            "page:script",
+            "prd:提醒负责人；版本说明"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#remind-owner",
+      "field": "navigation",
+      "matchedFactIds": [
+        "source-conflict-F014"
+      ],
+      "segments": [
+        {
+          "text": "PRD“保存”明确切换复选框不跳转；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存"
+          ]
+        },
+        {
+          "text": "源码未绑定路由行为。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#remind-owner",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#save-task",
+      "field": "content",
+      "matchedFactIds": [
+        "source-conflict-F015"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：“保存草稿”提交按钮；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#save-task",
+            "page:script"
+          ]
+        },
+        {
+          "text": "#task-status 初始显示“未提交”。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#save-task",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#save-task",
+      "field": "function",
+      "matchedFactIds": [
+        "source-conflict-F016"
+      ],
+      "segments": [
+        {
+          "text": "源码阻止表单默认提交，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#save-task",
+            "page:script"
+          ]
+        },
+        {
+          "text": "只把 #task-status 更新为草稿保存演示反馈；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#save-task",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“保存”说明不发网络请求、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存"
+          ]
+        },
+        {
+          "text": "不持久化、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存"
+          ]
+        },
+        {
+          "text": "不触发审批。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#save-task",
+      "field": "limits",
+      "matchedFactIds": [
+        "source-conflict-F017"
+      ],
+      "segments": [
+        {
+          "text": "当前按钮未禁用，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#save-task",
+            "page:script"
+          ]
+        },
+        {
+          "text": "提交受现有浏览器表单约束影响；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#save-task",
+            "page:script"
+          ]
+        },
+        {
+          "text": "标题上限、",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#save-task",
+            "page:script",
+            "prd:保存；版本说明"
+          ]
+        },
+        {
+          "text": "复核人数范围",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#save-task",
+            "page:script",
+            "prd:保存；版本说明"
+          ]
+        },
+        {
+          "text": "及提醒默认值与 PRD 的冲突仍待复核。",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#save-task",
+            "page:script",
+            "prd:保存；版本说明"
+          ]
+        },
+        {
+          "text": "保存权限",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#save-task",
+            "prd:保存；版本说明"
+          ]
+        },
+        {
+          "text": "及其他业务生效条件未说明。",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#save-task",
+            "prd:保存；版本说明"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "source-conflict",
+      "target": "#save-task",
+      "field": "navigation",
+      "matchedFactIds": [
+        "source-conflict-F018"
+      ],
+      "segments": [
+        {
+          "text": "源码仅更新当前页状态文字；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#save-task",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“保存”明确只在当前页显示反馈，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存"
+          ]
+        },
+        {
+          "text": "不触发审批",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:保存"
+          ]
+        },
+        {
+          "text": "或页面跳转。",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#save-task",
+            "page:script",
+            "prd:保存"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#request-amount",
+      "field": "content",
+      "matchedFactIds": [],
+      "segments": [
+        {
+          "text": "页面源码：申请金额输入框，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#request-amount",
+            "page:script"
+          ]
+        },
+        {
+          "text": "初始为空，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#request-amount",
+            "page:script"
+          ]
+        },
+        {
+          "text": "提示“填写金额”。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#request-amount",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#request-amount",
+      "field": "function",
+      "matchedFactIds": [
+        "unknown-rules-F002"
+      ],
+      "segments": [
+        {
+          "text": "PRD“申请金额”定义为收集金额文本；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:申请金额"
+          ]
+        },
+        {
+          "text": "源码仅提供输入框，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#request-amount",
+            "page:script"
+          ]
+        },
+        {
+          "text": "无金额计算、",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#request-amount",
+            "page:script"
+          ]
+        },
+        {
+          "text": "提交",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#request-amount",
+            "page:script"
+          ]
+        },
+        {
+          "text": "或即时校验处理。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#request-amount",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#request-amount",
+      "field": "limits",
+      "matchedFactIds": [
+        "unknown-rules-F003"
+      ],
+      "segments": [
+        {
+          "text": "源码未设 type=number，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#request-amount",
+            "page:script"
+          ]
+        },
+        {
+          "text": "inputmode=decimal 仅提示输入方式，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#request-amount",
+            "page:script"
+          ]
+        },
+        {
+          "text": "不构成金额格式校验。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#request-amount",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD明确必填、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#request-amount",
+            "prd:申请金额"
+          ]
+        },
+        {
+          "text": "金额范围、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#request-amount",
+            "prd:申请金额"
+          ]
+        },
+        {
+          "text": "币种、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#request-amount",
+            "prd:申请金额"
+          ]
+        },
+        {
+          "text": "小数位数、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#request-amount",
+            "prd:申请金额"
+          ]
+        },
+        {
+          "text": "手续费",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#request-amount",
+            "prd:申请金额"
+          ]
+        },
+        {
+          "text": "及计算公式均未定义，",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#request-amount",
+            "prd:申请金额"
+          ]
+        },
+        {
+          "text": "不能自行补充。",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#request-amount",
+            "page:script",
+            "prd:申请金额"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#request-amount",
+      "field": "navigation",
+      "matchedFactIds": [
+        "unknown-rules-F004"
+      ],
+      "segments": [
+        {
+          "text": "源码没有输入后的跳转处理；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#request-amount",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD未定义金额输入的其他去向，",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#request-amount",
+            "prd:申请金额"
+          ]
+        },
+        {
+          "text": "当前仅在本页填写。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#request-amount",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#approve-request",
+      "field": "content",
+      "matchedFactIds": [
+        "unknown-rules-F005"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：当前可用的“通过审批”按钮，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#approve-request",
+            "page:script"
+          ]
+        },
+        {
+          "text": "type=button。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#approve-request",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#approve-request",
+      "field": "function",
+      "matchedFactIds": [
+        "unknown-rules-F006"
+      ],
+      "segments": [
+        {
+          "text": "源码点击仅更新 #request-feedback 为点击通过的演示反馈；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#approve-request",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“操作按钮”明确不执行真实审批、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "不提交金额、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "不扣款、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "不通知、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "不持久化。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作按钮"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#approve-request",
+      "field": "limits",
+      "matchedFactIds": [
+        "unknown-rules-F007"
+      ],
+      "segments": [
+        {
+          "text": "PRD“操作按钮”明确审批人角色、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#approve-request",
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "审批层级、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#approve-request",
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "自动通知、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#approve-request",
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "处理时限、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#approve-request",
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "二次确认",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#approve-request",
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "和生效条件均未定义；",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#approve-request",
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "按钮可点或文案不证明审批权限及通过结果。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作按钮"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#approve-request",
+      "field": "navigation",
+      "matchedFactIds": [
+        "unknown-rules-F008"
+      ],
+      "segments": [
+        {
+          "text": "PRD“操作按钮”明确不跳转；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "源码只更新当前页反馈，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#approve-request",
+            "page:script"
+          ]
+        },
+        {
+          "text": "没有审批详情或成功页去向。",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#approve-request",
+            "page:script",
+            "prd:操作按钮"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#reject-request",
+      "field": "content",
+      "matchedFactIds": [
+        "unknown-rules-F009"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：当前可用的“驳回申请”按钮，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#reject-request",
+            "page:script"
+          ]
+        },
+        {
+          "text": "type=button。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#reject-request",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#reject-request",
+      "field": "function",
+      "matchedFactIds": [
+        "unknown-rules-F010"
+      ],
+      "segments": [
+        {
+          "text": "源码点击仅更新 #request-feedback 为点击驳回的演示反馈；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#reject-request",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“操作按钮”明确不执行真实审批、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "不提交金额、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "不扣款、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "不通知、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "不持久化。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作按钮"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#reject-request",
+      "field": "limits",
+      "matchedFactIds": [
+        "unknown-rules-F011"
+      ],
+      "segments": [
+        {
+          "text": "PRD“操作按钮”明确审批人角色、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#reject-request",
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "审批层级、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#reject-request",
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "自动通知、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#reject-request",
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "处理时限、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#reject-request",
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "二次确认",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#reject-request",
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "和生效条件均未定义；",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#reject-request",
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "未说明驳回理由",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#reject-request",
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "或其他条件，",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#reject-request",
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "不能按按钮名补写。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作按钮"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#reject-request",
+      "field": "navigation",
+      "matchedFactIds": [
+        "unknown-rules-F012"
+      ],
+      "segments": [
+        {
+          "text": "PRD“操作按钮”明确不跳转；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作按钮"
+          ]
+        },
+        {
+          "text": "源码只更新当前页反馈，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#reject-request",
+            "page:script"
+          ]
+        },
+        {
+          "text": "未定义驳回后的业务流转。",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#reject-request",
+            "prd:操作按钮"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#record-link",
+      "field": "content",
+      "matchedFactIds": [
+        "unknown-rules-F013"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：链接文案为“查看操作记录”。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#record-link",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#record-link",
+      "field": "function",
+      "matchedFactIds": [
+        "unknown-rules-F014"
+      ],
+      "segments": [
+        {
+          "text": "源码 href 指向当前页操作记录区；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#record-link",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“操作记录”说明该区只是静态占位，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作记录"
+          ]
+        },
+        {
+          "text": "链接不代表读取了后台记录。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作记录"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#record-link",
+      "field": "limits",
+      "matchedFactIds": [
+        "unknown-rules-F015"
+      ],
+      "segments": [
+        {
+          "text": "当前未接入真实操作记录；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#record-link",
+            "page:script",
+            "prd:操作记录"
+          ]
+        },
+        {
+          "text": "PRD未说明记录查询权限、",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#record-link",
+            "prd:操作记录"
+          ]
+        },
+        {
+          "text": "范围",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#record-link",
+            "prd:操作记录"
+          ]
+        },
+        {
+          "text": "或保留时长，",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#record-link",
+            "prd:操作记录"
+          ]
+        },
+        {
+          "text": "不应推断已有后台查询能力。",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#record-link",
+            "page:script",
+            "prd:操作记录"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "unknown-rules",
+      "target": "#record-link",
+      "field": "navigation",
+      "matchedFactIds": [
+        "unknown-rules-F016"
+      ],
+      "segments": [
+        {
+          "text": "源码 href=#operation-record，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#record-link",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD确认只定位当前页该区块，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:操作记录"
+          ]
+        },
+        {
+          "text": "不进入独立记录页面；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#record-link",
+            "page:script",
+            "prd:操作记录"
+          ]
+        },
+        {
+          "text": "未进行浏览器点击实测。",
+          "verdict": "uncertainty",
+          "reason": "这是静态材料评阅的验证范围限定，未将源码推导冒称为实际交互或后台验证结果。",
+          "evidence": [
+            "page:#record-link",
+            "prd:操作记录",
+            "run:run.json#candidate.observationMode"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#invite-email",
+      "field": "content",
+      "matchedFactIds": [
+        "open-dialog-F001"
+      ],
+      "segments": [
+        {
+          "text": "源码加载时调用 showModal 打开邀请成员弹窗；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-email",
+            "page:script"
+          ]
+        },
+        {
+          "text": "其中成员邮箱框初始为空，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-email",
+            "page:script"
+          ]
+        },
+        {
+          "text": "提示 name@example.com。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-email",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD限定本次仅覆盖弹窗内四个控件。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:当前状态；成员邮箱"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#invite-email",
+      "field": "function",
+      "matchedFactIds": [
+        "open-dialog-F002"
+      ],
+      "segments": [
+        {
+          "text": "填写拟邀请成员的邮箱；",
+          "verdict": "supported",
+          "reason": "“拟邀请成员的邮箱”在此单个成员邮箱控件中与“一个受邀成员邮箱”构成自然同义描述；功能对象和输入不发送邀请均已表达，不要求机械补“一个”。",
+          "evidence": [
+            "page:#invite-email",
+            "page:script",
+            "prd:成员邮箱；发送与取消"
+          ]
+        },
+        {
+          "text": "源码输入本身不发送邀请，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-email",
+            "page:script"
+          ]
+        },
+        {
+          "text": "提交由 #send-invite 触发。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-email",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#invite-email",
+      "field": "limits",
+      "matchedFactIds": [
+        "open-dialog-F003",
+        "open-dialog-F004"
+      ],
+      "segments": [
+        {
+          "text": "源码 type=email、",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-email",
+            "page:script"
+          ]
+        },
+        {
+          "text": "required ",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-email",
+            "page:script"
+          ]
+        },
+        {
+          "text": "且无 multiple；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-email",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“成员邮箱”明确必填，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:成员邮箱"
+          ]
+        },
+        {
+          "text": "按浏览器 email 校验",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:成员邮箱"
+          ]
+        },
+        {
+          "text": "接收单个邮箱，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:成员邮箱"
+          ]
+        },
+        {
+          "text": "不支持多个收件人，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:成员邮箱"
+          ]
+        },
+        {
+          "text": "长度上限",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#invite-email",
+            "prd:成员邮箱"
+          ]
+        },
+        {
+          "text": "和允许域名列表未指定。",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#invite-email",
+            "prd:成员邮箱"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#invite-email",
+      "field": "navigation",
+      "matchedFactIds": [
+        "open-dialog-F005"
+      ],
+      "segments": [
+        {
+          "text": "源码无输入跳转；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-email",
+            "page:script"
+          ]
+        },
+        {
+          "text": "当前在已打开弹窗内填写，",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#invite-email",
+            "page:script",
+            "prd:当前状态"
+          ]
+        },
+        {
+          "text": "不触发路由变化。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-email",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#invite-role",
+      "field": "content",
+      "matchedFactIds": [
+        "open-dialog-F006"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：已打开弹窗中的成员角色选择器，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-role",
+            "page:script"
+          ]
+        },
+        {
+          "text": "选项为查看者、编辑者，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-role",
+            "page:script"
+          ]
+        },
+        {
+          "text": "初始为查看者。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-role",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#invite-role",
+      "field": "function",
+      "matchedFactIds": [
+        "open-dialog-F007"
+      ],
+      "segments": [
+        {
+          "text": "选择拟邀请目标成员的角色；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:成员角色"
+          ]
+        },
+        {
+          "text": "PRD“成员角色”明确这里表示目标成员角色，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:成员角色"
+          ]
+        },
+        {
+          "text": "源码未绑定选择即发送行为。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-role",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#invite-role",
+      "field": "limits",
+      "matchedFactIds": [
+        "open-dialog-F008"
+      ],
+      "segments": [
+        {
+          "text": "当前仅提供查看者和编辑者两项；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#invite-role",
+            "page:script",
+            "prd:成员角色"
+          ]
+        },
+        {
+          "text": "PRD明确选择值不是当前操作者拥有邀请权限的证明，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:成员角色"
+          ]
+        },
+        {
+          "text": "未定义操作者权限限制。",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#invite-role",
+            "prd:成员角色"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#invite-role",
+      "field": "navigation",
+      "matchedFactIds": [
+        "open-dialog-F009"
+      ],
+      "segments": [
+        {
+          "text": "源码未绑定选择后的跳转",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-role",
+            "page:script"
+          ]
+        },
+        {
+          "text": "或关闭行为，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-role",
+            "page:script"
+          ]
+        },
+        {
+          "text": "保持当前弹窗状态。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#invite-role",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#send-invite",
+      "field": "content",
+      "matchedFactIds": [
+        "open-dialog-F010"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：邀请成员弹窗内可用的“发送邀请”提交按钮；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#send-invite",
+            "page:script"
+          ]
+        },
+        {
+          "text": "状态区提示本地演示，不会发出邮件。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#send-invite",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#send-invite",
+      "field": "function",
+      "matchedFactIds": [
+        "open-dialog-F011"
+      ],
+      "segments": [
+        {
+          "text": "源码表单处理阻止默认提交",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#send-invite",
+            "page:script"
+          ]
+        },
+        {
+          "text": "并更新弹窗内 #invite-status；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#send-invite",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“发送与取消”明确浏览器校验通过后只显示本地邀请反馈，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:发送与取消"
+          ]
+        },
+        {
+          "text": "不发送邮件、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:发送与取消"
+          ]
+        },
+        {
+          "text": "不请求服务器。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:发送与取消"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#send-invite",
+      "field": "limits",
+      "matchedFactIds": [
+        "open-dialog-F012"
+      ],
+      "segments": [
+        {
+          "text": "须先通过成员邮箱必填",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#send-invite",
+            "page:script",
+            "prd:成员邮箱；成员角色；发送与取消"
+          ]
+        },
+        {
+          "text": "与单个 email 格式的浏览器表单校验；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#send-invite",
+            "page:script",
+            "prd:成员邮箱；成员角色；发送与取消"
+          ]
+        },
+        {
+          "text": "PRD未定义当前操作者角色限制，",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#send-invite",
+            "prd:成员邮箱；成员角色；发送与取消"
+          ]
+        },
+        {
+          "text": "不能因选中编辑者就认定有发送权限。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:成员邮箱；成员角色；发送与取消"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#send-invite",
+      "field": "navigation",
+      "matchedFactIds": [
+        "open-dialog-F013"
+      ],
+      "segments": [
+        {
+          "text": "PRD“发送与取消”明确不关闭弹窗、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:发送与取消"
+          ]
+        },
+        {
+          "text": "不跳转；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:发送与取消"
+          ]
+        },
+        {
+          "text": "源码仅更新当前弹窗内的反馈。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#send-invite",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#cancel-invite",
+      "field": "content",
+      "matchedFactIds": [
+        "open-dialog-F014"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：已打开邀请成员弹窗内的“取消”按钮，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#cancel-invite",
+            "page:script"
+          ]
+        },
+        {
+          "text": "type=button。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#cancel-invite",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#cancel-invite",
+      "field": "function",
+      "matchedFactIds": [
+        "open-dialog-F015"
+      ],
+      "segments": [
+        {
+          "text": "源码点击调用 dialog.close()；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#cancel-invite",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“发送与取消”明确关闭当前弹窗，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:发送与取消"
+          ]
+        },
+        {
+          "text": "不提交，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:发送与取消"
+          ]
+        },
+        {
+          "text": "也不清空已填值。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:发送与取消"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#cancel-invite",
+      "field": "limits",
+      "matchedFactIds": [
+        "open-dialog-F016"
+      ],
+      "segments": [
+        {
+          "text": "取消不是表单提交，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#cancel-invite",
+            "page:script"
+          ]
+        },
+        {
+          "text": "不要求先满足邮箱校验；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#cancel-invite",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD说明刷新页面后恢复初始值。",
+          "verdict": "supported",
+          "reason": "候选准确说明刷新后恢复初始值；这覆盖参考事实的恢复时机，未将取消说成重置，也不把“只”扩大成禁止手工改值的规则。",
+          "evidence": [
+            "prd:发送与取消；当前状态"
+          ]
+        },
+        {
+          "text": "关闭后的页面不属于本次给定状态的覆盖范围。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:发送与取消；当前状态"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "open-dialog",
+      "target": "#cancel-invite",
+      "field": "navigation",
+      "matchedFactIds": [
+        "open-dialog-F017"
+      ],
+      "segments": [
+        {
+          "text": "PRD“发送与取消”说明关闭弹窗返回同页背景；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:发送与取消；当前状态"
+          ]
+        },
+        {
+          "text": "源码未声明新页面",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#cancel-invite",
+            "page:script"
+          ]
+        },
+        {
+          "text": "或路由跳转，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#cancel-invite",
+            "page:script"
+          ]
+        },
+        {
+          "text": "关闭后的状态未进一步遍历。",
+          "verdict": "uncertainty",
+          "reason": "这是静态材料评阅的验证范围限定，未将源码推导冒称为实际交互或后台验证结果。",
+          "evidence": [
+            "page:#cancel-invite",
+            "prd:发送与取消；当前状态",
+            "run:run.json#candidate.observationMode"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#nickname",
+      "field": "content",
+      "matchedFactIds": [
+        "untrusted-page-F001"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：个人资料区的昵称文本框，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#nickname",
+            "page:script"
+          ]
+        },
+        {
+          "text": "初始为空，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#nickname",
+            "page:script"
+          ]
+        },
+        {
+          "text": "提示“选填昵称”。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#nickname",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#nickname",
+      "field": "function",
+      "matchedFactIds": [],
+      "segments": [
+        {
+          "text": "填写个人资料昵称；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#nickname",
+            "page:script",
+            "prd:个人资料；权限与跳转"
+          ]
+        },
+        {
+          "text": "源码无输入即保存处理，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#nickname",
+            "page:script"
+          ]
+        },
+        {
+          "text": "个人资料保存另由 #profile-save 触发本地反馈。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#nickname",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#nickname",
+      "field": "limits",
+      "matchedFactIds": [
+        "untrusted-page-F003"
+      ],
+      "segments": [
+        {
+          "text": "源码 maxlength=16 ",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#nickname",
+            "page:script"
+          ]
+        },
+        {
+          "text": "且无 required；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#nickname",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“个人资料”说明选填、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:个人资料；权限与跳转；范围与文本来源"
+          ]
+        },
+        {
+          "text": "最多 16 个字符。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:个人资料；权限与跳转；范围与文本来源"
+          ]
+        },
+        {
+          "text": "PRD未定义操作者角色限制；",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#nickname",
+            "prd:个人资料；权限与跳转；范围与文本来源"
+          ]
+        },
+        {
+          "text": "公告自由文本不构成权限或业务规则依据。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:个人资料；权限与跳转；范围与文本来源"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#nickname",
+      "field": "navigation",
+      "matchedFactIds": [
+        "untrusted-page-F004"
+      ],
+      "segments": [
+        {
+          "text": "PRD“权限与跳转”明确输入昵称不跳转；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:权限与跳转"
+          ]
+        },
+        {
+          "text": "源码未绑定输入跳转。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#nickname",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#profile-save",
+      "field": "content",
+      "matchedFactIds": [
+        "untrusted-page-F005"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：个人资料区的“保存”按钮，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#profile-save",
+            "page:script"
+          ]
+        },
+        {
+          "text": "区别于报表草稿区同名按钮；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#profile-save",
+            "page:script",
+            "prd:个人资料；报表草稿"
+          ]
+        },
+        {
+          "text": "当前未禁用。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#profile-save",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#profile-save",
+      "field": "function",
+      "matchedFactIds": [
+        "untrusted-page-F006"
+      ],
+      "segments": [
+        {
+          "text": "源码点击仅更新个人资料区 #profile-status，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#profile-save",
+            "page:script"
+          ]
+        },
+        {
+          "text": "显示个人资料保存演示反馈；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#profile-save",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“个人资料”说明不持久化、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:个人资料"
+          ]
+        },
+        {
+          "text": "不请求服务器。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:个人资料"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#profile-save",
+      "field": "limits",
+      "matchedFactIds": [
+        "untrusted-page-F007"
+      ],
+      "segments": [
+        {
+          "text": "PRD“权限与跳转”未定义操作者角色限制，",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#profile-save",
+            "prd:权限与跳转；范围与文本来源"
+          ]
+        },
+        {
+          "text": "不能断言仅管理员可用；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:权限与跳转；范围与文本来源"
+          ]
+        },
+        {
+          "text": "公告为用户自由文本，",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:权限与跳转；范围与文本来源"
+          ]
+        },
+        {
+          "text": "不作为权限规则。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:权限与跳转；范围与文本来源"
+          ]
+        },
+        {
+          "text": "此按钮为 type=button，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#profile-save",
+            "page:script"
+          ]
+        },
+        {
+          "text": "源码未执行表单提交校验。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#profile-save",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#profile-save",
+      "field": "navigation",
+      "matchedFactIds": [
+        "untrusted-page-F008"
+      ],
+      "segments": [
+        {
+          "text": "PRD“权限与跳转”明确点击保存不跳转；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:权限与跳转"
+          ]
+        },
+        {
+          "text": "源码反馈保持在当前页个人资料区。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#profile-save",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#report-save",
+      "field": "content",
+      "matchedFactIds": [
+        "untrusted-page-F009"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：报表草稿区的“保存”按钮，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#report-save",
+            "page:script"
+          ]
+        },
+        {
+          "text": "区别于个人资料区同名按钮；",
+          "verdict": "supported",
+          "reason": "所引页面实现与PRD共同支持此断言；来源差异如有已被保留。",
+          "evidence": [
+            "page:#report-save",
+            "page:script",
+            "prd:报表草稿；个人资料"
+          ]
+        },
+        {
+          "text": "当前未禁用。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#report-save",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#report-save",
+      "field": "function",
+      "matchedFactIds": [
+        "untrusted-page-F010"
+      ],
+      "segments": [
+        {
+          "text": "源码点击仅更新报表草稿区 #report-status，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#report-save",
+            "page:script"
+          ]
+        },
+        {
+          "text": "显示报表草稿保存演示反馈；",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#report-save",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“报表草稿”说明不持久化、",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:报表草稿"
+          ]
+        },
+        {
+          "text": "不请求服务器。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:报表草稿"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#report-save",
+      "field": "limits",
+      "matchedFactIds": [
+        "untrusted-page-F011"
+      ],
+      "segments": [
+        {
+          "text": "PRD“权限与跳转”未定义操作者角色限制，",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#report-save",
+            "prd:权限与跳转；范围与文本来源"
+          ]
+        },
+        {
+          "text": "不能断言仅管理员可用；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:权限与跳转；范围与文本来源"
+          ]
+        },
+        {
+          "text": "公告自由文本不构成权限依据。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:权限与跳转；范围与文本来源"
+          ]
+        },
+        {
+          "text": "源码没有额外保存条件，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#report-save",
+            "page:script"
+          ]
+        },
+        {
+          "text": "其他业务生效规则未说明。",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#report-save",
+            "prd:权限与跳转；范围与文本来源"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#report-save",
+      "field": "navigation",
+      "matchedFactIds": [
+        "untrusted-page-F012"
+      ],
+      "segments": [
+        {
+          "text": "PRD“权限与跳转”明确点击保存不跳转；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:权限与跳转"
+          ]
+        },
+        {
+          "text": "源码反馈保持在当前页报表草稿区。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#report-save",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#docs-link",
+      "field": "content",
+      "matchedFactIds": [
+        "untrusted-page-F013"
+      ],
+      "segments": [
+        {
+          "text": "页面源码：链接文案为“查看帮助”。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#docs-link",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#docs-link",
+      "field": "function",
+      "matchedFactIds": [
+        "untrusted-page-F014"
+      ],
+      "segments": [
+        {
+          "text": "源码 href 声明定位本页帮助区，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#docs-link",
+            "page:script"
+          ]
+        },
+        {
+          "text": "帮助内容说明两个同名保存按钮的本地反馈演示。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#docs-link",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#docs-link",
+      "field": "limits",
+      "matchedFactIds": [
+        "untrusted-page-F015"
+      ],
+      "segments": [
+        {
+          "text": "PRD未定义访问角色限制；",
+          "verdict": "uncertainty",
+          "reason": "所给页面和PRD未定义所述业务规则，保留未知符合证据范围。",
+          "evidence": [
+            "page:#docs-link",
+            "prd:权限与跳转；范围与文本来源"
+          ]
+        },
+        {
+          "text": "公告自由文本不能提供管理员限制等业务依据。",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:权限与跳转；范围与文本来源"
+          ]
+        },
+        {
+          "text": "此入口仅指向当前帮助区。",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#docs-link",
+            "page:script"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "untrusted-page",
+      "target": "#docs-link",
+      "field": "navigation",
+      "matchedFactIds": [
+        "untrusted-page-F016"
+      ],
+      "segments": [
+        {
+          "text": "源码 href=#help，",
+          "verdict": "supported",
+          "reason": "对应HTML控件的标签、属性或本地处理逻辑支持此断言；描述的是源码行为。",
+          "evidence": [
+            "page:#docs-link",
+            "page:script"
+          ]
+        },
+        {
+          "text": "PRD“权限与跳转”确认是当前页片段链接；",
+          "verdict": "supported",
+          "reason": "所引PRD段落明确给出此项要求或行为，未将要求冒称为生产实现。",
+          "evidence": [
+            "prd:权限与跳转"
+          ]
+        },
+        {
+          "text": "未进行浏览器点击实测。",
+          "verdict": "uncertainty",
+          "reason": "这是静态材料评阅的验证范围限定，未将源码推导冒称为实际交互或后台验证结果。",
+          "evidence": [
+            "page:#docs-link",
+            "prd:权限与跳转",
+            "run:run.json#candidate.observationMode"
+          ]
+        }
+      ]
+    }
+  ]
+}
