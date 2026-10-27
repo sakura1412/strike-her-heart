@@ -78,7 +78,14 @@
       }
       if (!spec) continue;
       const fields = Object.fromEntries(['content','function','limits','navigation'].map((name,index)=>[name,spec[index]]));
-      annotations.push({ id:annotation.id, anchor:annotation.anchor, fields, evidence:Object.fromEntries(Object.keys(fields).map(name=>[name,ref])), fieldStates:Object.fromEntries(Object.keys(fields).map(name=>[name,'supported'])) });
+      // These explanations come from the fixture HTML and handlers. Loading the
+      // seed is not an interaction test and must never promote them to "tested".
+      const locator = annotation.anchor.kind === 'id' ? '#' + annotation.anchor.key : ref;
+      const evidenceMeta = Object.fromEntries(Object.keys(fields).map(name => [name, {
+        level: 'page', source: 'demo.html 源码（HTML 声明与事件处理）', locator,
+        action: '', result: '', observedAt: '', derivation: 'explicit'
+      }]));
+      annotations.push({ id:annotation.id, anchor:annotation.anchor, fields, evidence:Object.fromEntries(Object.keys(fields).map(name=>[name,ref])), fieldStates:Object.fromEntries(Object.keys(fields).map(name=>[name,'supported'])), evidenceMeta });
     }
     if (annotations.length) runtime.importData({schemaVersion:1, pages:[{scope:state.scope,annotations}]});
   }

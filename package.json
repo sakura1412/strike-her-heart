@@ -1,6 +1,6 @@
 {
   "name": "strike-her-heart",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": true,
   "description": "A Codex custom agent for evidence-based in-page annotations.",
   "scripts": {

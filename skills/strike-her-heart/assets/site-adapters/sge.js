@@ -12,11 +12,26 @@
   let current = null;
 
   function description(content, action, limits, navigation, evidence, states = {}) {
+    const fieldStates = { content: 'observed', function: 'observed', limits: 'unknown', navigation: 'unknown', ...states };
     return {
       fields: { content, function: action, limits, navigation },
       evidence: { content: evidence, function: evidence, limits: evidence, navigation: evidence },
-      fieldStates: { content: 'observed', function: 'observed', limits: 'unknown', navigation: 'unknown', ...states }
+      fieldStates,
+      evidenceMeta: Object.fromEntries(Object.keys(fieldStates).map(name => [name, {
+        // Legacy "observed" here denotes reading DOM declarations, not clicking.
+        level: fieldStates[name] === 'observed' ? 'page' : 'unclassified',
+        source: fieldStates[name] === 'observed' ? 'https://quote.fx678.com/exchange/SGE · 当前 DOM 声明'
+          : fieldStates[name] === 'supported' ? '历史观察摘要（待补可复核的实测记录）' : '',
+        locator: '', action: '', result: '', observedAt: '', derivation: 'explicit'
+      }]))
     };
+  }
+
+  function locateDescription(value, locator) {
+    // Provenance locators reuse adapter keys or sanitized link identities; no
+    // input values, quote values, credentials or new runtime IDs are collected.
+    for (const meta of Object.values(value.evidenceMeta)) meta.locator = locator;
+    return value;
   }
 
   function leafMatches(document, test, visible) {
@@ -124,6 +139,8 @@
     '组织上海金相关品种的显示字段与页面已有链接入口；此说明不解释未证实的交易、排序或报价计算规则。', '报价单位、时间口径、刷新频率、颜色含义、登录限制及目标链接实际到达情况均需进一步核实。', '当前地址为 https://quote.fx678.com/exchange/SGE；各链接仅按其实际 href 声明去向，不视为已验证到达。', title
       ? '当前原页 URL、可见上海金标题及已唯一识别的行情 / 热力图表头结构。'
       : '当前原页 URL，以及分别唯一匹配完整 8 列与 11 列表头的两张表格。页面级说明锚定两表最近共同的非 body/html 主内容容器，未唯一识别具体标题；仅核对包含关系，不读取聚合报价文本。');
+    for (const target of extras) locateDescription(target.description, ID + '/' + target.key);
+    locateDescription(pageDescription, ID + '/page');
     return { main, heat, extras, issues, page: title || pageRegion ? { element: title || pageRegion, key: 'page', label: '上海金行情页面', kind: 'content', description: pageDescription } : null };
   }
 
@@ -159,6 +176,7 @@
       }
       const isSymbol = current?.main?.table.contains(node) && destination.url?.hostname === 'quote.fx678.com' && destination.url.pathname.startsWith('/symbol/');
       const result = description(`${isSymbol ? '行情表品种名称链接' : '原页链接入口'}「${label}」。`, `页面提供「${label}」链接入口；浏览器按实际 href 处理声明目标${node.target === '_blank' ? '，DOM 声明在新标签页或窗口打开' : ''}。实际目标内容与到达结果未验证。`, '登录条件、权限、目标服务当前可用性和实际到达结果未验证；不根据名称推断交易、付费或软件安装行为。', `当前 DOM 声明的 href 去向：${destination.text}。该声明不等于已点击验证到达。`, '当前原页链接的可见 / 可访问名称、href 与 target 属性；未保存输入值、凭据或无关查询参数。', { navigation: 'observed' });
+      locateDescription(result, node.id ? '#' + node.id : `a[href]「${label}」 → ${destination.text}`);
       result.label = label;
       return result;
     },

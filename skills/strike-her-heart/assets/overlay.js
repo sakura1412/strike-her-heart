@@ -13,6 +13,8 @@
   const DRAWER_BREAKPOINT = 1100;
   const FIELD_NAMES = { content: '页面内容', function: '功能与触发', limits: '限制与状态', navigation: '跳转与去向' };
   const STATE_NAMES = { observed: '页面可见', unknown: '待确认', supported: '有来源支持', conflict: '来源冲突', review: '需复核', user: '人工修改' };
+  const LEVEL_NAMES = { tested: 'L1 已实测', page: 'L2 页面声明', prd: 'L3 PRD 依据', guess: 'L4 模型猜测', unclassified: '未分级' };
+  const PROVENANCE_NAMES = { source: '来源名称', locator: '来源定位', action: '验证动作', result: '观察结果', observedAt: '验证时间（ISO）' };
   const SELECTOR = 'button,input:not([type="hidden"]),textarea,select,a[href],summary,[contenteditable="true"],[role="button"],[role="link"],[role="textbox"],[role="combobox"],[role="listbox"],[role="checkbox"],[role="radio"],[role="switch"],[role="tab"],[role="menuitem"],[role="slider"],[role="spinbutton"],[role="searchbox"]';
   const config = window.StrikeHerHeartConfig || {};
   const root = document.createElement('div');
@@ -23,7 +25,7 @@
   const style = document.createElement('style');
   style.textContent = `
     :host{all:initial;color-scheme:light;font:13px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;color:#263049}
-    *,*:before,*:after{box-sizing:border-box} button,input,textarea,select{font:inherit} button{cursor:pointer}button:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #bda1ff;outline-offset:2px}
+    *,*:before,*:after{box-sizing:border-box} button,input,textarea,select{font:inherit} button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #bda1ff;outline-offset:2px}
     .leaders{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}.leaders line{stroke:#6d38d4;stroke-width:1.5;stroke-dasharray:3 2;opacity:.72}.bubble{position:fixed;pointer-events:auto;min-width:25px;height:25px;padding:0 5px;border:2px solid white;border-radius:20px;background:#6d38d4;color:white;box-shadow:0 2px 8px #29134a40;font-size:11px;font-weight:750;line-height:21px;z-index:1;transition:background .1s}
     .bubble:hover,.bubble[aria-expanded=true]{background:#bd377c;box-shadow:0 0 0 3px #e8d9ff}.bubble.review{background:#b55d0a}.bubble:disabled{pointer-events:none}
     .panel{pointer-events:auto;position:fixed;right:14px;top:14px;bottom:14px;width:min(390px,calc(100vw - 28px));background:#fbfaff;border:1px solid #e3dced;border-radius:18px;box-shadow:0 10px 48px #31204430;display:flex;flex-direction:column;overflow:hidden;z-index:3}
@@ -34,6 +36,7 @@
     @media(max-width:650px){.panel{width:min(340px,calc(100vw - 24px));right:12px;top:12px;bottom:12px}.bubble{font-size:10px;min-width:23px;height:23px;line-height:19px}}
     @media(prefers-reduced-motion:reduce){*{transition:none!important}}
     .evidence-details{margin-top:5px;font-size:10px;color:#806b90}.evidence-details>summary{cursor:pointer;padding:3px 0}.evidence-details .evidence-label{display:block}.save-status.error{color:#a34229;font-weight:650}.catalog-box{margin:0 0 12px;border:1px solid #e4d8ef;border-radius:10px;background:#fff;padding:10px}.catalog-tools{display:flex;gap:6px;margin-bottom:7px}.catalog-search{min-width:0;flex:1;width:100%;border:1px solid #dacce8;border-radius:7px;padding:6px 8px;font-size:12px;color:#382644}.catalog-filter{max-width:118px;border:1px solid #dacce8;border-radius:7px;padding:5px;font-size:11px;color:#654778;background:white}.catalog-box .catalog{margin:0;max-height:210px;overflow:auto}.catalog-box .num{min-width:45px}.catalog-meta{font-size:10px;color:#8b6c9d;display:block;overflow-wrap:anywhere}.catalog-text{flex:1;min-width:0}.catalog-text>.label{display:block}.scope-note{font-size:10px;color:#8a7699;margin:4px 0 0}.catalog-count{font-size:10px;color:#8a7699;margin:6px 0 0}.catalog-empty{padding:14px 5px;color:#8a7699;font-size:11px}
+    .fieldbar{flex-wrap:wrap}.level-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:3px 0 6px}.level-badge{display:inline-block;font-size:10px;font-weight:650;padding:2px 6px;border:1px solid #cfc5db;border-radius:5px;background:#f4f0f8;color:#655671;overflow-wrap:anywhere}.level-badge[data-level=tested]{background:#eaf6ef;color:#246646;border-color:#9bc6af}.level-badge[data-level=page]{background:#edf4ff;color:#315f91;border-color:#b2c7e1}.level-badge[data-level=prd]{background:#f4edff;color:#744a9e;border-color:#d1bce5}.level-badge[data-level=guess]{background:#fff4dd;color:#8a5b12;border-color:#dfbf7c}.level-state{font-size:10px;color:#766283}.level-hint{font-size:10px;color:#806b90;margin:3px 0;overflow-wrap:anywhere}.level-hint.warning{color:#915319;font-weight:600}.provenance-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;margin:7px 0}.provenance-grid label{display:block;color:#705d7d;font-size:10px;min-width:0}.provenance-grid input,.provenance-grid select{display:block;width:100%;min-width:0;margin-top:3px;border:1px solid #dfd4e9;border-radius:6px;padding:6px;background:white;color:#382644;font-size:11px}.evidence-summary{font-size:10px;color:#705c83;margin:5px 0;overflow-wrap:anywhere}.level-legend{font-size:10px;color:#806b90;margin:5px 0}.level-legend summary{cursor:pointer}.level-legend p{margin:5px 0;overflow-wrap:anywhere}
   `;
   shadow.append(style);
   const bubblesLayer = document.createElement('div');
@@ -120,6 +123,67 @@
     return node;
   };
   const hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
+  function validObservedAt(value) {
+    const match = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d{1,9})?(?:Z|[+-]\d{2}:\d{2})$/.exec(value);
+    if (!match || !Number.isFinite(Date.parse(value))) return false;
+    const [, year, month, day, hour, minute, second] = match.map(Number);
+    return month >= 1 && month <= 12 && day >= 1 && day <= new Date(Date.UTC(year, month, 0)).getUTCDate() && hour < 24 && minute < 60 && second < 60;
+  }
+  function evidenceRecord(value, legacyState = 'unknown', locator = '') {
+    const provided = value !== undefined;
+    const supplied = value && typeof value === 'object' && !Array.isArray(value);
+    const meta = { level: supplied && hasOwn(LEVEL_NAMES, value.level) ? value.level : 'unclassified', source: '', locator: '', action: '', result: '', observedAt: '', derivation: 'explicit' };
+    if (supplied) {
+      for (const [key, max] of Object.entries({ source: 2000, locator: 2000, action: 3000, result: 3000, observedAt: 50 })) meta[key] = typeof value[key] === 'string' ? text(value[key], max) : '';
+      if (value.derivation === 'inferred') meta.derivation = 'inferred';
+    } else if (!provided && legacyState === 'observed') {
+      meta.level = 'page'; meta.source = '旧版页面记录'; meta.locator = text(locator, 2000);
+    }
+    const issues = [];
+    if (provided && !supplied) issues.push('有效的结构化来源记录');
+    if (['tested', 'page', 'prd'].includes(meta.level)) {
+      for (const key of ['source', 'locator']) if (!meta[key]) issues.push(PROVENANCE_NAMES[key]);
+    }
+    if (meta.level === 'tested') {
+      for (const key of ['action', 'result']) if (!meta[key]) issues.push(PROVENANCE_NAMES[key]);
+      if (!validObservedAt(meta.observedAt)) issues.push('有效的 ISO 验证时间');
+    }
+    if (meta.level === 'prd' && !['explicit', 'inferred'].includes(value?.derivation)) issues.push('PRD 直接定义 / 推断类型');
+    if (supplied && !hasOwn(LEVEL_NAMES, value.level)) issues.push('有效的证据等级');
+    return { meta, issues };
+  }
+  function normalizeEvidence(value, state, locator) {
+    const normalized = evidenceRecord(value, state, locator);
+    if (normalized.issues.length) {
+      normalized.meta.level = 'unclassified';
+      state = state === 'conflict' ? 'conflict' : 'review';
+    } else if (normalized.meta.level === 'guess' && !['conflict', 'review'].includes(state)) state = 'unknown';
+    return { ...normalized, state };
+  }
+  function normalizeAnnotationEvidence(annotation, anchor = annotation.anchor) {
+    annotation.fieldStates = annotation.fieldStates || {};
+    annotation.evidence = annotation.evidence || {};
+    const previous = annotation.evidenceMeta || {};
+    annotation.evidenceMeta = {};
+    for (const name of Object.keys(FIELD_NAMES)) {
+      const state = hasOwn(STATE_NAMES, annotation.fieldStates[name]) ? annotation.fieldStates[name] : 'unknown';
+      const normalized = normalizeEvidence(previous[name], state, anchor?.key || '');
+      annotation.evidenceMeta[name] = normalized.meta;
+      annotation.fieldStates[name] = normalized.state;
+      if (typeof annotation.evidence[name] !== 'string') annotation.evidence[name] = '';
+      if (normalized.issues.length) {
+        annotation.status = 'needs-review';
+        annotation.reviewReason = `「${FIELD_NAMES[name]}」的来源记录不完整，已降为未分级：${normalized.issues.join('、')}。原说明保留，请补齐后复核。`;
+      }
+      const suggestion = annotation.suggestions?.[name];
+      if (suggestion) {
+        const candidate = normalizeEvidence(suggestion.evidenceMeta, suggestion.fieldState || 'unknown', anchor?.key || '');
+        suggestion.evidenceMeta = candidate.meta; suggestion.fieldState = candidate.state;
+      }
+      if (annotation.fieldReviewMeta?.[name]) annotation.fieldReviewMeta[name] = normalizeEvidence(annotation.fieldReviewMeta[name], 'unknown', anchor?.key || '').meta;
+    }
+  }
+  const evidenceLabelFor = meta => (LEVEL_NAMES[meta?.level] || LEVEL_NAMES.unclassified) + (meta?.level === 'prd' ? ' · ' + (meta.derivation === 'inferred' ? '推断' : '直接定义') : '');
   const sameScope = (left, right) => left && right && ['origin', 'path', 'route', 'custom'].every(key => (left[key] || '') === (right[key] || ''));
   let adapterIssues = [];
   function adapterCall(adapter, name, ...args) {
@@ -133,12 +197,17 @@
   function validDescriptor(value) {
     return value && value.element instanceof Element && value.element.ownerDocument === document && value.element.isConnected && isVisible(value.element) && typeof value.key === 'string' && /^[a-z0-9_.:/-]{1,160}$/i.test(value.key) && typeof value.label === 'string' && value.label.trim().length > 0;
   }
-  function mergeDescription(observed, description) {
+  function mergeDescription(observed, description, locator) {
     if (!description || typeof description !== 'object') return;
     for (const name of Object.keys(FIELD_NAMES)) {
       if (typeof description.fields?.[name] === 'string') observed.fields[name] = description.fields[name].slice(0, 12000);
       if (typeof description.evidence?.[name] === 'string') observed.evidence[name] = description.evidence[name].slice(0, 12000);
       if (hasOwn(STATE_NAMES, description.fieldStates?.[name])) observed.fieldStates[name] = description.fieldStates[name];
+      if ((description.evidenceMeta && hasOwn(description.evidenceMeta, name)) || typeof description.fields?.[name] === 'string' || typeof description.evidence?.[name] === 'string') {
+        const normalized = normalizeEvidence(description.evidenceMeta?.[name], hasOwn(STATE_NAMES, description.fieldStates?.[name]) ? description.fieldStates[name] : 'unknown', locator);
+        observed.evidenceMeta[name] = normalized.meta;
+        if (normalized.issues.length || normalized.meta.level === 'guess') observed.fieldStates[name] = normalized.state;
+      }
     }
   }
 
@@ -181,6 +250,10 @@
       } catch (_) { /* A bad local record must not prevent inspection. */ }
     }
     currentPage = stored || { schemaVersion: VERSION, scope, annotations: [], coverage: [], updatedAt: new Date().toISOString() };
+    for (const annotation of currentPage.annotations) {
+      normalizeAnnotationEvidence(annotation);
+      if (Array.isArray(annotation.revisions)) for (const revision of annotation.revisions) if (revision && typeof revision === 'object') normalizeAnnotationEvidence(revision, annotation.anchor);
+    }
     currentUIKey = '';
     opened = new Set();
     drafts = new Map();
@@ -394,7 +467,12 @@
       navigation: safeDestination(node) ? `页面声明的链接去向：${safeDestination(node)}${node.target === '_blank' ? '；在新窗口或标签页打开' : ''}。实际权限及到达状态未验证。` : '待确认：页面未声明可直接读取的跳转地址；不根据按钮文字推断去向。'
     };
     const fieldStates = { content: 'observed', function: 'unknown', limits: constraints.length ? 'observed' : 'unknown', navigation: safeDestination(node) ? 'observed' : 'unknown' };
-    return { fields, fieldStates, evidence: { content: `当前 DOM：${tag}${node.getAttribute('role') ? '，role=' + node.getAttribute('role') : ''}；可访问名称 / 可见标签。未读取输入值。`, function: '无 PRD 或行为验证来源。', limits: evidence.length ? '当前 DOM 属性：' + evidence.join('；') : '未观察到相关 DOM 属性。', navigation: safeDestination(node) ? '当前 DOM 的 href / target；链接中的参数及凭据未保存。' : '未读取到可追溯的 href。' } };
+    const evidenceMeta = Object.fromEntries(Object.keys(FIELD_NAMES).map(name => {
+      const meta = evidenceRecord(undefined).meta;
+      if (fieldStates[name] === 'observed') { meta.level = 'page'; meta.source = '当前DOM'; meta.locator = node.id ? '#' + text(node.id, 180) : text(pathFor(node), 2000); }
+      return [name, meta];
+    }));
+    return { fields, fieldStates, evidenceMeta, evidence: { content: `当前 DOM：${tag}${node.getAttribute('role') ? '，role=' + node.getAttribute('role') : ''}；可访问名称 / 可见标签。未读取输入值。`, function: '无 PRD 或行为验证来源。', limits: evidence.length ? '当前 DOM 属性：' + evidence.join('；') : '未观察到相关 DOM 属性。', navigation: safeDestination(node) ? '当前 DOM 的 href / target；链接中的参数及凭据未保存。' : '未读取到可追溯的 href。' } };
   }
 
   function scan() {
@@ -452,13 +530,15 @@
         observed.fields.limits = '待确认：页面级权限、数据范围及异常状态需要 PRD、原型或经授权验证。';
         observed.fields.navigation = '待确认：页面入口、返回路径及跳转关系需要有来源的说明。';
         observed.fieldStates = { content: 'observed', function: 'unknown', limits: 'unknown', navigation: 'unknown' };
+        for (const name of ['function', 'limits', 'navigation']) observed.evidenceMeta[name] = evidenceRecord(undefined).meta;
       }
-      mergeDescription(observed, descriptor?.description || specific);
-      const signatures = Object.fromEntries(Object.keys(FIELD_NAMES).map(name => [name, hash(observed.fields[name] + '|' + observed.evidence[name])]));
+      mergeDescription(observed, descriptor?.description || specific, anchor.key);
+      const signatures = Object.fromEntries(Object.keys(FIELD_NAMES).map(name => [name, hash(observed.fields[name] + '|' + observed.evidence[name] + '|' + JSON.stringify(observed.evidenceMeta[name]))]));
       if (!annotation) {
         const number = nextNumber++;
         annotation = { id, number, displayId: 'A-' + String(number).padStart(3, '0'), anchor, label, controlType: anchor.type, ...observed, observedSignatures: signatures, manualFields: [], status: anchor.positional ? 'needs-review' : 'observed', revisions: [], createdAt: new Date().toISOString() };
         if (anchor.positional) annotation.reviewReason = '此控件没有可用的稳定 ID 或行键，暂用 DOM 位置定位。列表重排或页面结构变化后必须复核对应关系。';
+        if (Object.values(annotation.fieldStates).some(state => ['review', 'conflict'].includes(state))) annotation.status = 'needs-review';
         currentPage.annotations.push(annotation);
         changed = true;
       } else {
@@ -476,11 +556,19 @@
         annotation.currentLabel = label;
         for (const name of Object.keys(FIELD_NAMES)) {
           const state = annotation.fieldStates[name];
-          if (['observed', 'unknown'].includes(state) && !annotation.manualFields.includes(name)) {
-            if (annotation.fields[name] !== observed.fields[name] || annotation.evidence[name] !== observed.evidence[name] || state !== observed.fieldStates[name]) {
+          if (['observed', 'unknown'].includes(state) && ['page', 'unclassified'].includes(annotation.evidenceMeta[name].level) && !annotation.manualFields.includes(name)) {
+            if (annotation.fields[name] !== observed.fields[name] || annotation.evidence[name] !== observed.evidence[name] || state !== observed.fieldStates[name] || JSON.stringify(annotation.evidenceMeta[name]) !== JSON.stringify(observed.evidenceMeta[name])) {
+              const sourceChanged = annotation.evidenceMeta[name].source !== '旧版页面记录' && JSON.stringify(annotation.evidenceMeta[name]) !== JSON.stringify(observed.evidenceMeta[name]);
               annotation.fields[name] = observed.fields[name];
               annotation.evidence[name] = observed.evidence[name];
               annotation.fieldStates[name] = observed.fieldStates[name];
+              annotation.evidenceMeta[name] = copy(observed.evidenceMeta[name]);
+              if (sourceChanged && !['review', 'conflict'].includes(annotation.fieldStates[name])) {
+                annotation.fieldStates[name] = 'review';
+                annotation.status = 'needs-review';
+                annotation.reviewReason = `「${FIELD_NAMES[name]}」的来源分级或来源记录已变化，请复核当前说明。`;
+              }
+              if (['review', 'conflict'].includes(observed.fieldStates[name])) annotation.status = 'needs-review';
               changed = true;
             }
           } else if (annotation.observedSignatures && annotation.observedSignatures[name] !== signatures[name]) {
@@ -488,6 +576,8 @@
             annotation.reviewReason = `「${FIELD_NAMES[name]}」相关的可见信息已变化，现有人工 / 来源说明已保留，请复核。`;
             annotation.fieldReviews = annotation.fieldReviews || {};
             annotation.fieldReviews[name] = observed.fields[name];
+            annotation.fieldReviewMeta = annotation.fieldReviewMeta || {};
+            annotation.fieldReviewMeta[name] = copy(observed.evidenceMeta[name]);
             changed = true;
           }
         }
@@ -499,6 +589,7 @@
           draft.fields[name] = annotation.fields[name];
           draft.evidence[name] = annotation.evidence[name];
           draft.fieldStates[name] = annotation.fieldStates[name];
+          draft.evidenceMeta[name] = copy(annotation.evidenceMeta[name]);
         }
       }
       seenIds.add(id);
@@ -794,7 +885,7 @@
   }
 
   function draftFor(annotation) {
-    if (!drafts.has(annotation.id)) drafts.set(annotation.id, { fields: copy(annotation.fields), evidence: copy(annotation.evidence), fieldStates: copy(annotation.fieldStates), touched: [], stateTouched: [], dirty: false, saveError: '' });
+    if (!drafts.has(annotation.id)) drafts.set(annotation.id, { fields: copy(annotation.fields), evidence: copy(annotation.evidence), evidenceMeta: copy(annotation.evidenceMeta), fieldStates: copy(annotation.fieldStates), touched: [], stateTouched: [], acceptedSuggestions: [], dirty: false, saveError: '' });
     return drafts.get(annotation.id);
   }
 
@@ -810,6 +901,7 @@
     state.value = draft.fieldStates[name] || 'unknown';
     state.addEventListener('change', () => {
       draft.fieldStates[name] = state.value;
+      if (draft.evidenceMeta[name].level === 'guess' && !['conflict', 'review'].includes(state.value)) draft.fieldStates[name] = 'unknown';
       draft.stateTouched = [...new Set([...(draft.stateTouched || []), name])];
       dirty();
     });
@@ -821,7 +913,7 @@
     input.setAttribute('aria-label', FIELD_NAMES[name]);
     input.addEventListener('input', () => {
       draft.fields[name] = input.value;
-      if (!['conflict', 'review'].includes(draft.fieldStates[name])) draft.fieldStates[name] = 'user';
+      if (!['conflict', 'review'].includes(draft.fieldStates[name])) draft.fieldStates[name] = draft.evidenceMeta[name].level === 'tested' ? 'review' : draft.evidenceMeta[name].level === 'guess' ? 'unknown' : 'user';
       state.value = draft.fieldStates[name];
       dirty();
     });
@@ -842,24 +934,79 @@
       if (evidenceDetails.open) expandedEvidence.add(evidenceKey); else expandedEvidence.delete(evidenceKey);
     });
     evidenceDetails.append(el('summary', '', '来源依据与状态说明'), evidenceLabel, evidence);
+    const levelRow = el('div', 'level-row');
+    const badge = el('span', 'level-badge');
+    badge.setAttribute('data-shh-level', name);
+    const currentState = el('span', 'level-state');
+    levelRow.append(badge, currentState);
+    const hint = el('p', 'level-hint');
+    const structured = el('div', 'provenance-grid');
+    const levelLabel = el('label', '', '证据来源等级');
+    const level = el('select');
+    level.id = annotation.id + '-level-' + name;
+    level.setAttribute('data-shh-level-select', name);
+    level.setAttribute('aria-label', FIELD_NAMES[name] + '的来源等级');
+    Object.entries(LEVEL_NAMES).forEach(([value, title]) => { const option = el('option', '', title); option.value = value; level.append(option); });
+    level.value = draft.evidenceMeta[name].level;
+    levelLabel.append(level);
+    structured.append(levelLabel);
+    const testedInputs = [];
+    for (const [key, title] of Object.entries(PROVENANCE_NAMES)) {
+      const wrapper = el('label', '', title);
+      const provenance = el('input');
+      provenance.type = 'text';
+      provenance.id = annotation.id + '-provenance-' + name + '-' + key;
+      provenance.setAttribute('data-shh-provenance', name + ':' + key);
+      provenance.setAttribute('aria-label', FIELD_NAMES[name] + '的' + title);
+      provenance.maxLength = key === 'observedAt' ? 50 : ['action', 'result'].includes(key) ? 3000 : 2000;
+      provenance.value = draft.evidenceMeta[name][key];
+      provenance.placeholder = key === 'observedAt' ? '2026-10-27T09:00:00.000Z' : key === 'locator' ? '如 #email、PRD §3.2 或验证记录条目' : '';
+      provenance.addEventListener('input', () => { draft.evidenceMeta[name][key] = provenance.value; dirty(); });
+      wrapper.append(provenance); structured.append(wrapper);
+      if (['action', 'result', 'observedAt'].includes(key)) testedInputs.push(wrapper);
+    }
+    const derivationLabel = el('label', '', 'PRD 依据类型');
+    const derivation = el('select');
+    derivation.id = annotation.id + '-derivation-' + name;
+    derivation.setAttribute('data-shh-derivation', name);
+    derivation.setAttribute('aria-label', FIELD_NAMES[name] + '的 PRD 依据类型');
+    for (const [value, title] of [['explicit', '直接定义'], ['inferred', '推断']]) { const option = el('option', '', title); option.value = value; derivation.append(option); }
+    derivation.value = draft.evidenceMeta[name].derivation;
+    derivation.addEventListener('change', () => { draft.evidenceMeta[name].derivation = derivation.value; dirty(); });
+    derivationLabel.append(derivation); structured.append(derivationLabel);
+    level.addEventListener('change', () => {
+      draft.evidenceMeta[name].level = level.value;
+      if (level.value === 'guess' && !['conflict', 'review'].includes(draft.fieldStates[name])) draft.fieldStates[name] = 'unknown';
+      dirty();
+    });
+    evidenceDetails.append(structured, el('p', 'level-hint', '等级表示来源方法，系统仅检查记录完整性，不认证其真实性。同一字段混合多种来源时请选择最弱等级，并在来源说明中逐条注明；未验证部分应标为猜测或未分级。'));
     if (['conflict', 'review'].includes(draft.fieldStates[name])) evidenceDetails.append(el('p', 'muted', '编辑文字不会自动解除冲突或待复核。核对后，请在字段状态中明确选择。'));
-    field.append(bar, input, evidenceDetails);
-    if (annotation.fieldReviews && annotation.fieldReviews[name]) field.append(el('p', 'review-note', '当前页面观察：' + annotation.fieldReviews[name]));
+    field.append(bar, levelRow, input, hint, evidenceDetails);
+    if (annotation.fieldReviews && annotation.fieldReviews[name]) field.append(el('p', 'review-note', '当前页面观察' + (annotation.fieldReviewMeta?.[name] ? '（' + evidenceLabelFor(annotation.fieldReviewMeta[name]) + '）' : '') + '：' + annotation.fieldReviews[name]));
     if (annotation.suggestions && annotation.suggestions[name]) {
       const suggestion = annotation.suggestions[name];
       const review = el('div', 'review-note');
-      review.append(el('div', '', '导入的不同建议（人工修改已保留）：' + suggestion.value), el('div', 'muted', '建议证据：' + suggestion.evidence));
+      review.append(el('div', '', '导入的不同建议（人工修改已保留）：' + suggestion.value), el('div', 'muted', '建议证据：' + suggestion.evidence), el('div', 'muted', '建议分级：' + evidenceLabelFor(suggestion.evidenceMeta)));
       const actions = el('div', 'row');
       actions.append(button('采用建议为草稿', () => {
         draft.fields[name] = suggestion.value;
         draft.evidence[name] = suggestion.evidence;
+        draft.evidenceMeta[name] = copy(suggestion.evidenceMeta || evidenceRecord(undefined).meta);
         draft.fieldStates[name] = suggestion.fieldState;
         draft.touched = [...new Set([...(draft.touched || []), name])];
+        draft.acceptedSuggestions = [...new Set([...(draft.acceptedSuggestions || []), name])];
         draft.dirty = true;
-        delete annotation.suggestions[name];
         renderPanel();
-      }), button('保留人工版本', () => { delete annotation.suggestions[name]; savePage(); renderPanel(); }));
-      review.append(actions);
+      }), button('保留人工版本', () => {
+        const previousSuggestion = annotation.suggestions[name];
+        delete annotation.suggestions[name];
+        if (!savePage()) {
+          annotation.suggestions[name] = previousSuggestion;
+          setNotice('尚未保存“保留人工版本”的决定；原建议与来源记录仍保留，请恢复存储后重试。');
+        }
+        renderPanel();
+      }));
+      review.append((draft.acceptedSuggestions || []).includes(name) ? el('p', 'muted', '建议已纳入未保存草稿；保存成功后生效，撤销或保存失败仍保留原建议。') : actions);
       field.append(review);
     }
     function dirty() {
@@ -868,14 +1015,29 @@
       draft.touched = [...new Set([...(draft.touched || []), name])];
       const card = shadow.querySelector('[data-shh-card="' + annotation.id + '"]');
       if (card) card.querySelector('.save-status').textContent = '有未保存修改';
+      refreshEvidenceUI();
       renderQuality();
       uiCache.set(currentUIKey, { opened: new Set(opened), drafts: new Map(drafts) });
     }
+    function refreshEvidenceUI() {
+      const meta = draft.evidenceMeta[name];
+      const incomplete = evidenceRecord(meta).issues;
+      badge.textContent = evidenceLabelFor(meta) + (incomplete.length ? ' · 草稿待补全' : '');
+      badge.setAttribute('data-level', meta.level);
+      currentState.textContent = '状态：' + STATE_NAMES[draft.fieldStates[name]];
+      state.value = draft.fieldStates[name];
+      testedInputs.forEach(wrapper => { wrapper.hidden = meta.level !== 'tested'; });
+      derivationLabel.hidden = meta.level !== 'prd';
+      hint.className = 'level-hint' + (incomplete.length || meta.level === 'guess' || meta.level === 'tested' && ['review', 'conflict'].includes(draft.fieldStates[name]) ? ' warning' : '');
+      hint.textContent = incomplete.length ? '来源记录未完整 / 未保存，缺少：' + incomplete.join('、') + '。请补齐后保存。' : meta.level === 'guess' ? '未验证的模型猜测，不能作为正式业务规则；仍需确认。' : meta.level === 'tested' && ['review', 'conflict'].includes(draft.fieldStates[name]) ? '已保留原实测记录；当前说明存在冲突或需复核，旧验证不自动证明修改后的文字。' : meta.level === 'unclassified' ? '尚无可分级的结构化来源，请补充记录。' : '';
+      hint.hidden = !hint.textContent;
+    }
+    refreshEvidenceUI();
     return field;
   }
 
   function revisionOf(annotation, action) {
-    return { at: new Date().toISOString(), action, fields: copy(annotation.fields), evidence: copy(annotation.evidence || {}), fieldStates: copy(annotation.fieldStates || {}), status: annotation.status, anchor: copy(annotation.anchor) };
+    return { at: new Date().toISOString(), action, fields: copy(annotation.fields), evidence: copy(annotation.evidence || {}), evidenceMeta: copy(annotation.evidenceMeta || {}), fieldStates: copy(annotation.fieldStates || {}), status: annotation.status, anchor: copy(annotation.anchor) };
   }
 
   function saveAnnotation(id, confirmTarget = false) {
@@ -883,13 +1045,34 @@
     const draft = drafts.get(id);
     if (!annotation || !draft) return;
     if (draft.dirty || confirmTarget) {
+      const normalizedMeta = {};
+      const issues = [];
+      for (const name of Object.keys(FIELD_NAMES)) {
+        const normalized = evidenceRecord(draft.evidenceMeta[name]);
+        normalizedMeta[name] = normalized.meta;
+        if (normalized.issues.length) issues.push(`${FIELD_NAMES[name]}：请补充${normalized.issues.join('、')}`);
+      }
+      if (issues.length) {
+        draft.dirty = true;
+        draft.saveError = '未保存，草稿已保留。' + issues.join('；') + '。';
+        renderPanel();
+        return;
+      }
       const previous = copy(annotation);
       const previousPageTime = currentPage.updatedAt;
       annotation.revisions.push(revisionOf(annotation, confirmTarget ? '确认当前控件并保存' : '人工保存前版本'));
       annotation.fields = copy(draft.fields);
       annotation.evidence = copy(draft.evidence);
+      for (const name of Object.keys(FIELD_NAMES)) {
+        if (normalizedMeta[name].level === 'guess' && !['conflict', 'review'].includes(draft.fieldStates[name])) draft.fieldStates[name] = 'unknown';
+        const oldMeta = annotation.evidenceMeta[name];
+        if (oldMeta.level === 'tested' && normalizedMeta[name].level === 'tested' && previous.fields[name] !== draft.fields[name] && ['action', 'result', 'observedAt'].every(key => oldMeta[key] === normalizedMeta[name][key]) && draft.fieldStates[name] !== 'conflict') draft.fieldStates[name] = 'review';
+      }
+      annotation.evidenceMeta = copy(normalizedMeta);
+      draft.evidenceMeta = copy(normalizedMeta);
       annotation.fieldStates = copy(draft.fieldStates);
       annotation.manualFields = [...new Set([...(annotation.manualFields || []), ...(draft.touched || [])])];
+      for (const name of draft.acceptedSuggestions || []) if (annotation.suggestions) delete annotation.suggestions[name];
       for (const name of draft.stateTouched || []) {
         if (!['conflict', 'review'].includes(draft.fieldStates[name]) && annotation.fieldReviews) delete annotation.fieldReviews[name];
       }
@@ -914,6 +1097,7 @@
         draft.dirty = false;
         draft.saveError = '';
         draft.stateTouched = [];
+        draft.acceptedSuggestions = [];
       } else {
         currentPage.annotations[currentPage.annotations.findIndex(item => item.id === id)] = previous;
         currentPage.updatedAt = previousPageTime;
@@ -1009,7 +1193,9 @@
   function annotationFlags(annotation) {
     const draft = drafts.get(annotation.id);
     const states = Object.values(draft?.fieldStates || annotation.fieldStates || {});
+    const levels = Object.values(draft?.evidenceMeta || annotation.evidenceMeta || {}).map(meta => meta.level);
     return {
+      ...Object.fromEntries(Object.keys(LEVEL_NAMES).map(level => [level, levels.includes(level)])),
       unknown: states.includes('unknown'),
       review: annotation.status === 'needs-review' || states.some(value => ['conflict', 'review'].includes(value)) || Object.keys(annotation.suggestions || {}).length > 0,
       manual: !!(annotation.manualFields?.length || draft?.touched?.length || states.includes('user')),
@@ -1035,6 +1221,21 @@
     const openedCount = [...opened].filter(id => targets.has(id)).length;
     const line = `当前呈现范围 ${q.total} 项 · 已开 ${openedCount} · 未保存 ${q.dirty}\n待确认 ${q.unknown} · 待复核 ${q.review} · 人工修改 ${q.manual}${q.hidden ? ' · 气泡暂藏 ' + q.hidden : ''}`;
     if (node.textContent !== line) node.textContent = line;
+    const summary = shadow.querySelector('[data-shh-evidence-summary]');
+    if (summary) {
+      const levels = evidenceSummary();
+      summary.textContent = '当前字段：' + Object.entries(LEVEL_NAMES).map(([level, title]) => title + ' ' + levels[level]).join(' · ');
+    }
+  }
+
+  function evidenceSummary() {
+    const counts = Object.fromEntries(Object.keys(LEVEL_NAMES).map(level => [level, 0]));
+    for (const annotation of currentPage?.annotations || []) {
+      if (!targets.has(annotation.id)) continue;
+      const meta = drafts.get(annotation.id)?.evidenceMeta || annotation.evidenceMeta;
+      for (const name of Object.keys(FIELD_NAMES)) counts[hasOwn(LEVEL_NAMES, meta?.[name]?.level) ? meta[name].level : 'unclassified']++;
+    }
+    return counts;
   }
 
   function renderCatalog() {
@@ -1052,8 +1253,8 @@
     const filter = el('select', 'catalog-filter');
     filter.id = 'shh-catalog-filter';
     filter.setAttribute('data-shh-filter', '');
-    filter.setAttribute('aria-label', '按标注状态筛选');
-    for (const [value, title] of [['all', '全部状态'], ['unknown', '待确认'], ['review', '冲突 / 待复核'], ['manual', '人工修改']]) {
+    filter.setAttribute('aria-label', '按标注状态或证据等级筛选');
+    for (const [value, title] of [['all', '全部状态'], ['unknown', '待确认'], ['review', '冲突 / 待复核'], ['manual', '人工修改'], ...Object.entries(LEVEL_NAMES)]) {
       const option = el('option', '', title); option.value = value; filter.append(option);
     }
     filter.value = catalogFilter;
@@ -1143,6 +1344,11 @@
     currentPage.coverage.forEach(item => items.append(el('li', '', item)));
     coverage.append(items);
     body.append(coverage);
+    const summary = el('p', 'evidence-summary');
+    summary.setAttribute('data-shh-evidence-summary', '');
+    const legend = el('details', 'level-legend');
+    legend.append(el('summary', '', '证据分级说明：L1 → L2 → L3 → L4'), el('p', '', 'L1：记录了操作、结果和时间；L2：页面 / DOM 或源码的明确声明；L3：PRD 直接定义或有来源的推断；L4：未验证的模型猜测。未分级表示缺少可分级记录。来源方法不等于真实性认证，冲突及待复核状态独立保留。'));
+    body.append(summary, legend);
     if (storageWarning) body.append(el('p', 'notice', storageWarning));
     if (transferMode) body.append(renderTransfer());
     if (catalogOpen) body.append(renderCatalog());
@@ -1185,6 +1391,8 @@
     if (!data || data.schemaVersion !== VERSION || !Array.isArray(data.pages)) throw new Error('需要 schemaVersion:1 和 pages 数组。');
     const dirty = [...drafts.values()].some(draft => draft.dirty);
     if (dirty) throw new Error('当前有未保存草稿，请先保存或撤销，避免导入覆盖草稿。');
+    const previousPage = copy(currentPage);
+    const previousDrafts = new Map(drafts);
     let updated = 0;
     let skipped = 0;
     for (const page of data.pages) {
@@ -1199,11 +1407,14 @@
           const existing = new Set(target.revisions.map(revision => JSON.stringify(revision)));
           for (const revision of incoming.revisions) {
             if (!revision || !revision.fields || typeof revision.fields !== 'object') continue;
-            const restored = { at: text(revision.at, 40), action: text(revision.action, 100), fields: {}, evidence: {}, fieldStates: {}, status: text(revision.status, 40), anchor: copy(target.anchor) };
+            const restored = { at: text(revision.at, 40), action: text(revision.action, 100), fields: {}, evidence: {}, fieldStates: {}, evidenceMeta: {}, status: text(revision.status, 40), anchor: copy(target.anchor) };
             for (const name of Object.keys(FIELD_NAMES)) {
               restored.fields[name] = typeof revision.fields[name] === 'string' ? revision.fields[name].slice(0, 12000) : '';
               restored.evidence[name] = revision.evidence && typeof revision.evidence[name] === 'string' ? revision.evidence[name].slice(0, 12000) : '';
               restored.fieldStates[name] = revision.fieldStates && hasOwn(STATE_NAMES, revision.fieldStates[name]) ? revision.fieldStates[name] : 'unknown';
+              const normalized = normalizeEvidence(revision.evidenceMeta?.[name], restored.fieldStates[name], target.anchor.key);
+              restored.evidenceMeta[name] = normalized.meta;
+              restored.fieldStates[name] = normalized.state;
             }
             const signature = JSON.stringify(restored);
             if (!existing.has(signature)) { target.revisions.push(restored); existing.add(signature); }
@@ -1220,11 +1431,19 @@
             else if (Array.isArray(refs) && refs.every(ref => typeof ref === 'string')) incomingEvidence = refs.join('\n').slice(0, 12000);
           }
           const incomingState = incoming.fieldStates && incoming.fieldStates[name];
-          const state = incomingState && hasOwn(STATE_NAMES, incomingState) ? incomingState : incomingValue !== target.fields[name] ? 'review' : target.fieldStates[name];
+          let state = incomingState && hasOwn(STATE_NAMES, incomingState) ? incomingState : incomingValue !== target.fields[name] ? 'review' : target.fieldStates[name];
+          const changedText = incomingValue !== target.fields[name] || incomingEvidence !== target.evidence[name];
+          const hasMeta = !!incoming.evidenceMeta && hasOwn(incoming.evidenceMeta, name);
+          const normalized = hasMeta || changedText || hasOwn(STATE_NAMES, incomingState) ? normalizeEvidence(incoming.evidenceMeta?.[name], hasOwn(STATE_NAMES, incomingState) ? incomingState : 'unknown', target.anchor.key) : { meta: copy(target.evidenceMeta[name]), state, issues: [] };
+          const metaChanged = JSON.stringify(normalized.meta) !== JSON.stringify(target.evidenceMeta[name]);
+          const reusedObservation = target.evidenceMeta[name].level === 'tested' && normalized.meta.level === 'tested' && incomingValue !== target.fields[name] && ['action', 'result', 'observedAt'].every(key => target.evidenceMeta[name][key] === normalized.meta[key]);
+          state = normalized.issues.length || normalized.meta.level === 'guess' ? normalized.state : state;
+          if (target.fieldStates[name] === 'conflict') state = 'conflict';
+          else if ((normalized.meta.level === 'guess' && target.fieldStates[name] === 'review') || (metaChanged && !changedText) || reusedObservation) state = 'review';
           const manuallyOwned = target.fieldStates[name] === 'user' || (target.manualFields || []).includes(name);
-          if (manuallyOwned && (incomingValue !== target.fields[name] || incomingEvidence !== target.evidence[name])) {
+          if (manuallyOwned && (changedText || metaChanged || state !== target.fieldStates[name])) {
             target.suggestions = target.suggestions || {};
-            target.suggestions[name] = { value: incomingValue, evidence: incomingEvidence, fieldState: state, receivedAt: new Date().toISOString() };
+            target.suggestions[name] = { value: incomingValue, evidence: incomingEvidence, evidenceMeta: normalized.meta, fieldState: state, receivedAt: new Date().toISOString() };
             protectedConflict = true;
             continue;
           }
@@ -1232,6 +1451,11 @@
             target.fields[name] = incomingValue;
             target.evidence[name] = incomingEvidence;
             target.fieldStates[name] = state;
+            target.evidenceMeta[name] = normalized.meta;
+            if (normalized.issues.length || ['review', 'conflict'].includes(state)) {
+              target.status = 'needs-review';
+              target.reviewReason = normalized.issues.length ? `「${FIELD_NAMES[name]}」的来源记录不完整，已降为未分级：${normalized.issues.join('、')}。` : '字段来源或内容发生变化，仍有冲突或需复核；原记录保留在修订历史。';
+            }
           }
         }
         // A document from a prior UI version cannot silently certify the current control.
@@ -1249,14 +1473,21 @@
       }
     }
     currentPage.updatedAt = new Date().toISOString();
-    savePage();
+    if (!savePage()) {
+      currentPage = previousPage;
+      drafts = previousDrafts;
+      pageCache.set(currentScopeKey, currentPage);
+      if (currentUIKey) uiCache.set(currentUIKey, { opened: new Set(opened), drafts: new Map(drafts) });
+      renderPanel();
+      throw new Error('导入未保存：本浏览器写入失败，已恢复导入前的说明、来源分级、修订和建议。请恢复存储后重试。');
+    }
     renderPanel();
     return { updated, skipped };
   }
 
   function getSnapshot() {
     if (!currentPage) return null;
-    return copy({ ...currentPage, currentControlIds: [...targets.keys()], ui: { openedIds: [...opened].filter(id => targets.has(id)), visible, drawerOpen, narrow, placementHiddenIds: [...placementHiddenIds], dirtyIds: [...drafts].filter(([id, draft]) => draft.dirty && targets.has(id)).map(([id]) => id), quality: qualitySnapshot(), catalogOpen, storageAvailable: !storageWarning } });
+    return copy({ ...currentPage, currentControlIds: [...targets.keys()], ui: { openedIds: [...opened].filter(id => targets.has(id)), visible, drawerOpen, narrow, placementHiddenIds: [...placementHiddenIds], dirtyIds: [...drafts].filter(([id, draft]) => draft.dirty && targets.has(id)).map(([id]) => id), quality: qualitySnapshot(), evidenceSummary: evidenceSummary(), catalogOpen, storageAvailable: !storageWarning } });
   }
 
   function toggle(value) {
