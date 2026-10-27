@@ -57,7 +57,8 @@ def main():
             parser.error("Existing agent must begin with name = 'Strike Her Heart'; refusing to replace an unidentified agent")
     required = ("SKILL.md", "agents/openai.yaml", "assets/overlay.js", "assets/demo.html",
                 "assets/demo-annotations.js", "references/runtime.md", "references/annotation-evidence.md",
-                "references/task-workflow.md", "scripts/task.py")
+                "references/task-workflow.md", "scripts/task.py", "scripts/workflow_view.py",
+                "assets/workflow.html")
     if not agent_source.is_file():
         parser.error(f"Missing agent definition: {agent_source}")
     for relative in required:

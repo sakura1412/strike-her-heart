@@ -151,8 +151,8 @@ def evidence_paths(root, values, required=False):
         if not within(path, root) or not path.is_file():
             raise TaskError("Evidence must be an existing file inside the private task directory.")
         relative = path.relative_to(root)
-        if relative.name in ("task.json", ".task.lock") or ".history" in relative.parts:
-            raise TaskError("Manifest/history files are records, not interaction evidence.")
+        if relative.name in ("task.json", ".task.lock", "workflow.html") or ".history" in relative.parts:
+            raise TaskError("Manifest/history/workflow files are records, not interaction evidence.")
         if "?" in str(relative) or "#" in str(relative):
             raise TaskError("Use a neutral evidence filename without URL query/fragment material.")
         name = relative.as_posix()
@@ -470,7 +470,8 @@ def doctor(args):
     return {
         "configurationFilePresent": agent.is_file(), "agentNameIdentified": identified,
         "supportResourcesPresent": all((support / name).is_file() for name in (
-            "SKILL.md", "assets/overlay.js", "references/task-workflow.md", "scripts/task.py")),
+            "SKILL.md", "assets/overlay.js", "assets/workflow.html",
+            "references/task-workflow.md", "scripts/task.py", "scripts/workflow_view.py")),
         "namedAgentDispatch": "not-tested", "modelRequest": "not-tested",
         "originalPageWrite": "not-tested", "interactionVerification": "not-tested",
         "meaning": "Local file readiness only; not proof of named agent execution or website access."
@@ -480,10 +481,10 @@ def doctor(args):
 def parser_for_cli():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
-    for name in ("init", "status", "capability", "page", "bind", "check"):
+    for name in ("init", "status", "workflow", "capability", "page", "bind", "check"):
         command = commands.add_parser(name)
         command.add_argument("--task-dir", required=True)
-        if name not in ("init", "status"):
+        if name not in ("init", "status", "workflow"):
             command.add_argument("--revision", type=int, required=True)
         if name in ("capability", "page", "bind", "check"):
             command.add_argument("--evidence", action="append", default=[])
@@ -530,8 +531,16 @@ def main(argv=None):
             result = doctor(args)
         else:
             root = task_root(args.task_dir)
-            if args.command == "status":
-                result = summary(read_manifest(root), root)
+            if args.command in ("status", "workflow"):
+                data = read_manifest(root)
+                result = summary(data, root)
+                if args.command == "workflow":
+                    from workflow_view import render_workflow
+                    try:
+                        result = render_workflow(root, result, name=data.get("name", ""),
+                                                 updated_at=data.get("updatedAt", ""))
+                    except ValueError as error:
+                        raise TaskError(str(error))
             else:
                 with locked(root):
                     if args.command == "init":

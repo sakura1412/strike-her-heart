@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Strike Her Heart · 工作流</title>
+  <style>
+    :root{color-scheme:light;--paper:#fafaf6;--ink:#203b38;--muted:#637770;--line:#dbe3db;--green:#246751;--soft:#e9f1e8;--amber:#8a5c25;--red:#a3483d}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif}button,input,select{font:inherit}button,a,input,select,summary{outline-offset:4px}button,summary{cursor:pointer}a{color:var(--green)}button{color:inherit}h1,h2,h3,p{margin:0}h1{font-size:38px;line-height:1.25;letter-spacing:-1.3px;font-weight:650}h2{font-size:19px;letter-spacing:-.4px}h3{font-size:14px}.shell{max-width:1320px;margin:auto;padding:0 40px 48px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;border-bottom:1px solid var(--line);padding:21px 0}.brand{font-size:12px;font-weight:750;letter-spacing:1.6px}.brand b{color:#c0745d;margin-right:9px;font-size:19px}.topbar a{font-size:12px;text-underline-offset:4px}.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;padding:36px 0 27px}.eyebrow{font-size:11px;font-weight:700;letter-spacing:1.6px;color:var(--green);margin-bottom:10px}.hero p{color:var(--muted);margin-top:12px;max-width:680px}.tag{display:inline-block;font-size:11px;line-height:1.5;border-radius:5px;background:var(--soft);color:var(--green);padding:5px 8px;white-space:nowrap}.tag.warn{background:#f5ecd9;color:var(--amber)}.tag.bad{background:#f6e7e2;color:var(--red)}.notice{border:1px solid #dbcdb4;background:#faf3e5;border-radius:9px;padding:12px 17px;font-size:12px;color:#725a32}.meta{margin-top:6px;font-size:11px;color:var(--muted);overflow-wrap:anywhere}.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;border:1px solid var(--line);border-radius:11px;background:var(--line);overflow:hidden;margin:22px 0 27px}.stat{background:#fff;padding:16px 20px}.stat span{color:var(--muted);font-size:12px}.stat strong{display:block;font-size:28px;font-weight:600;line-height:1.4}.section-head{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-bottom:14px}.section-head p{font-size:12px;color:var(--muted)}.stages{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin-bottom:14px}.stage{position:relative;text-align:left;background:#fff;border:1px solid var(--line);border-radius:9px;padding:16px 13px;min-height:130px;transition:border-color .15s,background .15s}.stage:hover{border-color:#90a998}.stage[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}.step-no{display:block;font-size:11px;color:#85958c;margin-bottom:10px;letter-spacing:1px}.stage[aria-pressed=true] .step-no,.stage[aria-pressed=true] small{color:#c9dbcf}.stage strong{display:block;font-size:14px}.stage small{display:block;font-size:11px;color:var(--muted);margin-top:8px}.stage:not(:last-child):after{content:'›';position:absolute;right:-8px;top:51px;font-size:14px;color:#8b9d90;z-index:1}.stage-detail{border:1px solid var(--line);border-radius:10px;background:#fff;padding:21px 23px}.detail-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.detail-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}.detail-grid h3{color:var(--muted);font-size:11px;font-weight:500;margin-bottom:5px}.detail-grid p{font-size:13px}.next{margin:14px 0 30px;background:var(--soft);border-radius:9px;padding:15px 19px;display:flex;gap:16px;align-items:baseline;overflow-wrap:anywhere}.next span{color:var(--green);font-size:11px;font-weight:700;white-space:nowrap}.next p{font-size:13px}.pages-head{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:14px}.tools{display:flex;gap:8px}.tools input,.tools select{padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink);font-size:12px;min-width:0}.tools input{width:215px}.page{border:1px solid var(--line);border-radius:9px;background:#fff;margin-bottom:10px;overflow:hidden}.page summary{display:flex;gap:12px;align-items:center;padding:15px 18px;list-style:none}.page summary::-webkit-details-marker{display:none}.page summary:after{content:'＋';font-size:17px;color:#6e877b;margin-left:auto}.page[open] summary:after{content:'−'}.page[open] summary{border-bottom:1px solid var(--line)}.page-id{font-family:ui-monospace,monospace;font-size:11px;color:var(--muted)}.page-label{font-weight:600;flex:1;min-width:0;overflow-wrap:anywhere}.page-body{padding:18px}.page-info{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;font-size:12px;margin-bottom:16px}.muted{color:var(--muted)}.page-info p{margin-top:4px;overflow-wrap:anywhere}.checks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.check{border:1px solid var(--line);border-radius:6px;padding:10px;font-size:11px}.check span{display:block;color:var(--muted);margin-bottom:5px}.check b{font-weight:500}.check[data-result=pass] b{color:var(--green)}.check[data-result=fail] b,.check[data-result=stale] b{color:var(--red)}.issues{margin-top:13px;padding:11px 13px;border-left:2px solid #bd8965;background:#fbf5ed;font-size:12px;overflow-wrap:anywhere}.issues p+p{margin-top:5px}.empty{padding:30px;border:1px dashed var(--line);border-radius:9px;text-align:center;color:var(--muted)}footer{margin-top:25px;padding-top:18px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}[hidden]{display:none!important}
+    @media(max-width:1000px){.shell{padding:0 24px 36px}.stages{grid-template-columns:repeat(3,minmax(0,1fr))}.stage:nth-child(3):after{display:none}.checks{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(max-width:600px){.shell{padding:0 16px 28px}.hero{padding:25px 0 20px;display:block}.hero>.tag{margin-top:14px}h1{font-size:29px}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat{padding:12px}.stat strong{font-size:23px}.section-head,.pages-head{display:block}.section-head p{margin-top:5px}.stages{grid-template-columns:repeat(2,minmax(0,1fr))}.stage{min-height:120px}.stage:after{display:none}.detail-grid,.page-info{grid-template-columns:1fr;gap:13px}.stage-detail{padding:17px}.next{display:block}.next p{margin-top:4px}.tools{margin-top:11px}.tools input{width:100%;flex:1}.tools select{max-width:125px}.checks{grid-template-columns:repeat(2,minmax(0,1fr))}.page summary{padding:13px 12px;gap:8px}.page summary .tag{white-space:normal;max-width:86px}.page-body{padding:13px}.topbar{gap:8px}.brand{font-size:10px;letter-spacing:1px}.topbar a{font-size:11px}.detail-top{align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar"><div class="brand"><b>♥</b> STRIKE HER HEART</div><a id="demo-link" href="./demo.html#/leads">打开原页标注演示 ↗</a></header>
+    <main>
+      <section class="hero"><div><div class="eyebrow">AGENT WORKFLOW / 工作流</div><h1>每一步，都有来处与去向。</h1><p>从理解资料到原页标注，在这里查看任务走到哪里、哪些页面需要处理，以及接下来做什么。</p></div><span class="tag" data-workflow-mode></span></section>
+      <div class="notice" id="notice"></div><div class="meta" id="meta"></div>
+      <section class="stats" data-summary aria-label="已登记页面状态统计"></section>
+      <div class="section-head"><h2>六阶段工作流</h2><p>点击阶段，查看输入、执行动作与交付结果。</p></div>
+      <nav class="stages" data-workflow-stages aria-label="工作流阶段"></nav>
+      <section class="stage-detail" data-stage-detail aria-live="polite"></section>
+      <section class="next"><span>下一步</span><p data-next-action></p></section>
+      <div class="pages-head"><div><h2>页面与状态清单</h2><p class="meta">按页面查看编号绑定、五项交互检查及待解决问题。</p></div><div class="tools"><input data-page-search type="search" aria-label="查找页面或编号" placeholder="页面名称、P-001 或 A-009"><select data-page-filter aria-label="筛选页面状态"><option value="all">全部状态</option><option value="discovered">已发现</option><option value="presented">已呈现</option><option value="verified">交互已验收</option><option value="blocked">受阻／待复验</option></select></div></div>
+      <div id="pages" aria-live="polite"></div>
+    </main>
+    <footer>运行主体：Codex 中的 Strike Her Heart agent。看板只展示任务记录，不执行页面操作。原页面编号气泡与右侧编辑详情仍是标注交付入口。未访问范围、业务规则正确性与 agent 实际调度须分别核验。</footer>
+  </div>
+  <script>
+    (() => {
+      'use strict';
+      const supplied = /*__SHH_WORKFLOW_DATA__*/null;
+      const checkNames = {coverage:'控件覆盖与定位',multi_open:'多条详情打开',edit_save_refresh:'编辑保存与刷新',navigation:'跳转及原交互',manual_preserved:'人工修订保护'};
+      const pass = Object.fromEntries(Object.keys(checkNames).map(key => [key, 'pass']));
+      const untested = Object.fromEntries(Object.keys(checkNames).map(key => [key, 'untested']));
+      const sample = {
+        taskId:'DEMO / FICTIONAL',revision:12,scope:{description:'虚构 northstar 演示：线索、项目和设置的四个示例状态；仅用于展示工作流。'},
+        capabilities:{read:{status:'supported'},write:{status:'supported'}},recordingOnly:true,wholeSystemComplete:false,
+        nextAction:'先复验设置页的保存与刷新，再继续线索弹窗的原页呈现；保留来源未说明的业务规则。',
+        pages:[
+          {id:'P-001',label:'客户线索 · 全部',stateKey:'leads-all',status:'verified',recordedStatus:'verified',bindings:[{displayId:'A-009',sourceKey:'search-name'},{displayId:'A-010',sourceKey:'filter-stage'}],checks:pass,gaps:['权限限制的业务来源仍待补充。'],evidenceIssues:[],nextAction:'补充权限依据，已通过交互检查不代表该业务规则已确认。'},
+          {id:'P-002',label:'协作项目 · 收起',stateKey:'projects-collapsed',status:'presented',recordedStatus:'presented',bindings:[{displayId:'A-001',sourceKey:'project-owner'}],checks:{...untested,multi_open:'pass'},gaps:[],evidenceIssues:[],nextAction:'继续验证编辑保存、刷新与人工修订保护。'},
+          {id:'P-003',label:'工作空间设置',stateKey:'settings',status:'blocked',recordedStatus:'verified',bindings:[{displayId:'A-008',sourceKey:'workspace-name'}],checks:pass,gaps:[],evidenceIssues:['示例：保存刷新证据已变化，历史通过记录需要重新核验。'],blockedReason:'当前证据与保存的版本不一致。',nextAction:'重新执行保存刷新检查，保留新证据后再登记。'},
+          {id:'P-004',label:'客户线索 · 新增弹窗',stateKey:'lead-dialog',status:'discovered',recordedStatus:'discovered',bindings:[],checks:untested,gaps:['已发现弹窗，尚未登记原页呈现。'],evidenceIssues:[],nextAction:'逐个确认弹窗内的输入框、选择器与按钮。'}
+        ]
+      };
+      const data = supplied || sample;
+      const demo = !supplied;
+      const pages = Array.isArray(data.pages) ? data.pages : [];
+      const labels = {discovered:'已发现',presented:'已呈现',verified:'交互已验收',blocked:'受阻／待复验'};
+      const counts = Object.fromEntries(Object.keys(labels).map(key => [key,pages.filter(p=>p.status===key).length]));
+      const bindings = pages.reduce((n,p)=>n+(p.bindings||[]).length,0);
+      const gaps = pages.reduce((n,p)=>n+(p.gaps||[]).length,0);
+      const capLabel = key => ({supported:'已登记可用',unavailable:'当前不可用',unknown:'尚未确认'}[data.capabilities?.[key]?.status] || '尚未确认');
+      const node = (tag,text,cls) => {const el=document.createElement(tag);if(text!==undefined)el.textContent=String(text);if(cls)el.className=cls;return el;};
+      const select = s=>document.querySelector(s);
+      select('[data-workflow-mode]').textContent = demo?'虚构流程样例':'任务记录快照';
+      select('#notice').textContent = demo?'此页使用虚构数据演示工作流，不代表 agent 正在执行，也不代表目标系统已验收。点击阶段与页面可展开查看。':'此页是生成时的只读快照，页面刷新不会重新读取任务。由 agent 在进度变化后重新生成并打开；证据有效性仅核对到生成时。';
+      select('#demo-link').hidden = !demo;
+      select('#meta').textContent = `${data.taskId || '未命名任务'} · 修订 ${data.revision ?? '未知'}${data.view?.generatedAt ? ' · 快照 '+data.view.generatedAt : ' · 样例进度'} · ${data.scope?.description || '范围尚未记录'}`;
+      for(const [title,value] of [['已登记状态',pages.length],['已发现',counts.discovered],['已呈现',counts.presented],['交互已验收',counts.verified],['受阻／待复验',counts.blocked]]){
+        const box=node('div',undefined,'stat');box.append(node('span',title),node('strong',value));select('[data-summary]').append(box);
+      }
+      const stages = [
+        {title:'接收任务',status:'任务已建档',input:'PRD、原型、截图或系统地址，以及用户指定的目标范围。',action:'复用现有资料与任务记录，明确目标；恢复任务时先核对修订和下一步。',output:'稳定任务 ID、范围、入口与续接位置。建档不表示资料已理解。'},
+        {title:'资料与接入',status:`读取：${capLabel('read')}`,input:'已提供的资料、已有登录会话、当前可用工具。',action:'读取资料，确认页面读取与原页写入能力；缺少能力时保留阻塞并继续独立工作。',output:`读取：${capLabel('read')}；写入：${capLabel('write')}。能力记录不证明实际 agent 调度。`},
+        {title:'发现页面',status:`已登记 ${pages.length} 个状态`,input:'系统导航、实际跳转、资料中的页面与可安全展开状态。',action:'逐页记录页面、页签和弹窗，保持稳定 P 编号；未知和未访问范围继续列为缺口。',output:'页面／状态清单及各自下一步。已登记数量不等于全部页面数量。'},
+        {title:'逐控件说明',status:`${bindings} 项绑定 · 说明待核对`,input:'实际控件与资料依据：按钮、输入框、选择器、链接等。',action:'分别说明内容、功能、限制与跳转，保留来源、未知和冲突；核对实际编号与控件身份。',output:`页面内编号与运行时 ID 的对应关系；当前记录保留 ${gaps} 项页面缺口。业务说明进度尚未汇总，绑定数不表示说明正确率。`},
+        {title:'原页标注',status:`${counts.presented+counts.verified} 个状态有效呈现`,input:'获支持的原页写入方式、真实编号绑定、有依据的说明。',action:'在原页显示稳定编号气泡，点击在右侧打开多条详情；编辑失败保留草稿，成功后刷新核验。',output:'可打开、修改和保存的原页标注。呈现成功仍需逐项验收。'},
+        {title:'验收与续接',status:`${counts.verified} 个状态交互已验收`,input:'当前呈现版本与五项实际检查的证据。',action:'核对覆盖、多条详情、保存刷新、跳转及人工修订保护；失败或证据失效时重新处理。',output:'有效验收记录、未解决缺口与下一步；通过交互检查不代表业务规则全部正确或整站完成。'}
+      ];
+      function showStage(index){
+        const stage=stages[index];
+        select('[data-workflow-stages]').querySelectorAll('button').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===index)));
+        const detail=select('[data-stage-detail]');detail.replaceChildren();
+        const top=node('div',undefined,'detail-top');top.append(node('h2',`${String(index+1).padStart(2,'0')} / ${stage.title}`),node('span',stage.status,'tag'));detail.append(top);
+        const grid=node('div',undefined,'detail-grid');for(const [title,text] of [['输入',stage.input],['agent 做什么',stage.action],['可交付结果',stage.output]]){const col=node('div');col.append(node('h3',title),node('p',text));grid.append(col);}detail.append(grid);
+      }
+      stages.forEach((stage,i)=>{const b=node('button',undefined,'stage');b.type='button';b.append(node('span',String(i+1).padStart(2,'0'),'step-no'),node('strong',stage.title),node('small',stage.status));b.onclick=()=>showStage(i);select('[data-workflow-stages]').append(b);});
+      showStage(counts.blocked||counts.presented?5:counts.discovered?4:pages.length?5:data.capabilities?.read?.status==='supported'?2:1);
+      select('[data-next-action]').textContent=pages.find(p=>p.status==='blocked'&&p.nextAction)?.nextAction || pages.find(p=>p.status!=='verified'&&p.nextAction)?.nextAction || data.nextAction || '下一步尚未记录；请由 agent 核对范围与未完成项。';
+      function renderPages(){
+        const container=select('#pages');container.replaceChildren();
+        const query=select('[data-page-search]').value.trim().toLowerCase(),filter=select('[data-page-filter]').value;
+        const found=pages.filter(p=>(filter==='all'||p.status===filter)&&[p.id,p.label,p.stateKey,...(p.bindings||[]).map(b=>b.displayId)].join(' ').toLowerCase().includes(query));
+        if(!found.length){container.append(node('div',pages.length?'没有匹配的页面状态。':'尚未登记页面；从范围与读取能力开始，不能报告页面验收完成。','empty'));return;}
+        found.forEach(p=>{
+          const stale=(p.evidenceIssues||[]).length>0;
+          const card=node('details',undefined,'page');card.setAttribute('data-page',p.id);card.open=p.status==='blocked';
+          const head=node('summary');head.append(node('span',p.id,'page-id'),node('span',p.label||p.stateKey,'page-label'),node('span',labels[p.status]||'未知状态','tag'+(p.status==='blocked'?' bad':p.status==='verified'?'':' warn')));card.append(head);
+          const body=node('div',undefined,'page-body'),info=node('div',undefined,'page-info');
+          const identity=node('div');identity.append(node('h3','页面状态与编号'),node('p',p.stateKey,'muted'),node('p',(p.bindings||[]).map(b=>b.displayId).join(' · ')||'暂无实际编号绑定'));info.append(identity);
+          const next=node('div');next.append(node('h3','本页下一步'),node('p',p.nextAction||'尚未记录'));info.append(next);body.append(info);
+          const checks=node('div',undefined,'checks');for(const [key,title] of Object.entries(checkNames)){
+            const result=p.checks?.[key]||'untested',invalid=stale&&result==='pass';const check=node('div',undefined,'check');check.setAttribute('data-check',key);check.dataset.result=invalid?'stale':result;
+            check.append(node('span',title),node('b',invalid?'历史通过 · 待复验':({pass:'通过（记录）',fail:'未通过',untested:'未测试'}[result]||'未知')));checks.append(check);
+          }body.append(checks);
+          const issues=[...(p.evidenceIssues||[]).map(x=>'证据问题：'+x),...(p.gaps||[]).map(x=>'业务／范围缺口：'+x)];if(p.status==='blocked'&&p.blockedReason)issues.unshift('阻塞原因：'+p.blockedReason);
+          if(issues.length){const list=node('div',undefined,'issues');issues.forEach(x=>list.append(node('p',x)));body.append(list);}card.append(body);container.append(card);
+        });
+      }
+      select('[data-page-search]').addEventListener('input',renderPages);select('[data-page-filter]').addEventListener('change',renderPages);renderPages();
+    })();
+  </script>
+</body>
+</html>

@@ -67,7 +67,7 @@ async function inventory(page) {
     const modal = document.querySelector('dialog:modal');
     const selector = 'button,input:not([type="hidden"]),textarea,select,a[href],summary,[contenteditable="true"],[role="button"],[role="link"],[role="textbox"],[role="combobox"],[role="listbox"],[role="checkbox"],[role="radio"],[role="switch"],[role="tab"],[role="menuitem"],[role="slider"],[role="spinbutton"],[role="searchbox"]';
     return [...(modal || document).querySelectorAll(selector)].filter(node => {
-      if (node.closest('#strike-her-heart-overlay')) return false;
+      if (node.closest('#strike-her-heart-overlay, [data-shh-ignore]')) return false;
       if (!node.getClientRects().length) return false;
       for (let p = node; p; p = p.parentElement) {
         const s = getComputedStyle(p);
